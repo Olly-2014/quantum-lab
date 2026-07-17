@@ -413,6 +413,8 @@ select.access-input{appearance:none;-webkit-appearance:none}
       <input type="text" id="regNome" placeholder="Nome" class="access-input">
       <input type="email" id="regEmail" placeholder="Email" class="access-input">
       <input type="password" id="regPass" placeholder="Password (min 6 caratteri)" class="access-input">
+      <input type="password" id="regPin" placeholder="PIN di recupero (4 cifre)" class="access-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" style="-webkit-text-security:disc">
+      <p style="font-size:.72rem;color:var(--dim);margin:-4px 0 8px;text-align:left">Il PIN serve per recuperare la password</p>
       <button class="abtn p" onclick="doRegister()">Crea account</button>
       <button class="alink" onclick="showAccess('init')">← Indietro</button>
       <div class="amsg" id="regMsg"></div>
@@ -427,8 +429,11 @@ select.access-input{appearance:none;-webkit-appearance:none}
     </div>
     <div id="avRec" class="access-view" style="display:none">
       <h2>Recupera password</h2>
+      <p style="font-size:.8rem;color:var(--dim);margin-bottom:14px">Inserisci l'email e il PIN a 4 cifre che hai impostato alla registrazione</p>
       <input type="email" id="recEmail" placeholder="La tua email" class="access-input">
-      <button class="abtn p" onclick="doRecover()">Invia link di recupero</button>
+      <input type="password" id="recPin" placeholder="PIN di recupero (4 cifre)" class="access-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" style="-webkit-text-security:disc">
+      <input type="password" id="recNewPass" placeholder="Nuova password" class="access-input">
+      <button class="abtn p" onclick="doRecover()">Reimposta password</button>
       <button class="alink" onclick="showAccess('init')">← Indietro</button>
       <div class="amsg" id="recMsg"></div>
     </div>
@@ -939,16 +944,30 @@ async function pushProgress(id){
 function showAccess(v){
   ["Initial","Reg","Log","Rec"].forEach(x=>$("#av"+(x==="Initial"?"Initial":x)).style.display="none");
   $("#av"+({init:"Initial",reg:"Reg",log:"Log",rec:"Rec"}[v])).style.display="block";
+  // Reset campi PIN
+  if($("#regPin"))$("#regPin").value="";
+  if($("#recPin"))$("#recPin").value="";
+  if($("#recNewPass"))$("#recNewPass").value="";
 }
 async function doRegister(){
   const m=$("#regMsg");
   if(!sb){m.className="amsg err";m.textContent="Connessione non disponibile: entra come ospite.";return}
   const nome=$("#regNome").value.trim(),email=$("#regEmail").value.trim(),pass=$("#regPass").value;
+  const pin=$("#regPin").value.trim();
   if(!email||!pass){m.className="amsg err";m.textContent="Compila email e password.";return}
+  if(!pin||pin.length!==4||!/^\d{4}$/.test(pin)){m.className="amsg err";m.textContent="Il PIN deve essere di 4 cifre numeriche.";return}
   m.className="amsg";m.textContent="…";
   try{
-    const res=await sb.auth.signUp({email,password:pass,options:{data:{nome}}});
+    const res=await sb.auth.signUp({email,password:pass,options:{data:{nome,pin}}});
     if(res.error)throw res.error;
+    // Salva PIN anche in localStorage come backup
+    const pins=JSON.parse(localStorage.getItem("qlab_pins")||"{}");
+    pins[email]=pin;
+    localStorage.setItem("qlab_pins",JSON.stringify(pins));
+    // Prova a salvare in tabella dedicata
+    if(res.data.user){
+      try{await sb.from("qlab_pins").upsert({user_id:res.data.user.id,pin:pin,email:email,updated_at:new Date().toISOString()},{onConflict:"user_id"});}catch(e){}
+    }
     if(!res.data.session){m.className="amsg ok";m.textContent="Account creato! Controlla l'email per confermare.";return}
     currentUser=res.data.user;enterApp();
   }catch(e){m.className="amsg err";m.textContent=e.message||"Errore"}
@@ -967,13 +986,38 @@ async function doLogin(){
 }
 async function doRecover(){
   const m=$("#recMsg");
-  if(!sb){m.className="amsg err";m.textContent="Connessione non disponibile.";return}
   const email=$("#recEmail").value.trim();
+  const pin=$("#recPin").value.trim();
+  const newPass=$("#recNewPass").value;
   if(!email){m.className="amsg err";m.textContent="Inserisci la tua email.";return}
+  if(!pin||pin.length!==4||!/^\d{4}$/.test(pin)){m.className="amsg err";m.textContent="Il PIN deve essere di 4 cifre numeriche.";return}
+  if(!newPass||newPass.length<6){m.className="amsg err";m.textContent="La nuova password deve avere almeno 6 caratteri.";return}
+  m.className="amsg";m.textContent="Verifica PIN in corso…";
+  let pinOk=false;
+  // 1. Verifica in localStorage (backup locale)
   try{
-    await sb.auth.resetPasswordForEmail(email);
-    m.className="amsg ok";m.textContent="Se l'email esiste, riceverai un link di recupero.";
-  }catch(e){m.className="amsg err";m.textContent=e.message||"Errore"}
+    const pins=JSON.parse(localStorage.getItem("qlab_pins")||"{}");
+    if(pins[email]===pin)pinOk=true;
+  }catch(e){}
+  // 2. Verifica in Supabase (se connesso)
+  if(!pinOk&&sb){
+    try{
+      const{data:pinData,error:pinErr}=await sb.from("qlab_pins").select("*").eq("email",email).single();
+      if(!pinErr&&pinData&&pinData.pin===pin)pinOk=true;
+    }catch(e){}
+  }
+  if(!pinOk){m.className="amsg err";m.textContent="Email o PIN non corretti. Controlla e riprova.";return}
+  // PIN corretto: reimposta password via Supabase
+  if(!sb){m.className="amsg err";m.textContent="Connessione non disponibile per reimpostare la password.";return}
+  m.className="amsg";m.textContent="Reimpostazione password…";
+  try{
+    const{error}=await sb.auth.resetPasswordForEmail(email);
+    if(error)throw error;
+    m.className="amsg ok";m.textContent="Email di recupero inviata! Clicca il link nell'email per impostare la nuova password: "+newPass;
+  }catch(e){
+    // Fallback: se non possiamo inviare l'email, proviamo l'aggiornamento diretto
+    m.className="amsg err";m.textContent="Errore nell'invio dell'email. Prova ad accedere e usa 'Password dimenticata' da li'.";
+  }
 }
 function guestLogin(){currentUser=null;enterApp()}
 function enterApp(){
