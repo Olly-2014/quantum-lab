@@ -362,6 +362,14 @@ select.access-input{appearance:none;-webkit-appearance:none}
 .set-group{margin-bottom:24px}
 .set-group h3{font-size:.82rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;padding-left:4px;font-weight:600}
 .set-row{padding:16px 18px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center;font-size:.95rem;border-radius:var(--r2)}
+.set-row b{font-weight:500;color:var(--dim)}
+.set-inline-input{background:none;border:none;color:var(--ink);font-size:.95rem;font-family:inherit;text-align:right;
+  padding:4px 0;outline:none;width:180px;border-bottom:1.5px solid transparent;transition:border .2s}
+.set-inline-input:focus{border-bottom-color:var(--psi)}
+.set-inline-input::placeholder{color:var(--dim);opacity:.6}
+.set-row.danger{cursor:pointer;color:var(--err);font-weight:500;justify-content:center;text-align:center}
+.set-row.danger:active{background:rgba(251,113,133,.1)}
+.set-editable{position:relative}
 .set-row.danger{color:var(--err);cursor:pointer}
 .set-row b{font-family:'IBM Plex Mono',monospace;color:var(--wave);font-size:.85rem;max-width:55%;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -677,10 +685,19 @@ select.access-input{appearance:none;-webkit-appearance:none}
     <section id="sec-impostazioni" class="section">
       <h2 class="sec-title serif">Impostazioni</h2>
       <p class="sec-sub">Account e preferenze</p>
-      <div class="set-group"><h3>Account</h3>
-        <div class="card set-row"><span>Nome</span><b id="setNome">Ospite</b></div>
-        <div class="card set-row"><span>Email</span><b id="setEmail">—</b></div>
-        <div class="card set-row"><span>Sincronizzazione</span><b id="setSync">solo locale</b></div>
+      <div class="set-group"><h3>Profilo</h3>
+        <div class="card set-row set-editable">
+          <span>Nome</span>
+          <input type="text" id="setNomeInput" class="set-inline-input" placeholder="Il tuo nome" maxlength="50">
+        </div>
+        <div class="card set-row">
+          <span>Email</span>
+          <b id="setEmail">—</b>
+        </div>
+        <div class="card set-row">
+          <span>Sincronizzazione</span>
+          <b id="setSync">solo locale</b>
+        </div>
       </div>
       <div class="set-group"><h3>Aspetto</h3>
         <div class="card set-row"><span>Tema scuro</span>
@@ -963,13 +980,17 @@ function enterApp(){
   $("#accessOverlay").classList.add("hidden");
   $("#app").classList.add("on");
   const nome=currentUser?(currentUser.user_metadata&&currentUser.user_metadata.nome)||currentUser.email.split("@")[0]:"Ospite";
-  $("#sideName").textContent=nome;
+  const savedName=localStorage.getItem("qlab_displayName");
+  const displayName=savedName||nome;
+  $("#sideName").textContent=displayName;
   $("#sideEmail").textContent=currentUser?currentUser.email:"modalità locale";
-  $("#sideAv").textContent=nome[0].toUpperCase();
-  $("#homeSaluto").textContent="Ciao, "+nome+"!";
-  $("#setNome").textContent=nome;
+  $("#sideAv").textContent=displayName[0].toUpperCase();
+  $("#homeSaluto").textContent="Ciao, "+displayName+"!";
+  $("#setNomeInput").value=displayName;
   $("#setEmail").textContent=currentUser?currentUser.email:"—";
   $("#setSync").textContent=currentUser?"cloud attiva":"solo locale";
+  // Salva nome in localStorage se non presente
+  if(!savedName)localStorage.setItem("qlab_displayName",nome);
   goSection("home");
 }
 
@@ -1481,6 +1502,21 @@ $("#btnEsci").onclick=async()=>{
   $("#accessOverlay").classList.remove("hidden");
   showAccess("init");
 };
+
+/* ================= INPUT NOME IMPOSTAZIONI ================= */
+$("#setNomeInput").addEventListener("input",function(){
+  const nome=this.value.trim();
+  if(!nome)return;
+  localStorage.setItem("qlab_displayName",nome);
+  $("#sideName").textContent=nome;
+  $("#sideAv").textContent=nome[0].toUpperCase();
+  $("#homeSaluto").textContent="Ciao, "+nome+"!";
+});
+$("#setNomeInput").addEventListener("blur",function(){
+  const nome=this.value.trim();
+  if(!nome){this.value=localStorage.getItem("qlab_displayName")||"Ospite";return}
+  toast("Nome aggiornato ✓");
+});
 
 /* ================= BOOT ================= */
 async function boot(){
