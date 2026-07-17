@@ -720,8 +720,8 @@ select.access-input{appearance:none;-webkit-appearance:none}
 <div id="toast"></div>
 <script>
 /* ================= CONFIG ================= */
-const SUPABASE_URL = "https://tqemwkpeexcudxkjbkal.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxZW13a3BlZXhjdWR4a2pia2FsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyODI2NjAsImV4cCI6MjA5OTg1ODY2MH0.xfZBLErqPIPWFOQLbx6sNUuBRjdL7yV7ekvMgjfCE5M";
+const SUPABASE_URL = "https://vboxtwemmwylzyvrdtul.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZib3h0d2VtbXd5bHp5dnJkdHVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMDUzNjAsImV4cCI6MjA5OTg4MTM2MH0.JyKA6ZTg3DGslHEgjsT-PSGl12ADK-XvtPETI9iBqcw";
 let sb=null, currentUser=null;
 try{ if(window.supabase && SUPABASE_URL) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);}catch(e){sb=null}
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -952,25 +952,55 @@ function showAccess(v){
 async function doRegister(){
   const m=$("#regMsg");
   if(!sb){m.className="amsg err";m.textContent="Connessione non disponibile: entra come ospite.";return}
-  const nome=$("#regNome").value.trim(),email=$("#regEmail").value.trim(),pass=$("#regPass").value;
+  const nome=$("#regNome").value.trim(),pass=$("#regPass").value;
   const pin=$("#regPin").value.trim();
-  if(!email||!pass){m.className="amsg err";m.textContent="Compila email e password.";return}
+  if(!pass){m.className="amsg err";m.textContent="Inserisci una password.";return}
   if(!pin||pin.length!==4||!/^\d{4}$/.test(pin)){m.className="amsg err";m.textContent="Il PIN deve essere di 4 cifre numeriche.";return}
   m.className="amsg";m.textContent="…";
-  try{
-    const res=await sb.auth.signUp({email,password:pass,options:{data:{nome,pin}}});
-    if(res.error)throw res.error;
-    // Salva PIN anche in localStorage come backup
-    const pins=JSON.parse(localStorage.getItem("qlab_pins")||"{}");
-    pins[email]=pin;
-    localStorage.setItem("qlab_pins",JSON.stringify(pins));
-    // Prova a salvare in tabella dedicata
-    if(res.data.user){
-      try{await sb.from("qlab_pins").upsert({user_id:res.data.user.id,pin:pin,email:email,updated_at:new Date().toISOString()},{onConflict:"user_id"});}catch(e){}
+  if(regMode==="email"){
+    const email=$("#regEmail").value.trim();
+    if(!email){m.className="amsg err";m.textContent="Inserisci l'email.";return}
+    try{
+      const res=await sb.auth.signUp({email,password:pass,options:{data:{nome,pin}}});
+      if(res.error)throw res.error;
+      const pins=JSON.parse(localStorage.getItem("qlab_pins")||"{}");
+      pins[email]=pin;localStorage.setItem("qlab_pins",JSON.stringify(pins));
+      if(res.data.user){
+        try{await sb.from("qlab_pins").upsert({user_id:res.data.user.id,pin:pin,email:email,updated_at:new Date().toISOString()},{onConflict:"user_id"});}catch(e){}
+      }
+      if(!res.data.session){m.className="amsg ok";m.textContent="Account creato! Controlla l'email per confermare.";return}
+      currentUser=res.data.user;enterApp();
+    }catch(e){m.className="amsg err";m.textContent=e.message||"Errore"}
+  }else{
+    // Registrazione con telefono
+    const phone=$("#regPhone").value.trim();
+    if(!phone){m.className="amsg err";m.textContent="Inserisci il numero di telefono (+39...).";return}
+    if(!regOtpSent){
+      // Primo step: invia OTP
+      try{
+        const{error}=await sb.auth.signUp({phone,password:pass,options:{data:{nome,pin}}});
+        if(error)throw error;
+        regOtpSent=true;
+        $("#regOtpWrap").style.display="block";
+        $("#btnReg").textContent="Verifica OTP e crea account";
+        m.className="amsg ok";m.textContent="Ti abbiamo inviato un codice SMS a 6 cifre. Inseriscilo qui sopra.";
+      }catch(e){m.className="amsg err";m.textContent=e.message||"Errore"}
+    }else{
+      // Secondo step: verifica OTP
+      const otp=$("#regOtp").value.trim();
+      if(!otp||otp.length!==6){m.className="amsg err";m.textContent="Inserisci il codice OTP di 6 cifre.";return}
+      try{
+        const res=await sb.auth.verifyOtp({phone,token:otp,type:"sms"});
+        if(res.error)throw res.error;
+        const pins=JSON.parse(localStorage.getItem("qlab_pins")||"{}");
+        pins[phone]=pin;localStorage.setItem("qlab_pins",JSON.stringify(pins));
+        if(res.data.user){
+          try{await sb.from("qlab_pins").upsert({user_id:res.data.user.id,pin:pin,email:phone,updated_at:new Date().toISOString()},{onConflict:"user_id"});}catch(e){}
+        }
+        currentUser=res.data.user;enterApp();
+      }catch(e){m.className="amsg err";m.textContent=e.message||"Errore"}
     }
-    if(!res.data.session){m.className="amsg ok";m.textContent="Account creato! Controlla l'email per confermare.";return}
-    currentUser=res.data.user;enterApp();
-  }catch(e){m.className="amsg err";m.textContent=e.message||"Errore"}
+  }
 }
 async function doLogin(){
   const m=$("#logMsg");
