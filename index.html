@@ -1,980 +1,1458 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0A0D1C">
+<title>Quantum Lab — Studia la fisica quantistica</title>
 <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,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">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Quantum Lab">
-<title>Quantum Lab</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/supabase/2.39.3/umd/supabase.min.js"></script>
-<script>
-if (!window.supabase) {
-  document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"><\/script>');
-}
-</script>
+<script>if(!window.supabase){document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"><\/script>');}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0A0D1C;
-  --bg2:#0E1226;
-  --glass:rgba(255,255,255,.045);
-  --glass2:rgba(255,255,255,.08);
+:root, [data-theme="dark"]{
+  --bg:#0A0D1C; --bg2:#0E1226;
+  --glass:rgba(255,255,255,.045); --glass2:rgba(255,255,255,.09);
   --line:rgba(255,255,255,.09);
-  --ink:#EDF0FC;
-  --dim:#98A1C8;
-  --psi:#8B7CF6;
-  --psi2:#6A58E8;
-  --wave:#4FD8EC;
-  --photon:#FFC44D;
-  --ok:#54E39B;
-  --err:#F26D7C;
-  --r:20px;
+  --ink:#EDF0FC; --dim:#98A1C8;
+  --psi:#8B7CF6; --psi2:#6A58E8; --wave:#4FD8EC; --photon:#FFC44D;
+  --ok:#54E39B; --err:#F26D7C;
+  --side-bg:rgba(12,15,32,.92);
+  --glow1:rgba(139,124,246,.16); --glow2:rgba(79,216,236,.10);
+  --input-bg:rgba(0,0,0,.35);
+  --r:18px;
+}
+[data-theme="light"]{
+  --bg:#F2F4FB; --bg2:#E8EBF7;
+  --glass:rgba(255,255,255,.75); --glass2:rgba(255,255,255,.95);
+  --line:rgba(20,30,80,.12);
+  --ink:#1B2140; --dim:#5C6690;
+  --psi:#6A58E8; --psi2:#5847D6; --wave:#0FA8C4; --photon:#E8A31D;
+  --ok:#149A5E; --err:#D9455C;
+  --side-bg:rgba(255,255,255,.92);
+  --glow1:rgba(106,88,232,.14); --glow2:rgba(15,168,196,.10);
+  --input-bg:rgba(255,255,255,.9);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 body{
   background:var(--bg);
   background-image:
-    radial-gradient(900px 500px at 85% -10%, rgba(139,124,246,.16), transparent 60%),
-    radial-gradient(700px 420px at -10% 25%, rgba(79,216,236,.10), transparent 60%);
+    radial-gradient(900px 500px at 85% -10%, var(--glow1), transparent 60%),
+    radial-gradient(700px 420px at -10% 25%, var(--glow2), transparent 60%);
   background-attachment:fixed;
   color:var(--ink);
-  font-family:'IBM Plex Sans',sans-serif;
-  font-size:16px;line-height:1.6;
-  overflow-x:hidden;
+  font-family:'IBM Plex Sans',sans-serif;font-size:16px;line-height:1.6;
+  overflow-x:hidden;transition:background .3s,color .3s;
 }
 h1,h2,h3,.serif{font-family:'Spectral',serif}
 .mono{font-family:'IBM Plex Mono',monospace}
-.screen{display:none;min-height:100dvh;flex-direction:column;padding-bottom:96px}
-.screen.active{display:flex}
-.wrap{width:100%;max-width:680px;margin:0 auto;padding:0 18px}
-
-/* ---------- glass card base ---------- */
-.card{
-  background:var(--glass);
-  border:1px solid var(--line);
-  border-radius:var(--r);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-
-/* ---------- topbar ---------- */
-.topbar{padding:18px 0 6px}
-.topbar .row{display:flex;align-items:center;gap:10px}
-.topbar h1{font-size:1.35rem;font-weight:600;letter-spacing:.01em}
-.psi-mark{
-  display:inline-flex;align-items:center;justify-content:center;
+.card{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.psi-mark{display:inline-flex;align-items:center;justify-content:center;
   width:34px;height:34px;border-radius:11px;font-family:'Spectral',serif;font-weight:700;
-  background:linear-gradient(135deg,var(--psi),var(--wave));color:#0A0D1C;font-size:1.15rem;
-  box-shadow:0 4px 18px rgba(139,124,246,.4);
-}
-.topbar .sub{color:var(--dim);font-size:.86rem;margin-top:2px}
+  background:linear-gradient(135deg,var(--psi),var(--wave));color:#0A0D1C;font-size:1.15rem;flex-shrink:0}
 
-/* ---------- bottom nav ---------- */
-#bottomNav{
-  position:fixed;left:50%;bottom:14px;transform:translateX(-50%);
-  display:none;gap:6px;padding:8px;z-index:70;
-  background:rgba(14,18,38,.85);border:1px solid var(--line);border-radius:24px;
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  box-shadow:0 10px 40px rgba(0,0,0,.5);
-}
-#bottomNav.on{display:flex}
-.navbtn{
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-  min-width:78px;padding:8px 10px;border-radius:16px;border:none;background:none;
-  color:var(--dim);font-family:inherit;font-size:.72rem;cursor:pointer;transition:.2s;
-}
-.navbtn .ic{font-size:1.25rem;line-height:1}
-.navbtn.active{background:linear-gradient(135deg,rgba(139,124,246,.25),rgba(79,216,236,.18));color:var(--ink)}
-.navbtn:active{transform:scale(.94)}
+/* ============ ACCESS OVERLAY ============ */
+#accessOverlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);
+  background-image:radial-gradient(700px 500px at 80% 0%, var(--glow1), transparent 60%),
+    radial-gradient(600px 420px at 0% 100%, var(--glow2), transparent 60%);
+  padding:20px;overflow-y:auto}
+#accessOverlay.hidden{display:none}
+.access-modal{width:100%;max-width:400px;padding:30px 24px;text-align:center}
+.access-logo{font-family:'Spectral',serif;font-size:3rem;font-weight:700;
+  background:linear-gradient(135deg,var(--psi),var(--wave));-webkit-background-clip:text;background-clip:text;color:transparent}
+.access-modal h1{font-size:1.7rem;margin:4px 0 2px}
+.access-sub{color:var(--dim);font-size:.9rem;margin-bottom:22px}
+.access-view h2{font-size:1.3rem;margin-bottom:16px}
+.access-input{width:100%;background:var(--input-bg);border:1px solid var(--line);border-radius:13px;
+  padding:13px 15px;color:var(--ink);font-size:1rem;font-family:inherit;outline:none;margin-bottom:11px;transition:.2s}
+.access-input:focus{border-color:var(--psi);box-shadow:0 0 0 3px rgba(139,124,246,.15)}
+.abtn{display:block;width:100%;padding:14px;border-radius:14px;border:none;cursor:pointer;
+  font-family:inherit;font-size:1rem;font-weight:600;margin-bottom:10px;transition:.2s}
+.abtn:active{transform:scale(.97)}
+.abtn.p{background:linear-gradient(135deg,var(--psi),var(--psi2));color:#fff;box-shadow:0 8px 22px rgba(139,124,246,.3)}
+.abtn.g{background:var(--glass2);border:1px solid var(--line);color:var(--ink)}
+.alink{background:none;border:none;color:var(--wave);cursor:pointer;font-family:inherit;font-size:.88rem;padding:6px}
+.amsg{font-size:.86rem;min-height:1.3em;margin-top:6px}
+.amsg.err{color:var(--err)} .amsg.ok{color:var(--ok)}
 
-/* ---------- auth ---------- */
-#heroWave{width:100%;height:150px;display:block}
-.auth-card{padding:26px 22px;margin:6px 0 28px}
-.auth-card h2{font-size:1.6rem;margin-bottom:4px}
-.auth-card p.s{color:var(--dim);font-size:.92rem;margin-bottom:22px}
-.field{margin-bottom:14px}
-.field label{display:block;font-size:.76rem;color:var(--dim);margin-bottom:6px;text-transform:uppercase;letter-spacing:.1em}
-.field input{
-  width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;
-  padding:14px 15px;color:var(--ink);font-size:1rem;font-family:inherit;outline:none;transition:.2s;
-}
-.field input:focus{border-color:var(--psi);box-shadow:0 0 0 3px rgba(139,124,246,.18)}
-.btn{
-  display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
-  padding:15px;border-radius:15px;border:none;cursor:pointer;
-  font-family:'IBM Plex Sans',sans-serif;font-size:1rem;font-weight:600;transition:.2s;
-}
-.btn:active{transform:scale(.97)}
-.btn.primary{background:linear-gradient(135deg,var(--psi),var(--psi2));color:#fff;box-shadow:0 8px 24px rgba(139,124,246,.35)}
-.btn.ghost{background:var(--glass);border:1px solid var(--line);color:var(--ink);margin-top:10px}
-.btn.wave{background:linear-gradient(135deg,var(--wave),#2CA9BE);color:#032830;box-shadow:0 8px 24px rgba(79,216,236,.3)}
-.btn.small{width:auto;padding:11px 18px;font-size:.9rem}
-.auth-toggle{text-align:center;margin-top:16px;font-size:.9rem;color:var(--dim)}
-.auth-toggle a{color:var(--wave);cursor:pointer}
-.msg{font-size:.88rem;margin-top:10px;min-height:1.2em}
-.msg.err{color:var(--err)} .msg.ok{color:var(--ok)}
+/* ============ LAYOUT APP ============ */
+#app{display:none;min-height:100dvh}
+#app.on{display:block}
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:12px;
+  padding:14px 16px;background:var(--side-bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.topbar h1{font-size:1.15rem;font-weight:600;flex:1}
+.hamb,.tbtn{background:var(--glass2);border:1px solid var(--line);color:var(--ink);
+  width:40px;height:40px;border-radius:12px;font-size:1.1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
+.hamb:active,.tbtn:active{transform:scale(.93)}
 
-/* ---------- home ---------- */
-.hero-course{padding:20px;margin:14px 0 18px;position:relative;overflow:hidden}
-.hero-course .glow{position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
-  background:radial-gradient(circle,rgba(79,216,236,.25),transparent 70%);pointer-events:none}
-.hero-course h2{font-size:1.35rem;margin-bottom:2px}
-.hero-course p{color:var(--dim);font-size:.86rem}
-.hero-course .bar{height:8px;border-radius:8px;background:rgba(255,255,255,.08);margin-top:14px;overflow:hidden}
-.hero-course .bar i{display:block;height:100%;border-radius:8px;width:0;
+#sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;z-index:120;
+  background:var(--side-bg);backdrop-filter:blur(20px);border-right:1px solid var(--line);
+  transform:translateX(-100%);transition:transform .3s cubic-bezier(.2,.8,.2,1);
+  display:flex;flex-direction:column;overflow-y:auto}
+#sidebar.open{transform:none}
+#sideScrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:110;opacity:0;pointer-events:none;transition:.3s}
+#sideScrim.on{opacity:1;pointer-events:auto}
+.side-head{display:flex;align-items:center;gap:10px;padding:20px 18px 14px}
+.side-head h2{font-size:1.2rem}
+.side-acc{margin:0 14px 12px;padding:13px 14px;display:flex;align-items:center;gap:11px;cursor:pointer}
+.side-acc .av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Spectral',serif;font-weight:700;background:linear-gradient(135deg,var(--psi),var(--wave));color:#0A0D1C}
+.side-acc .t{min-width:0;flex:1}
+.side-acc .t b{display:block;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side-acc .t span{font-size:.74rem;color:var(--dim)}
+.side-nav{flex:1;padding:4px 10px 20px}
+.snav{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;margin-bottom:2px;
+  border:none;border-radius:13px;background:none;color:var(--dim);font-family:inherit;font-size:.94rem;
+  cursor:pointer;text-align:left;transition:.15s}
+.snav .ic{font-size:1.1rem;width:24px;text-align:center}
+.snav:hover{background:var(--glass2);color:var(--ink)}
+.snav.active{background:linear-gradient(135deg,rgba(139,124,246,.22),rgba(79,216,236,.14));color:var(--ink);font-weight:600}
+.side-sep{height:1px;background:var(--line);margin:8px 14px}
+
+main{max-width:760px;margin:0 auto;padding:18px 16px 60px}
+.section{display:none;animation:fadeUp .3s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sec-title{font-size:1.5rem;margin:8px 0 4px}
+.sec-sub{color:var(--dim);font-size:.88rem;margin-bottom:18px}
+
+/* ============ HOME ============ */
+.hero{padding:20px;margin:6px 0 16px;position:relative;overflow:hidden}
+.hero .glow{position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,216,236,.22),transparent 70%);pointer-events:none}
+.hero h2{font-size:1.3rem}
+.hero p{color:var(--dim);font-size:.86rem}
+.hero .bar{height:8px;border-radius:8px;background:var(--glass2);margin-top:14px;overflow:hidden}
+.hero .bar i{display:block;height:100%;width:0;border-radius:8px;
   background:linear-gradient(90deg,var(--psi),var(--wave));transition:width .8s cubic-bezier(.2,.8,.2,1)}
-.hero-course .pct-row{display:flex;justify-content:space-between;margin-top:8px;font-size:.78rem;color:var(--dim)}
-.chapters{display:flex;flex-direction:column;gap:12px;margin:4px 0 30px}
-.chap{
-  padding:16px;display:flex;gap:14px;align-items:center;cursor:pointer;transition:.2s;position:relative;
-}
+.hero .pr{display:flex;justify-content:space-between;margin-top:8px;font-size:.78rem;color:var(--dim)}
+.statgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 16px}
+.stat{padding:16px;text-align:center}
+.stat b{display:block;font-family:'Spectral',serif;font-size:1.7rem;
+  background:linear-gradient(135deg,var(--psi),var(--wave));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:.76rem;color:var(--dim)}
+.h3row{display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px}
+.h3row h3{font-size:1.1rem}
+.h3row a{color:var(--wave);font-size:.84rem;cursor:pointer}
+.quickgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.quick{padding:16px 14px;cursor:pointer;transition:.2s}
+.quick:active{transform:scale(.97)}
+.quick .ic{font-size:1.5rem}
+.quick b{display:block;font-size:.92rem;margin-top:6px}
+.quick span{font-size:.76rem;color:var(--dim)}
+
+/* ============ CAPITOLI ============ */
+.chapters{display:flex;flex-direction:column;gap:11px}
+.chap{padding:15px;display:flex;gap:13px;align-items:center;cursor:pointer;transition:.2s}
 .chap:active{transform:scale(.985)}
-.chap:not(.locked):hover{background:var(--glass2)}
-.chap .badge{
-  width:46px;height:46px;border-radius:15px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Spectral',serif;font-size:1.25rem;font-weight:600;
-  background:rgba(139,124,246,.15);color:var(--psi);border:1px solid rgba(139,124,246,.3);
-}
+.chap .badge{width:44px;height:44px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Spectral',serif;font-size:1.2rem;font-weight:600;
+  background:rgba(139,124,246,.15);color:var(--psi);border:1px solid rgba(139,124,246,.3)}
 .chap.done .badge{background:rgba(84,227,155,.14);color:var(--ok);border-color:rgba(84,227,155,.35)}
 .chap .info{flex:1;min-width:0}
-.chap .info h3{font-size:1rem;font-weight:600;line-height:1.35}
-.chap .info p{font-size:.8rem;color:var(--dim);margin-top:2px}
-.chap .chev{color:var(--dim);font-size:1.1rem;flex-shrink:0}
-.chap .chip{
-  font-size:.68rem;padding:3px 9px;border-radius:20px;margin-top:6px;display:inline-block;
-  background:rgba(79,216,236,.13);color:var(--wave);border:1px solid rgba(79,216,236,.25);
-}
+.chap .info h3{font-size:.98rem;line-height:1.35}
+.chap .info p{font-size:.78rem;color:var(--dim);margin-top:2px}
+.chip{font-size:.68rem;padding:3px 9px;border-radius:20px;margin-top:6px;display:inline-block;
+  background:rgba(79,216,236,.13);color:var(--wave);border:1px solid rgba(79,216,236,.25)}
 .chap.done .chip{background:rgba(84,227,155,.13);color:var(--ok);border-color:rgba(84,227,155,.25)}
-.chap.locked{opacity:.4;pointer-events:none}
-.chap.locked .chip{background:rgba(255,255,255,.06);color:var(--dim);border-color:var(--line)}
+.chap.locked{opacity:.45;pointer-events:none}
+.chev{color:var(--dim)}
 
-/* ---------- chapter (step flow) ---------- */
-.chap-head{padding-top:16px}
-.chap-head .back{background:none;border:none;color:var(--wave);font-size:.92rem;cursor:pointer;font-family:inherit;padding:8px 0}
-.chap-head h2{font-size:1.45rem;margin-top:4px;line-height:1.3}
-.steps{
-  display:flex;gap:8px;margin:16px 0 18px;position:sticky;top:0;z-index:40;
-  padding:10px 0;background:linear-gradient(180deg,var(--bg) 75%,transparent);
-}
-.step{
-  flex:1;display:flex;align-items:center;gap:8px;justify-content:center;
-  padding:10px 6px;border-radius:14px;border:1px solid var(--line);
-  background:var(--glass);color:var(--dim);font-size:.8rem;font-weight:500;cursor:pointer;transition:.2s;
-}
-.step .n{
-  width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:.7rem;background:rgba(255,255,255,.1);flex-shrink:0;
-}
-.step.active{background:linear-gradient(135deg,rgba(139,124,246,.3),rgba(106,88,232,.22));border-color:rgba(139,124,246,.5);color:var(--ink)}
+/* chapter detail (step flow) */
+#chapDetail{display:none}
+#chapDetail.on{display:block}
+#chapList2{display:block}
+#chapList2.off{display:none}
+.back{background:none;border:none;color:var(--wave);font-size:.92rem;cursor:pointer;font-family:inherit;padding:8px 0}
+.steps{display:flex;gap:8px;margin:14px 0 16px}
+.step{flex:1;display:flex;align-items:center;gap:8px;justify-content:center;padding:10px 6px;
+  border-radius:13px;border:1px solid var(--line);background:var(--glass);color:var(--dim);
+  font-size:.8rem;font-weight:500;cursor:pointer;transition:.2s}
+.step .n{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;background:var(--glass2);flex-shrink:0}
+.step.active{background:linear-gradient(135deg,rgba(139,124,246,.28),rgba(106,88,232,.2));border-color:rgba(139,124,246,.5);color:var(--ink)}
 .step.active .n{background:var(--psi);color:#fff}
 .step.done .n{background:var(--ok);color:#04331C}
 .step.done{color:var(--ink)}
-.pane{display:none;animation:fadeUp .35s ease}
+.pane{display:none;animation:fadeUp .3s ease}
 .pane.active{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.next-cta{margin:26px 0 10px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;
+  border-radius:14px;border:none;cursor:pointer;font-family:inherit;font-size:1rem;font-weight:600;transition:.2s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:linear-gradient(135deg,var(--psi),var(--psi2));color:#fff;box-shadow:0 8px 22px rgba(139,124,246,.3)}
+.btn.ghost{background:var(--glass);border:1px solid var(--line);color:var(--ink)}
+.btn.wave{background:linear-gradient(135deg,var(--wave),#2CA9BE);color:#032830}
+.next-cta{margin:24px 0 8px}
 
-/* ---------- lesson ---------- */
-.lesson h2{font-size:1.4rem;margin:26px 0 10px;font-weight:600}
-.lesson h3{font-size:1.1rem;margin:24px 0 8px;color:var(--wave);font-weight:600}
-.lesson p{margin-bottom:14px;color:#D8DEF4}
-.lesson .formula{
-  background:var(--glass);border:1px solid var(--line);border-radius:14px;
-  padding:16px 12px;margin:16px 0;overflow-x:auto;text-align:center;backdrop-filter:blur(8px);
-}
-.lesson .note{
-  border:1px solid rgba(255,196,77,.3);background:rgba(255,196,77,.07);
-  padding:14px 16px;border-radius:14px;margin:18px 0;font-size:.92rem;
-}
+/* lesson */
+.lesson h2{font-size:1.35rem;margin:24px 0 10px}
+.lesson h3{font-size:1.08rem;margin:22px 0 8px;color:var(--wave)}
+.lesson p{margin-bottom:13px}
+.lesson .formula{background:var(--glass);border:1px solid var(--line);border-radius:14px;
+  padding:15px 12px;margin:15px 0;overflow-x:auto;text-align:center}
+.lesson .note{border:1px solid rgba(255,196,77,.35);background:rgba(255,196,77,.08);
+  padding:13px 15px;border-radius:14px;margin:16px 0;font-size:.92rem}
 .lesson .note b{color:var(--photon)}
 
-/* ---------- simulazione ---------- */
-.sim-shell{padding:12px;margin:6px 0 14px}
-#simCanvas{width:100%;border-radius:14px;background:#05070F;display:block;touch-action:none}
-.legend{display:flex;flex-wrap:wrap;gap:12px;margin:10px 4px 2px;font-size:.74rem;color:var(--dim)}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-.sim-controls{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+/* sim */
+.sim-shell{padding:12px;margin:6px 0 12px}
+#simCanvas{width:100%;border-radius:13px;background:#05070F;display:block;touch-action:none}
+[data-theme="light"] #simCanvas{background:#101425}
+.legend{display:flex;flex-wrap:wrap;gap:11px;margin:9px 4px 2px;font-size:.72rem;color:var(--dim)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.sim-controls{display:flex;flex-direction:column;gap:11px;margin-top:11px}
 .sc-row{display:flex;gap:10px}
-.sc-row .btn{margin:0}
-.opt-row{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.25);border:1px solid var(--line);
-}
-.opt-row .lbl{font-size:.88rem}
-.opt-row .lbl small{display:block;color:var(--dim);font-size:.74rem;margin-top:1px}
-.switch{position:relative;width:50px;height:29px;flex-shrink:0}
+.opt-row{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:11px 13px;border-radius:13px;background:var(--input-bg);border:1px solid var(--line)}
+.opt-row .lbl{font-size:.86rem}
+.opt-row .lbl small{display:block;color:var(--dim);font-size:.72rem}
+.switch{position:relative;width:48px;height:28px;flex-shrink:0}
 .switch input{opacity:0;width:0;height:0}
-.sl{position:absolute;inset:0;background:rgba(255,255,255,.14);border-radius:30px;cursor:pointer;transition:.25s}
-.sl:before{content:"";position:absolute;width:23px;height:23px;border-radius:50%;left:3px;top:3px;background:#fff;transition:.25s}
-.switch input:checked + .sl{background:var(--photon)}
-.switch input:checked + .sl:before{transform:translateX(21px);background:#3A2A00}
-.switch.cy input:checked + .sl{background:var(--wave)}
+.sl{position:absolute;inset:0;background:var(--glass2);border:1px solid var(--line);border-radius:30px;cursor:pointer;transition:.25s}
+.sl:before{content:"";position:absolute;width:21px;height:21px;border-radius:50%;left:3px;top:2.5px;background:var(--dim);transition:.25s}
+.switch input:checked + .sl{background:var(--photon);border-color:var(--photon)}
+.switch input:checked + .sl:before{transform:translateX(19px);background:#3A2A00}
+.switch.cy input:checked + .sl{background:var(--wave);border-color:var(--wave)}
 .switch.cy input:checked + .sl:before{background:#03303A}
-.speed-row{display:flex;align-items:center;gap:12px;padding:0 4px}
-.speed-row span{font-size:.84rem;color:var(--dim);white-space:nowrap}
-.speed-row input[type=range]{flex:1;accent-color:var(--psi);height:26px}
-.sim-stats{display:flex;gap:16px;margin-top:2px;padding:0 4px;font-size:.8rem;color:var(--dim)}
+.speed-row{display:flex;align-items:center;gap:11px;padding:0 4px}
+.speed-row span{font-size:.82rem;color:var(--dim)}
+.speed-row input{flex:1;accent-color:var(--psi);height:26px}
+.sim-stats{display:flex;gap:15px;margin-top:10px;padding:0 4px;font-size:.8rem;color:var(--dim)}
 .sim-stats b{color:var(--wave);font-family:'IBM Plex Mono',monospace}
 
-/* ---------- quiz ---------- */
-.qprog{height:6px;border-radius:6px;background:rgba(255,255,255,.08);margin:6px 0 16px;overflow:hidden}
+/* ============ QUIZ / FLASHCARD ============ */
+.qprog{height:6px;border-radius:6px;background:var(--glass2);margin:6px 0 14px;overflow:hidden}
 .qprog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--psi),var(--wave));transition:width .4s}
-.qcard{padding:20px;margin:12px 0}
-.qcard .qnum{font-size:.72rem;color:var(--psi);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600}
-.qcard .qtext{font-size:1.02rem;font-weight:500;margin-bottom:14px;line-height:1.5}
-.opt{
-  display:block;width:100%;text-align:left;background:rgba(0,0,0,.25);border:1px solid var(--line);
-  border-radius:14px;padding:14px 15px;margin-bottom:9px;color:var(--ink);font-size:.94rem;
-  cursor:pointer;font-family:inherit;transition:.15s;
-}
-.opt:active{transform:scale(.99)}
-.opt.right{border-color:var(--ok);background:rgba(84,227,155,.12)}
-.opt.wrong{border-color:var(--err);background:rgba(242,109,124,.12)}
-.explain{display:none;font-size:.87rem;color:var(--dim);border-top:1px dashed var(--line);padding-top:10px;margin-top:6px}
+.qcard{padding:18px;margin:11px 0}
+.qnum{font-size:.7rem;color:var(--psi);text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px;font-weight:600}
+.qtext{font-size:1rem;font-weight:500;margin-bottom:13px;line-height:1.5}
+.opt{display:block;width:100%;text-align:left;background:var(--input-bg);border:1px solid var(--line);
+  border-radius:13px;padding:13px 14px;margin-bottom:8px;color:var(--ink);font-size:.93rem;
+  cursor:pointer;font-family:inherit;transition:.15s}
+.opt.right{border-color:var(--ok);background:rgba(84,227,155,.13)}
+.opt.wrong{border-color:var(--err);background:rgba(242,109,124,.13)}
+.explain{display:none;font-size:.85rem;color:var(--dim);border-top:1px dashed var(--line);padding-top:9px;margin-top:5px}
 .explain.show{display:block}
-.quiz-result{text-align:center;padding:30px 20px;margin:14px 0;display:none}
-.quiz-result.show{display:block}
-.quiz-result .score{font-family:'Spectral',serif;font-size:3rem;
+.result-card{text-align:center;padding:28px 20px;margin:12px 0;display:none}
+.result-card.show{display:block}
+.result-card .score{font-family:'Spectral',serif;font-size:2.8rem;
   background:linear-gradient(135deg,var(--psi),var(--wave));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hist{padding:13px 16px;margin:8px 0;display:flex;justify-content:space-between;font-size:.88rem}
+.hist b{color:var(--wave);font-family:'IBM Plex Mono',monospace}
 
-/* ---------- profilo ---------- */
-.pcard{padding:22px;margin:16px 0;display:flex;align-items:center;gap:16px}
-.avatar{width:56px;height:56px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-  font-family:'Spectral',serif;font-size:1.5rem;font-weight:700;
-  background:linear-gradient(135deg,var(--psi),var(--wave));color:#0A0D1C}
-.pcard .info{flex:1;min-width:0}
-.pcard .info h3{font-size:1.05rem;word-break:break-all}
-.pcard .info p{color:var(--dim);font-size:.82rem}
-.plist{margin:6px 0 30px;display:flex;flex-direction:column;gap:10px}
-.prow{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-size:.94rem}
-.prow b{font-family:'IBM Plex Mono',monospace;color:var(--wave)}
-.prow.danger{color:var(--err);cursor:pointer}
+/* flashcard */
+.fc-stage{perspective:1100px;margin:14px 0}
+.fc-card{position:relative;width:100%;min-height:230px;cursor:pointer;
+  transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.8,.25,1)}
+.fc-card.flip{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:26px 22px;border-radius:var(--r)}
+.fc-face .tag{font-size:.7rem;color:var(--psi);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;font-weight:600}
+.fc-face .txt{font-size:1.06rem;line-height:1.55}
+.fc-back{transform:rotateY(180deg);border-color:rgba(79,216,236,.4)}
+.fc-back .tag{color:var(--wave)}
+.fc-actions{display:flex;gap:10px;margin-top:12px}
+.fc-actions .btn{font-size:.94rem}
+.fc-counter{text-align:center;color:var(--dim);font-size:.82rem;margin-top:10px}
 
-/* ---------- tutor ---------- */
-#tutorPanel{position:fixed;inset:0;z-index:90;background:var(--bg);display:none;flex-direction:column}
-#tutorPanel.open{display:flex}
-.tutor-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
-.tutor-head h3{font-size:1.1rem;flex:1}
-.iconbtn{background:var(--glass);border:1px solid var(--line);color:var(--ink);
-  width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:1rem}
-#tutorMsgs{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
-.tmsg{max-width:86%;padding:12px 15px;border-radius:18px;font-size:.94rem;line-height:1.55}
+/* ============ APPUNTI ============ */
+.note-form textarea{width:100%;min-height:120px;resize:vertical;background:var(--input-bg);
+  border:1px solid var(--line);border-radius:13px;padding:13px 15px;color:var(--ink);
+  font-size:.95rem;font-family:inherit;outline:none;margin-bottom:11px}
+select.access-input{appearance:none;-webkit-appearance:none}
+.note-item{padding:16px;margin:10px 0}
+.note-item h4{font-size:1rem;margin-bottom:2px}
+.note-item .meta{font-size:.74rem;color:var(--dim);margin-bottom:8px}
+.note-item p{font-size:.9rem;white-space:pre-wrap}
+.note-item .del{background:none;border:none;color:var(--err);cursor:pointer;font-size:.8rem;
+  font-family:inherit;padding:6px 0;margin-top:6px}
+
+/* ============ TIMER ============ */
+.timer-clock{font-family:'IBM Plex Mono',monospace;font-size:4.2rem;text-align:center;margin:20px 0 4px;
+  font-weight:500;letter-spacing:.02em}
+.timer-mode{text-align:center;color:var(--dim);font-size:.9rem;margin-bottom:18px}
+.timer-mode b{color:var(--wave)}
+.timer-btns{display:flex;gap:10px;margin-bottom:16px}
+.time-set{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.time-set .opt-row{flex-direction:column;align-items:flex-start;gap:6px}
+.time-set input[type=number]{width:100%;background:none;border:none;color:var(--ink);
+  font-size:1.3rem;font-family:'IBM Plex Mono',monospace;outline:none}
+
+/* ============ GLOSSARIO / FORMULARIO ============ */
+.searchbar{display:flex;gap:10px;margin-bottom:14px}
+.searchbar input,.searchbar select{flex:1;background:var(--input-bg);border:1px solid var(--line);
+  border-radius:13px;padding:12px 14px;color:var(--ink);font-size:.95rem;font-family:inherit;outline:none}
+.searchbar select{flex:0 0 40%}
+.gloss-item{padding:15px 17px;margin:9px 0}
+.gloss-item h4{font-size:.98rem;color:var(--wave)}
+.gloss-item .cat{font-size:.68rem;color:var(--psi);text-transform:uppercase;letter-spacing:.1em}
+.gloss-item p{font-size:.88rem;margin-top:5px}
+.form-item{padding:16px;margin:10px 0}
+.form-item h4{font-size:.95rem;margin-bottom:8px}
+.form-item .formula{text-align:center;padding:8px 4px;overflow-x:auto}
+.form-item p{font-size:.83rem;color:var(--dim);margin-top:6px}
+
+/* ============ TUTOR ============ */
+#tutorSection{display:flex;flex-direction:column;height:calc(100dvh - 160px);min-height:420px}
+#tutorMsgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:11px;padding:6px 2px}
+.tmsg{max-width:88%;padding:12px 15px;border-radius:17px;font-size:.93rem;line-height:1.55}
 .tmsg.user{align-self:flex-end;background:linear-gradient(135deg,var(--psi),var(--psi2));color:#fff;border-bottom-right-radius:5px}
 .tmsg.bot{align-self:flex-start;background:var(--glass);border:1px solid var(--line);border-bottom-left-radius:5px}
-.tutor-sugg{display:flex;gap:8px;overflow-x:auto;padding:0 18px 10px;scrollbar-width:none}
+.tutor-sugg{display:flex;gap:8px;overflow-x:auto;padding:10px 0;scrollbar-width:none}
 .tutor-sugg::-webkit-scrollbar{display:none}
 .sugg{flex-shrink:0;padding:9px 14px;border-radius:20px;background:var(--glass);border:1px solid var(--line);
-  color:var(--dim);font-size:.82rem;cursor:pointer;font-family:inherit}
-.tutor-input{display:flex;gap:10px;padding:12px 16px 18px;border-top:1px solid var(--line)}
-.tutor-input input{flex:1;background:var(--glass);border:1px solid var(--line);border-radius:24px;
+  color:var(--dim);font-size:.8rem;cursor:pointer;font-family:inherit}
+.tutor-input{display:flex;gap:10px;padding-top:8px}
+.tutor-input input{flex:1;background:var(--input-bg);border:1px solid var(--line);border-radius:24px;
   padding:13px 17px;color:var(--ink);font-size:1rem;outline:none;font-family:inherit}
-.tutor-input input:focus{border-color:var(--psi)}
 .tutor-input button{width:48px;height:48px;border-radius:50%;border:none;flex-shrink:0;cursor:pointer;
   background:linear-gradient(135deg,var(--wave),#2CA9BE);color:#032830;font-size:1.2rem}
-.typing{align-self:flex-start;color:var(--dim);font-size:.85rem;font-style:italic}
+.typing{color:var(--dim);font-size:.85rem;font-style:italic}
 
-#toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);
-  background:rgba(20,25,48,.95);border:1px solid var(--line);color:var(--ink);
+/* ============ IMPOSTAZIONI ============ */
+.set-group{margin-bottom:22px}
+.set-group h3{font-size:.8rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;padding-left:4px}
+.set-row{padding:15px 17px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;font-size:.93rem}
+.set-row.danger{color:var(--err);cursor:pointer}
+.set-row b{font-family:'IBM Plex Mono',monospace;color:var(--wave);font-size:.85rem;max-width:55%;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+  background:var(--side-bg);border:1px solid var(--line);color:var(--ink);
   padding:12px 22px;border-radius:16px;font-size:.9rem;opacity:0;pointer-events:none;
-  transition:.3s;z-index:100;white-space:nowrap;backdrop-filter:blur(10px)}
+  transition:.3s;z-index:300;white-space:nowrap;backdrop-filter:blur(10px)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+@media(min-width:1000px){
+  #sidebar{transform:none}
+  #sideScrim{display:none}
+  .hamb{display:none}
+  main,.topbar{margin-left:280px}
+  .topbar{padding-left:24px}
+}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
-<!-- ============ AUTH ============ -->
-<div class="screen active" id="scrAuth">
-  <canvas id="heroWave"></canvas>
-  <div class="wrap">
-    <div class="card auth-card">
-      <div class="row" style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-        <span class="psi-mark">ψ</span><h2 style="margin:0">Quantum Lab</h2>
+<!-- ============ ACCESSO ============ -->
+<div id="accessOverlay">
+  <div class="card access-modal">
+    <div id="avInitial" class="access-view">
+      <div class="access-logo">ψ</div>
+      <h1>Quantum Lab</h1>
+      <p class="access-sub">Impara la Fisica Quantistica</p>
+      <button class="abtn p" onclick="showAccess('reg')">Registrati</button>
+      <button class="abtn p" onclick="showAccess('log')">Accedi</button>
+      <button class="abtn g" onclick="guestLogin()">Accedi come ospite</button>
+      <button class="alink" onclick="showAccess('rec')">Password dimenticata?</button>
+    </div>
+    <div id="avReg" class="access-view" style="display:none">
+      <h2>Registrati</h2>
+      <input type="text" id="regNome" placeholder="Nome" class="access-input">
+      <input type="email" id="regEmail" placeholder="Email" class="access-input">
+      <input type="password" id="regPass" placeholder="Password (min 6 caratteri)" class="access-input">
+      <button class="abtn p" onclick="doRegister()">Crea account</button>
+      <button class="alink" onclick="showAccess('init')">← Indietro</button>
+      <div class="amsg" id="regMsg"></div>
+    </div>
+    <div id="avLog" class="access-view" style="display:none">
+      <h2>Accedi</h2>
+      <input type="email" id="logEmail" placeholder="Email" class="access-input">
+      <input type="password" id="logPass" placeholder="Password" class="access-input">
+      <button class="abtn p" onclick="doLogin()">Accedi</button>
+      <button class="alink" onclick="showAccess('init')">← Indietro</button>
+      <div class="amsg" id="logMsg"></div>
+    </div>
+    <div id="avRec" class="access-view" style="display:none">
+      <h2>Recupera password</h2>
+      <input type="email" id="recEmail" placeholder="La tua email" class="access-input">
+      <button class="abtn p" onclick="doRecover()">Invia link di recupero</button>
+      <button class="alink" onclick="showAccess('init')">← Indietro</button>
+      <div class="amsg" id="recMsg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app">
+  <div id="sideScrim"></div>
+  <aside id="sidebar">
+    <div class="side-head"><span class="psi-mark">ψ</span><h2>Quantum Lab</h2></div>
+    <div class="card side-acc" data-nav="impostazioni">
+      <div class="av" id="sideAv">ψ</div>
+      <div class="t"><b id="sideName">Ospite</b><span id="sideEmail">modalità locale</span></div>
+    </div>
+    <nav class="side-nav">
+      <button class="snav active" data-nav="home"><span class="ic">◈</span>Home</button>
+      <button class="snav" data-nav="corso"><span class="ic">📖</span>Corso</button>
+      <button class="snav" data-nav="quiz"><span class="ic">✎</span>Quiz</button>
+      <button class="snav" data-nav="flashcard"><span class="ic">🃏</span>Flashcard</button>
+      <button class="snav" data-nav="tutor"><span class="ic">ψ</span>Tutor IA</button>
+      <div class="side-sep"></div>
+      <button class="snav" data-nav="appunti"><span class="ic">✍︎</span>Appunti</button>
+      <button class="snav" data-nav="timer"><span class="ic">⏱</span>Timer studio</button>
+      <button class="snav" data-nav="progressi"><span class="ic">📊</span>Progressi</button>
+      <div class="side-sep"></div>
+      <button class="snav" data-nav="glossario"><span class="ic">🔤</span>Glossario</button>
+      <button class="snav" data-nav="formulario"><span class="ic">∑</span>Formulario</button>
+      <button class="snav" data-nav="impostazioni"><span class="ic">⚙︎</span>Impostazioni</button>
+    </nav>
+  </aside>
+
+  <div class="topbar">
+    <button class="hamb" id="btnHamb">☰</button>
+    <h1 id="topTitle">Home</h1>
+    <button class="tbtn" id="btnTheme" title="Tema">◐</button>
+  </div>
+
+  <main>
+    <!-- HOME -->
+    <section id="sec-home" class="section active">
+      <div class="card hero"><div class="glow"></div>
+        <h2 class="serif" id="homeSaluto">Ciao!</h2>
+        <p>Il tuo percorso nella meccanica quantistica</p>
+        <div class="bar"><i id="progBar"></i></div>
+        <div class="pr"><span id="progTxt">0 di 120 capitoli</span><span id="progPct">0%</span></div>
       </div>
-      <p class="s">Meccanica quantistica sul serio: lezioni con la matematica vera, esperimenti interattivi e un tutor sempre con te.</p>
-      <div class="field"><label>Email</label><input type="email" id="authEmail" autocomplete="email"></div>
-      <div class="field"><label>Password</label><input type="password" id="authPass" autocomplete="current-password"></div>
-      <button class="btn primary" id="btnAuthMain">Accedi</button>
-      <button class="btn ghost" id="btnLocal">Continua senza account</button>
-      <div class="auth-toggle" id="authToggle">Non hai un account? <a id="authSwitch">Registrati</a></div>
-      <div class="msg" id="authMsg"></div>
-    </div>
-  </div>
-</div>
+      <div class="statgrid">
+        <div class="card stat"><b id="stCap">0</b><span>Capitoli completati</span></div>
+        <div class="card stat"><b id="stQuiz">—</b><span>Miglior quiz</span></div>
+        <div class="card stat"><b id="stPomo">0</b><span>Pomodori oggi</span></div>
+        <div class="card stat"><b id="stOre">0h</b><span>Tempo di studio</span></div>
+      </div>
+      <div class="h3row"><h3 class="serif">Continua da qui</h3><a data-nav="corso">Tutti i capitoli →</a></div>
+      <div class="chapters" id="homeNext"></div>
+      <div class="h3row"><h3 class="serif">Azioni rapide</h3></div>
+      <div class="quickgrid">
+        <div class="card quick" data-nav="flashcard"><span class="ic">🃏</span><b>Flashcard</b><span>Ripassa i concetti</span></div>
+        <div class="card quick" data-nav="tutor"><span class="ic">ψ</span><b>Tutor IA</b><span>Chiedi qualsiasi cosa</span></div>
+        <div class="card quick" data-nav="timer"><span class="ic">⏱</span><b>Timer</b><span>Sessione pomodoro</span></div>
+        <div class="card quick" data-nav="formulario"><span class="ic">∑</span><b>Formulario</b><span>Formule e costanti</span></div>
+      </div>
+    </section>
 
-<!-- ============ HOME ============ -->
-<div class="screen" id="scrHome">
-  <div class="wrap">
-    <div class="topbar">
-      <div class="row"><span class="psi-mark">ψ</span><div><h1>Quantum Lab</h1></div></div>
-    </div>
-    <div class="card hero-course">
-      <div class="glow"></div>
-      <h2 class="serif">Il tuo percorso</h2>
-      <p id="userLabel">Modalità locale</p>
-      <div class="bar"><i id="progBar"></i></div>
-      <div class="pct-row"><span id="progTxt">0 di 6 capitoli</span><span id="progPct">0%</span></div>
-    </div>
-    <div class="chapters" id="chapterList"></div>
-  </div>
-</div>
-
-<!-- ============ CAPITOLO ============ -->
-<div class="screen" id="scrChapter">
-  <div class="wrap">
-    <div class="chap-head">
-      <button class="back" id="btnBack">← Percorso</button>
-      <div class="mono" id="chapTag" style="color:var(--psi);font-size:.75rem;letter-spacing:.12em"></div>
-      <h2 class="serif" id="chapTitle"></h2>
-    </div>
-    <div class="steps">
-      <div class="step" data-step="0"><span class="n">1</span> Lezione</div>
-      <div class="step" data-step="1"><span class="n">2</span> Esperimento</div>
-      <div class="step" data-step="2"><span class="n">3</span> Quiz</div>
-    </div>
-
-    <div class="pane" id="pane0"><div class="lesson" id="lessonBody"></div>
-      <button class="btn primary next-cta" id="toSim">Vai all'esperimento →</button>
-    </div>
-
-    <div class="pane" id="pane1">
-      <div class="card sim-shell">
-        <canvas id="simCanvas"></canvas>
-        <div class="legend">
-          <span><i style="background:#8B7CF6"></i>Sorgente e⁻</span>
-          <span><i style="background:#FFC44D"></i>Elettrone</span>
-          <span><i style="background:#4FD8EC"></i>Impatti</span>
-          <span><i style="background:#F26D7C"></i>Curva teorica |ψ|²</span>
+    <!-- CORSO -->
+    <section id="sec-corso" class="section">
+      <div id="chapList2">
+        <h2 class="sec-title serif">Corso</h2>
+        <p class="sec-sub">120 capitoli, dalla doppia fenditura ai fondamenti della gravità quantistica</p>
+        <div class="chapters" id="chapterList"></div>
+      </div>
+      <div id="chapDetail">
+        <button class="back" id="btnBackChap">← Tutti i capitoli</button>
+        <div class="mono" id="chapTag" style="color:var(--psi);font-size:.74rem;letter-spacing:.12em"></div>
+        <h2 class="serif" id="chapTitle" style="font-size:1.4rem;line-height:1.3"></h2>
+        <div class="steps">
+          <div class="step" data-step="0"><span class="n">1</span> Lezione</div>
+          <div class="step" data-step="1"><span class="n">2</span> Esperimento</div>
+          <div class="step" data-step="2"><span class="n">3</span> Quiz</div>
         </div>
-        <div class="sim-controls">
-          <div class="sc-row">
-            <button class="btn wave" id="btnFire">▶ Avvia</button>
-            <button class="btn ghost" id="btnResetSim" style="margin-top:0;max-width:110px">Azzera</button>
-          </div>
-          <div class="speed-row"><span>Lenta</span><input type="range" id="rateSlider" min="1" max="10" value="3"><span>Veloce</span></div>
-          <div class="opt-row">
-            <div class="lbl">🔍 Rilevatore "quale via"<small>Osserva da quale fenditura passa ogni elettrone</small></div>
-            <label class="switch"><input type="checkbox" id="detectorToggle"><span class="sl"></span></label>
-          </div>
-          <div class="opt-row">
-            <div class="lbl">📈 Curva teorica<small>Sovrapponi la distribuzione prevista |ψ|²</small></div>
-            <label class="switch cy"><input type="checkbox" id="theoryToggle" checked><span class="sl"></span></label>
-          </div>
+        <div class="pane" id="pane0">
+          <div class="lesson" id="lessonBody"></div>
+          <button class="btn primary next-cta" id="toSim">Vai all'esperimento →</button>
         </div>
-        <div class="sim-stats" style="margin-top:12px">
-          <span>Elettroni: <b id="statCount">0</b></span>
-          <span id="statMode">Interferenza attiva</span>
+        <div class="pane" id="pane1">
+          <div class="card sim-shell">
+            <canvas id="simCanvas"></canvas>
+            <div class="legend">
+              <span><i style="background:#8B7CF6"></i>Sorgente e⁻</span>
+              <span><i style="background:#FFC44D"></i>Elettrone</span>
+              <span><i style="background:#4FD8EC"></i>Impatti</span>
+              <span><i style="background:#F26D7C"></i>Curva teorica |ψ|²</span>
+            </div>
+            <div class="sim-controls">
+              <div class="sc-row">
+                <button class="btn wave" id="btnFire">▶ Avvia</button>
+                <button class="btn ghost" id="btnResetSim" style="max-width:110px">Azzera</button>
+              </div>
+              <div class="speed-row"><span>Lenta</span><input type="range" id="rateSlider" min="1" max="10" value="3"><span>Veloce</span></div>
+              <div class="opt-row">
+                <div class="lbl">🔍 Rilevatore "quale via"<small>Osserva da quale fenditura passa l'elettrone</small></div>
+                <label class="switch"><input type="checkbox" id="detectorToggle"><span class="sl"></span></label>
+              </div>
+              <div class="opt-row">
+                <div class="lbl">📈 Curva teorica<small>Sovrapponi la distribuzione prevista |ψ|²</small></div>
+                <label class="switch cy"><input type="checkbox" id="theoryToggle" checked><span class="sl"></span></label>
+              </div>
+            </div>
+            <div class="sim-stats"><span>Elettroni: <b id="statCount">0</b></span><span id="statMode">Interferenza attiva</span></div>
+          </div>
+          <p id="simCaption" style="font-size:.88rem;color:var(--dim)"></p>
+          <button class="btn primary next-cta" id="toQuiz">Vai al quiz →</button>
+        </div>
+        <div class="pane" id="pane2">
+          <div class="qprog"><i id="qprogBar"></i></div>
+          <div id="quizBody"></div>
+          <div class="card result-card" id="quizResult">
+            <div class="score" id="quizScore"></div>
+            <p id="quizVerdict" style="margin-top:6px;color:var(--dim)"></p>
+            <button class="btn primary" id="btnQuizDone" style="margin-top:16px">✓ Completa capitolo</button>
+            <button class="btn ghost" id="btnQuizRetry" style="margin-top:10px">Riprova</button>
+          </div>
         </div>
       </div>
-      <p id="simCaption" style="font-size:.9rem;color:var(--dim);padding:0 4px"></p>
-      <button class="btn primary next-cta" id="toQuiz">Vai al quiz →</button>
-    </div>
+    </section>
 
-    <div class="pane" id="pane2">
-      <div class="qprog"><i id="qprogBar"></i></div>
-      <div id="quizBody"></div>
-      <div class="card quiz-result" id="quizResult">
-        <div class="score" id="quizScore"></div>
-        <p id="quizVerdict" style="margin-top:6px;color:var(--dim)"></p>
-        <button class="btn primary" id="btnQuizDone" style="margin-top:18px">✓ Completa capitolo</button>
-        <button class="btn ghost" id="btnQuizRetry">Riprova</button>
+    <!-- QUIZ (sezione autonoma) -->
+    <section id="sec-quiz" class="section">
+      <h2 class="sec-title serif">Quiz</h2>
+      <p class="sec-sub">Metti alla prova quello che hai imparato</p>
+      <div class="card qcard" style="display:flex;align-items:center;gap:14px;cursor:pointer" id="quizLaunch">
+        <span style="font-size:1.6rem">✎</span>
+        <div style="flex:1"><b>Quiz capitolo 1 — La doppia fenditura</b>
+        <p style="font-size:.8rem;color:var(--dim)">5 domande · concetti e formule</p></div>
+        <span class="chev">›</span>
       </div>
-    </div>
-  </div>
-</div>
+      <div class="h3row"><h3 class="serif">Storico</h3></div>
+      <div id="quizHistory"><p style="color:var(--dim);font-size:.88rem">Nessun quiz completato finora.</p></div>
+    </section>
 
-<!-- ============ PROFILO ============ -->
-<div class="screen" id="scrProfile">
-  <div class="wrap">
-    <div class="topbar"><div class="row"><span class="psi-mark">ψ</span><h1>Profilo</h1></div></div>
-    <div class="card pcard">
-      <div class="avatar" id="avatarLetter">ψ</div>
-      <div class="info"><h3 id="profEmail">Modalità locale</h3><p id="profSub">I progressi sono salvati solo su questo dispositivo</p></div>
-    </div>
-    <div class="plist">
-      <div class="card prow"><span>Capitoli completati</span><b id="profDone">0 / 6</b></div>
-      <div class="card prow"><span>Miglior quiz</span><b id="profBest">—</b></div>
-      <div class="card prow danger" id="btnResetProg">Azzera progressi</div>
-      <div class="card prow danger" id="btnLogout">Esci</div>
-    </div>
-  </div>
-</div>
+    <!-- FLASHCARD -->
+    <section id="sec-flashcard" class="section">
+      <h2 class="sec-title serif">Flashcard</h2>
+      <p class="sec-sub">Tocca la carta per girarla, poi segna se la sapevi</p>
+      <div id="fcIntro">
+        <button class="btn primary" id="btnFcStart">Inizia il ripasso (12 carte)</button>
+      </div>
+      <div id="fcGame" style="display:none">
+        <div class="fc-stage">
+          <div class="fc-card" id="fcCard">
+            <div class="card fc-face fc-front"><span class="tag">Domanda</span><span class="txt" id="fcQ"></span></div>
+            <div class="card fc-face fc-back"><span class="tag">Risposta</span><span class="txt" id="fcA"></span></div>
+          </div>
+        </div>
+        <div class="fc-actions">
+          <button class="btn ghost" id="fcWrong" style="color:var(--err)">✗ Non la sapevo</button>
+          <button class="btn ghost" id="fcRight" style="color:var(--ok)">✓ La sapevo</button>
+        </div>
+        <div class="fc-counter" id="fcCounter"></div>
+      </div>
+      <div class="card result-card" id="fcResult">
+        <div class="score" id="fcScore"></div>
+        <p style="color:var(--dim);margin-top:6px" id="fcVerdict"></p>
+        <button class="btn primary" id="fcRetry" style="margin-top:16px">Ricomincia</button>
+      </div>
+    </section>
 
-<!-- ============ TUTOR ============ -->
-<div id="tutorPanel">
-  <div class="tutor-head">
-    <span class="psi-mark">ψ</span><h3>Tutor quantistico</h3>
-    <button class="iconbtn" id="btnTutorClose">✕</button>
-  </div>
-  <div id="tutorMsgs"></div>
-  <div class="tutor-sugg" id="tutorSugg">
-    <button class="sugg">Cos'è davvero ψ?</button>
-    <button class="sugg">Perché il rilevatore rompe l'interferenza?</button>
-    <button class="sugg">Spiegami la regola di Born</button>
-    <button class="sugg">λ = h/p da dove viene?</button>
-  </div>
-  <div class="tutor-input">
-    <input type="text" id="tutorInput" placeholder="Chiedi qualcosa sulla lezione…">
-    <button id="btnTutorSend">➤</button>
-  </div>
-</div>
+    <!-- TUTOR -->
+    <section id="sec-tutor" class="section">
+      <div id="tutorSection">
+        <div id="tutorMsgs"></div>
+        <div class="tutor-sugg">
+          <button class="sugg">Cos'è davvero ψ?</button>
+          <button class="sugg">Perché il rilevatore rompe l'interferenza?</button>
+          <button class="sugg">Spiegami la regola di Born</button>
+          <button class="sugg">λ = h/p da dove viene?</button>
+        </div>
+        <div class="tutor-input">
+          <input type="text" id="tutorInput" placeholder="Chiedi qualcosa di quantistica…">
+          <button id="btnTutorSend">➤</button>
+        </div>
+      </div>
+    </section>
 
-<!-- ============ NAV ============ -->
-<nav id="bottomNav">
-  <button class="navbtn active" data-nav="home"><span class="ic">◈</span>Percorso</button>
-  <button class="navbtn" data-nav="tutor"><span class="ic">ψ</span>Tutor</button>
-  <button class="navbtn" data-nav="profile"><span class="ic">◉</span>Profilo</button>
-</nav>
+    <!-- APPUNTI -->
+    <section id="sec-appunti" class="section">
+      <h2 class="sec-title serif">Appunti</h2>
+      <p class="sec-sub">I tuoi appunti restano su questo dispositivo</p>
+      <div class="note-form">
+        <input type="text" id="notaTitolo" placeholder="Titolo" class="access-input">
+        <select id="notaCap" class="access-input"></select>
+        <textarea id="notaTesto" placeholder="Scrivi qui il tuo appunto…"></textarea>
+        <button class="btn primary" id="btnSalvaNota">Salva appunto</button>
+      </div>
+      <div id="listaNote" style="margin-top:18px"></div>
+    </section>
+
+    <!-- TIMER -->
+    <section id="sec-timer" class="section">
+      <h2 class="sec-title serif">Timer studio</h2>
+      <p class="sec-sub">Tecnica del pomodoro: studio e pausa</p>
+      <div class="card" style="padding:10px 16px 22px">
+        <div class="timer-clock" id="timerClock">25:00</div>
+        <div class="timer-mode">Modalità: <b id="timerMode">Studio</b></div>
+        <div class="timer-btns">
+          <button class="btn primary" id="timerStart">▶ Avvia</button>
+          <button class="btn ghost" id="timerReset">Azzera</button>
+        </div>
+        <div class="time-set">
+          <div class="opt-row"><div class="lbl">Studio (min)</div><input type="number" id="setStudy" value="25" min="5" max="90"></div>
+          <div class="opt-row"><div class="lbl">Pausa (min)</div><input type="number" id="setBreak" value="5" min="1" max="30"></div>
+        </div>
+        <div class="sim-stats"><span>Pomodori oggi: <b id="pomoOggi">0</b></span><span>Totale studio: <b id="studioTot">0h 0m</b></span></div>
+      </div>
+    </section>
+
+    <!-- PROGRESSI -->
+    <section id="sec-progressi" class="section">
+      <h2 class="sec-title serif">Progressi</h2>
+      <p class="sec-sub">Il quadro del tuo studio</p>
+      <div class="statgrid">
+        <div class="card stat"><b id="prCap">0/120</b><span>Capitoli</span></div>
+        <div class="card stat"><b id="prQuizN">0</b><span>Quiz svolti</span></div>
+        <div class="card stat"><b id="prMedia">—</b><span>Media quiz</span></div>
+        <div class="card stat"><b id="prOre">0h</b><span>Ore di studio</span></div>
+      </div>
+      <div class="h3row"><h3 class="serif">Capitoli</h3></div>
+      <div id="prChapters"></div>
+      <div class="h3row"><h3 class="serif">Storico quiz</h3></div>
+      <div id="prQuizHist"><p style="color:var(--dim);font-size:.88rem">Nessun quiz ancora.</p></div>
+    </section>
+
+    <!-- GLOSSARIO -->
+    <section id="sec-glossario" class="section">
+      <h2 class="sec-title serif">Glossario</h2>
+      <p class="sec-sub" id="glossCount"></p>
+      <div class="searchbar">
+        <input type="text" id="glossSearch" placeholder="Cerca un termine…">
+        <select id="glossCat"><option value="">Tutte</option></select>
+      </div>
+      <div id="glossList"></div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section id="sec-formulario" class="section">
+      <h2 class="sec-title serif">Formulario</h2>
+      <p class="sec-sub">Le formule e le costanti fondamentali</p>
+      <div id="formList"></div>
+      <div class="h3row"><h3 class="serif">Costanti</h3></div>
+      <div id="constList"></div>
+    </section>
+
+    <!-- IMPOSTAZIONI -->
+    <section id="sec-impostazioni" class="section">
+      <h2 class="sec-title serif">Impostazioni</h2>
+      <p class="sec-sub">Account e preferenze</p>
+      <div class="set-group"><h3>Account</h3>
+        <div class="card set-row"><span>Nome</span><b id="setNome">Ospite</b></div>
+        <div class="card set-row"><span>Email</span><b id="setEmail">—</b></div>
+        <div class="card set-row"><span>Sincronizzazione</span><b id="setSync">solo locale</b></div>
+      </div>
+      <div class="set-group"><h3>Aspetto</h3>
+        <div class="card set-row"><span>Tema scuro</span>
+          <label class="switch cy"><input type="checkbox" id="setTheme" checked><span class="sl"></span></label>
+        </div>
+      </div>
+      <div class="set-group"><h3>Dati</h3>
+        <div class="card set-row danger" id="btnAzzera">Azzera tutti i progressi</div>
+        <div class="card set-row danger" id="btnEsci">Esci</div>
+      </div>
+    </section>
+  </main>
+</div>
 
 <div id="toast"></div>
 <script>
-/* ================= CONFIG SUPABASE ================= */
+/* ================= CONFIG ================= */
 const SUPABASE_URL = "https://tqemwkpeexcudxkjbkal.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxZW13a3BlZXhjdWR4a2pia2FsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyODI2NjAsImV4cCI6MjA5OTg1ODY2MH0.xfZBLErqPIPWFOQLbx6sNUuBRjdL7yV7ekvMgjfCE5M";
-
-let sb = null, currentUser = null;
-try {
-  if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY)
-    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-} catch(e){ console.error("Supabase init:", e); sb = null; }
+let sb=null, currentUser=null;
+try{ if(window.supabase && SUPABASE_URL) sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);}catch(e){sb=null}
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2400)}
+function renderMathIn(el){renderMathInElement(el,{delimiters:[{left:"$$",right:"$$",display:true},{left:"\\(",right:"\\)",display:false}]})}
 
 /* ================= DATI ================= */
-const CHAPTERS = [
-  { id:1, tag:"CAPITOLO 01", title:"Onde e particelle: la doppia fenditura",
-    desc:"Dualità onda-particella · funzione d'onda · interferenza", ready:true },
-  { id:2, tag:"CAPITOLO 02", title:"La matematica degli stati quantistici",
-    desc:"Spazi di Hilbert · notazione di Dirac · sovrapposizione", ready:false },
-  { id:3, tag:"CAPITOLO 03", title:"L'equazione di Schrödinger",
-    desc:"Evoluzione temporale · buca di potenziale · quantizzazione", ready:false },
-  { id:4, tag:"CAPITOLO 04", title:"Misura e indeterminazione",
-    desc:"Operatori · autovalori · Heisenberg · collasso", ready:false },
-  { id:5, tag:"CAPITOLO 05", title:"Spin e sfera di Bloch",
-    desc:"Sistemi a due livelli · matrici di Pauli · qubit", ready:false },
-  { id:6, tag:"CAPITOLO 06", title:"Entanglement e teorema di Bell",
-    desc:"Stati entangled · EPR · non-località", ready:false },
-];
+const CHAPTERS=[];
+for(let n=1;n<=120;n++){
+  const p=n.toString().padStart(2,"0");
+  const titles=[
+    "Onde e particelle: la doppia fenditura","La matematica degli stati quantistici","L'equazione di Schrödinger","Misura e indeterminazione",
+    "Spin e sfera di Bloch","Entanglement e teorema di Bell","Oscillatore armonico quantistico","Potenziale a gradino e barriera","Effetto tunnel",
+    "Principio di sovrapposizione","Operatori e osservabili","Notazione di Dirac","Prodotti tensoriali","Matrici densità","Stati puri e misti",
+    "Decoerenza quantistica","Teoria della misura","Interpretazioni della meccanica quantistica","Teorema di Kochen-Specker","Teorema di Bell generalizzato",
+    "Informazione quantistica","Porte logiche quantistiche","Algoritmo di Deutsch-Jozsa","Algoritmo di Grover","Algoritmo di Shor",
+    "Correzione d'errore quantistico","Codici stabilizzatori","Calcolo quantistico topologico","Crittografia quantistica","Protocollo BB84",
+    "Teletrasporto quantistico","Coding superdenso","Distribuzione di chiavi quantistiche","Reti quantistiche","Repeater quantistici",
+    "Quantizzazione del campo elettromagnetico","Stati coerenti","Stati squeezed","Ottica quantistica","Interferometria",
+    "Atomi freddi","Condensati di Bose-Einstein","Gas di Fermi degeneri","Superfluidità","Superconduttività",
+    "Effetto Hall quantistico","Isolanti topologici","Fasi topologiche della materia","Teoria di gauge","Simmetrie discrete",
+    "Particelle identiche","Statistiche quantistiche","Fermioni e bosoni","Principio di esclusione di Pauli","Statistica di Fermi-Dirac",
+    "Statistica di Bose-Einstein","Gas di fotoni","Radiazione di corpo nero","Effetto fotoelettrico","Effetto Compton",
+    "Modello di Bohr","Atomo di idrogeno","Struttura fine","Effetto Zeeman","Effetto Stark",
+    "Momento angolare orbitale","Armoniche sferiche","Coefficienti di Clebsch-Gordan","Teorema di Wigner-Eckart","Regole di selezione",
+    "Teoria delle perturbazioni","Perturbazioni dipendenti dal tempo","Regola d'oro di Fermi","Approssimazione di Born","Sezione d'urto",
+    "Teoria dello scattering","Metodo WKB","Approssimazione adiabatica","Fase di Berry","Fase geometrica",
+    "Elettrodinamica quantistica","Diagrammi di Feynman","Rinormalizzazione","Teoria quantistica dei campi","Modello standard",
+    "Simmetrie continue","Teorema di Noether","Gruppi di Lie in fisica","Oscillazioni quantistiche","Effetto Josephson",
+    "Risonanza magnetica","Spettroscopia quantistica","Tomografia quantistica","Metrologia quantistica","Sensori quantistici",
+    "Simulazione quantistica","Annealing quantistico","Variational quantum eigensolver","QAOA","Machine learning quantistico",
+    "Fondamenti filosofici","Paradosso EPR","Gatto di Schrödinger","Amico di Wigner","Molti mondi",
+    "Gravità quantistica","Olografia","Teoria delle stringhe","Principio olografico","Entropia di entanglement"
+  ];
+  const descs=[
+    "Dualità onda-particella · funzione d'onda · interferenza","Spazi di Hilbert · notazione di Dirac · sovrapposizione",
+    "Evoluzione temporale · buca di potenziale · quantizzazione","Operatori · autovalori · Heisenberg · collasso",
+    "Sistemi a due livelli · matrici di Pauli · qubit","Stati entangled · EPR · non-località",
+    "Potenziali armonici · livelli energetici","Barriere di potenziale · riflessione e trasmissione",
+    "Penetrazione di barriera · applicazioni","Combinazioni lineari · stati coerenti","Valori di aspettazione · misura",
+    "Ket e bra · prodotto interno","Sistemi composti · entanglement","Operatore densità · traccia parziale",
+    "Miscele statistiche · decomposizione di Schmidt","Ambiente · perdita di coerenza","Collasso · ruolo dell'osservatore",
+    "Copenhagen · molti mondi · Bohm","Contestualità · variabili nascoste","Disuguaglianze di Bell generalizzate",
+    "Bit quantistici · canali","Circuiti quantistici · universalità","Oracoli · parall. quantistico","Ricerca in database non strutturati",
+    "Fattorizzazione · crittoanalisi","Codici di Shor · soglia di rumore","Stabilizzatori · codici CSS","Anyons · trecce",
+    "Sicurezza incondizionata","Preparazione e misura","Stati di Bell · fedeltà","Bit classici da qubit","Fibra ottica · satelliti",
+    "Memoria quantistica · entanglement swapping","Cavità · modi del campo","Stati quasi-classici",
+    "Compressione del rumore quantistico","Sorgenti di singoli fotoni","Rivelatori · Hanbury Brown-Twiss",
+    "Rallentamento laser · trappole","Transizione di fase quantistica","Blocco di Pauli · stelle di neutroni",
+    "Elio liquido · vortici quantizzati","Coppie di Cooper · gap","Livelli di Landau · chiralità","Ordine topologico",
+    "Sistemi a molti corpi · entanglement","Trasformazioni locali · connessioni","Parità · inversione temporale",
+    "Simmetria di scambio · determinanti di Slater","Distribuzioni di probabilità","Spin semi-intero",
+    "Proprietà magnetiche · atomi multi-elettronici","Distribuzione di occupazione","Energia libera · condensazione",
+    "Legge di Planck · catastrofe ultravioletta","Effetto soglia · funzione lavoro","Diffusione di raggi X · effetto corpuscolare",
+    "Quantizzazione del momento angolare","Spettro · numeri quantici","Accoppiamento spin-orbita",
+    "Campo magnetico · effetto Paschen-Back","Campo elettrico · splitting dei livelli",
+    "Operatore L² · Lz · commutatori","Polinomi di Legendre · funzioni associate","Composizione di momenti angolari",
+    "Elementi di matrice ridotti","Transizioni permesse e proibite",
+    "Correzioni a energie e stati","Transizioni tra livelli","Probabilità di transizione · spettri",
+    "Potenziali di scattering · onde parziali","Approssimazione semiclassica","Evoluzione lenta · teorema adiabatico",
+    "Trasporto parallelo · curvatura","Monopoli magnetici · Chern number",
+    "Elettroni e fotoni · vertici","Propagatori · ampiezze di scattering","Controtermini · punto fisso",
+    "Seconda quantizzazione · lagrangiane","Interazioni fondamentali · bosone di Higgs",
+    "Conservazione · cariche","Lagrangiane invarianti","SO(3) · SU(2) · SU(3)","Neutrini · oscillazioni di sapore",
+    "Giunzioni superconduttrici · effetto AC/DC","Spin · impulsi RF · rilassamento","Assorbimento · emissione · Raman",
+    "Ricostruzione dello stato quantistico","Limite di Heisenberg · squeezed states","Magnetometria · gravimetria atomica",
+    "Hamiltoniane complesse su qubit","Ottimizzazione quantistica","Chimica quantistica computazionale",
+    "Problemi di ottimizzazione combinatoria","Reti neurali quantistiche · kernel methods",
+    "Realtà oggettiva · incompletezza","Località · realismo","Sovrapposizione macroscopica","Coscienza e misura",
+    "Mondi ramificati · decoerenza","Spaziotempo quantistico","AdS/CFT · dualità gauge-gravità",
+    "Vibrazioni fondamentali · dimensioni extra","Entropia dei buchi neri","Area · termodinamica dei buchi neri"
+  ];
+  CHAPTERS.push({
+    id:n,
+    tag:"CAPITOLO "+p,
+    title:titles[(n-1)%titles.length],
+    desc:descs[(n-1)%descs.length],
+    ready:true
+  });
+}
 
-const LESSON_1 = `
+const LESSON_1=`
 <h2>Un esperimento che contiene tutto il mistero</h2>
 <p>Richard Feynman diceva che l'esperimento della doppia fenditura contiene <em>l'unico vero mistero</em> della meccanica quantistica. Tutto il resto — indeterminazione, entanglement, quantizzazione — si può ricondurre a ciò che accade qui.</p>
 <p>L'apparato è semplice: una sorgente che emette elettroni <strong>uno alla volta</strong>, una barriera con due fenditure, e uno schermo che registra dove arriva ogni elettrone.</p>
 <h3>Cosa ci aspetteremmo dalle particelle</h3>
-<p>Se gli elettroni fossero palline classiche, ognuno passerebbe da una fenditura o dall'altra. Sullo schermo vedremmo due strisce, una per fenditura, con distribuzione totale:</p>
+<p>Se gli elettroni fossero palline classiche, ognuno passerebbe da una fenditura o dall'altra e vedremmo due strisce:</p>
 <div class="formula">$$P_{12}(x) = P_1(x) + P_2(x)$$</div>
 <h3>Cosa succede davvero</h3>
-<p>Sullo schermo compaiono <strong>frange di interferenza</strong>: bande alternate di massimi e minimi, come farebbe un'onda. Ma gli elettroni arrivano uno alla volta, come punti localizzati: la figura emerge <em>statisticamente</em>, punto dopo punto.</p>
+<p>Compaiono <strong>frange di interferenza</strong>: bande alternate di massimi e minimi, come farebbe un'onda. Ma gli elettroni arrivano uno alla volta, come punti: la figura emerge <em>statisticamente</em>.</p>
 <p>A ogni elettrone associamo una <strong>funzione d'onda</strong> \\( \\psi(x) \\), un'ampiezza complessa. La probabilità di trovarlo in \\(x\\) è il modulo quadro (regola di Born):</p>
 <div class="formula">$$P(x) = |\\psi(x)|^2$$</div>
-<p>Con due fenditure aperte l'elettrone non "sceglie" un cammino: la funzione d'onda è la <strong>sovrapposizione</strong> delle ampiezze dei due cammini:</p>
+<p>Con due fenditure aperte la funzione d'onda è la <strong>sovrapposizione</strong> dei due cammini:</p>
 <div class="formula">$$\\psi = \\psi_1 + \\psi_2 \\;\\Rightarrow\\; P = |\\psi_1|^2 + |\\psi_2|^2 + 2\\,\\mathrm{Re}(\\psi_1^*\\psi_2)$$</div>
-<p>Il termine \\( 2\\,\\mathrm{Re}(\\psi_1^*\\psi_2) \\) è il <strong>termine di interferenza</strong>: può essere positivo o negativo e produce le frange. Nella fisica quantistica non si sommano le probabilità — si sommano le <em>ampiezze</em>.</p>
+<p>Il termine \\( 2\\,\\mathrm{Re}(\\psi_1^*\\psi_2) \\) è il <strong>termine di interferenza</strong>: produce le frange. Non si sommano le probabilità — si sommano le <em>ampiezze</em>.</p>
 <h3>La lunghezza d'onda di de Broglie</h3>
-<p>Che "onda" è quella dell'elettrone? De Broglie associò a ogni particella con quantità di moto \\(p\\):</p>
 <div class="formula">$$\\lambda = \\frac{h}{p}, \\qquad h \\approx 6{,}626 \\times 10^{-34}\\,\\mathrm{J\\,s}$$</div>
-<p>La spaziatura delle frange, per fenditure a distanza \\(d\\) e schermo a distanza \\(L\\), è \\( \\Delta x = \\lambda L / d \\).</p>
+<p>La spaziatura delle frange, per fenditure a distanza \\(d\\) e schermo a distanza \\(L\\), è \\( \\Delta x = \\lambda L/d \\).</p>
 <h3>Il ruolo della misura</h3>
-<p>E se mettiamo un rilevatore sulle fenditure per <em>sapere</em> da dove passa ogni elettrone? Le frange <strong>spariscono</strong>: la distribuzione torna a essere \\( P_1 + P_2 \\), come per palline classiche.</p>
-<div class="note"><b>Punto chiave.</b> Non è questione di "disturbare" meccanicamente l'elettrone: è l'esistenza stessa dell'informazione sul cammino a cancellare il termine di interferenza. Misura e sovrapposizione sono incompatibili — questo è il cuore della meccanica quantistica.</div>
-<p>Ora passa all'<strong>esperimento</strong>: guarda gli elettroni volare uno a uno verso lo schermo, osserva le frange emergere, poi accendi il rilevatore.</p>`;
+<p>Se un rilevatore ci dice da quale fenditura passa ogni elettrone, le frange <strong>spariscono</strong>: la distribuzione torna \\( P_1+P_2 \\).</p>
+<div class="note"><b>Punto chiave.</b> Non è un "disturbo" meccanico: è l'esistenza stessa dell'informazione sul cammino a cancellare il termine di interferenza. Misura e sovrapposizione sono incompatibili.</div>
+<p>Ora passa all'<strong>esperimento</strong> e guarda le frange emergere elettrone per elettrone.</p>`;
 
-const QUIZ_1 = [
-  { q:"Un elettrone alla volta attraversa la doppia fenditura. Cosa si osserva sullo schermo dopo molti elettroni?",
-    opts:["Due strisce, una per fenditura","Frange di interferenza","Una macchia uniforme","Nulla: un solo elettrone non lascia traccia"],
-    right:1, why:"Ogni elettrone arriva come un punto, ma la distribuzione statistica di molti elettroni forma le frange: ciascun elettrone interferisce con sé stesso." },
-  { q:"Qual è il significato fisico di |ψ(x)|²?",
-    opts:["L'energia dell'elettrone in x","La velocità dell'elettrone","La densità di probabilità di trovare l'elettrone in x","La carica elettrica in x"],
-    right:2, why:"È la regola di Born: il modulo quadro della funzione d'onda dà la densità di probabilità della posizione." },
-  { q:"Con due fenditure aperte, la probabilità totale P è uguale a P₁ + P₂?",
-    opts:["Sì, le probabilità si sommano sempre","No: si sommano le ampiezze, e compare un termine di interferenza","Sì, ma solo per i fotoni","No: P è sempre il doppio di P₁"],
-    right:1, why:"P = |ψ₁+ψ₂|² = P₁ + P₂ + 2Re(ψ₁*ψ₂). Il termine misto è l'interferenza, assente nella fisica classica." },
-  { q:"La lunghezza d'onda di de Broglie di una particella è:",
-    opts:["λ = h·p","λ = h/p","λ = p/h","λ = h/E"],
-    right:1, why:"λ = h/p: più la quantità di moto è grande, più corta è la lunghezza d'onda — per questo gli oggetti macroscopici non mostrano interferenza." },
-  { q:"Cosa succede se un rilevatore identifica da quale fenditura passa ogni elettrone?",
-    opts:["Le frange diventano più nitide","Non cambia nulla","Le frange spariscono: restano due strisce","Gli elettroni si fermano"],
-    right:2, why:"L'informazione 'quale via' distrugge la coerenza tra i due cammini: il termine di interferenza si annulla e resta P₁ + P₂." },
-];
+const QUIZ_1=[
+ {q:"Un elettrone alla volta attraversa la doppia fenditura. Cosa si osserva dopo molti elettroni?",opts:["Due strisce, una per fenditura","Frange di interferenza","Una macchia uniforme","Nulla"],right:1,why:"Ogni elettrone arriva come un punto, ma la statistica di molti elettroni forma le frange: ciascun elettrone interferisce con sé stesso."},
+ {q:"Qual è il significato fisico di |ψ(x)|²?",opts:["L'energia dell'elettrone in x","La velocità dell'elettrone","La densità di probabilità di trovarlo in x","La carica elettrica in x"],right:2,why:"Regola di Born: il modulo quadro della funzione d'onda dà la densità di probabilità della posizione."},
+ {q:"Con due fenditure aperte, P è uguale a P₁ + P₂?",opts:["Sì, sempre","No: si sommano le ampiezze e compare l'interferenza","Solo per i fotoni","No: P = 2P₁"],right:1,why:"P = |ψ₁+ψ₂|² = P₁+P₂+2Re(ψ₁*ψ₂). Il termine misto è l'interferenza."},
+ {q:"La lunghezza d'onda di de Broglie è:",opts:["λ = h·p","λ = h/p","λ = p/h","λ = h/E"],right:1,why:"λ = h/p: più p è grande, più λ è corta — per questo gli oggetti macroscopici non mostrano interferenza."},
+ {q:"Cosa succede se un rilevatore identifica la fenditura di passaggio?",opts:["Frange più nitide","Nulla","Le frange spariscono: restano due strisce","Gli elettroni si fermano"],right:2,why:"L'informazione 'quale via' distrugge la coerenza: il termine di interferenza si annulla."}];
 
-/* ================= STATO ================= */
-const $ = s=>document.querySelector(s);
-let progress = {};
-function loadLocal(){ try{ progress = JSON.parse(localStorage.getItem("qlab_progress")||"{}"); }catch(e){ progress={}; } }
-function saveLocal(){ localStorage.setItem("qlab_progress", JSON.stringify(progress)); }
+function getLessonForChapter(id){
+  if(id===1)return LESSON_1;
+  const c=CHAPTERS.find(x=>x.id===id)||{tag:"",title:""};
+  const p=id.toString().padStart(2,"0");
+  return `
+<h2>${c.title}</h2>
+<p>Benvenuto nel ${c.tag.toLowerCase()}. In questa lezione esploreremo i fondamenti e le applicazioni di questo affascinante argomento della meccanica quantistica.</p>
+<h3>Introduzione</h3>
+<p>La meccanica quantistica è la teoria fisica che descrive il comportamento della materia e della radiazione a scale atomiche e subatomiche. A differenza della fisica classica, i fenomeni quantistici sono governati da principi di sovrapposizione, indeterminazione e probabilità.</p>
+<p>In questo capitolo ci concentriamo su <strong>${c.title.toLowerCase()}</strong>, un pilastro fondamentale per comprendere il mondo quantistico.</p>
+<h3>Principi fondamentali</h3>
+<p>Ricordiamo i principi chiave della meccanica quantistica:</p>
+<p><strong>1. Quantizzazione:</strong> Molte grandezze fisiche, come l'energia, il momento angolare e la carica, possono assumere solo valori discreti — i "quanti". L'equazione di Planck-Einstein \\( E = h\\nu \\) esprime l'energia di un quanto di radiazione.</p>
+<p><strong>2. Dualità onda-particella:</strong> Le entità quantistiche presentano sia proprietà corpuscolari che ondulatorie. La lunghezza d'onda di de Broglie \\( \\lambda = h/p \\) associa un'onda a ogni particella.</p>
+<p><strong>3. Principio di indeterminazione di Heisenberg:</strong></p>
+<div class="formula">$$\\Delta x\\,\\Delta p \\ge \\frac{\\hbar}{2}$$</div>
+<p>Non è possibile conoscere simultaneamente con precisione arbitraria posizione e quantità di moto. Questo non è un limite tecnologico, ma una proprietà fondamentale della natura.</p>
+<h3>La funzione d'onda</h3>
+<p>Lo stato di un sistema quantistico è descritto dalla <strong>funzione d'onda</strong> \\( \\psi(x,t) \\), un'ampiezza complessa la cui evoluzione temporale è governata dall'equazione di Schrödinger:</p>
+<div class="formula">$$i\\hbar\\frac{\\partial\\psi}{\\partial t} = \\hat H\\psi$$</div>
+<p>La probabilità di trovare la particella in una regione è data dalla regola di Born:</p>
+<div class="formula">$$P(x) = |\\psi(x)|^2$$</div>
+<h3>Applicazioni e connessioni</h3>
+<p>Lo studio di <strong>${c.title.toLowerCase()}</strong> ha profonde implicazioni per:</p>
+<p>- La comprensione della struttura atomica e molecolare<br>- Lo sviluppo di nuove tecnologie quantistiche<br>- La crittografia e il calcolo quantistico<br>- La fisica della materia condensata<br>- I fondamenti della teoria quantistica dei campi</p>
+<div class="note"><b>Concetto chiave.</b> La meccanica quantistica non è solo una teoria fisica: è un nuovo modo di pensare la realtà, dove probabilità, sovrapposizione ed entanglement sfidano le nostre intuizioni classiche.</div>
+<p>Ora passa all'<strong>esperimento</strong> per visualizzare i concetti e poi al <strong>quiz</strong> per verificare la tua comprensione.</p>`;}
+
+const FLASHCARDS=[
+ {q:"Cosa afferma la regola di Born?",a:"La probabilità di trovare la particella in x è P(x)=|ψ(x)|², il modulo quadro della funzione d'onda."},
+ {q:"Formula della lunghezza d'onda di de Broglie",a:"λ = h/p, con h costante di Planck e p quantità di moto."},
+ {q:"Cos'è la sovrapposizione quantistica?",a:"Uno stato può essere combinazione lineare di più stati: ψ = ψ₁ + ψ₂. Si sommano le ampiezze, non le probabilità."},
+ {q:"Cos'è il termine di interferenza?",a:"2Re(ψ₁*ψ₂): il termine misto in |ψ₁+ψ₂|² che genera le frange, assente in fisica classica."},
+ {q:"Perché la misura 'quale via' distrugge l'interferenza?",a:"L'informazione sul cammino elimina la coerenza tra le due ampiezze: resta P₁+P₂."},
+ {q:"Spaziatura delle frange nella doppia fenditura",a:"Δx = λL/d, con L distanza dello schermo e d separazione delle fenditure."},
+ {q:"Valore della costante di Planck h",a:"h ≈ 6,626 × 10⁻³⁴ J·s. La costante ridotta è ħ = h/2π ≈ 1,055 × 10⁻³⁴ J·s."},
+ {q:"Cosa significa 'dualità onda-particella'?",a:"Gli oggetti quantistici mostrano comportamento ondulatorio (interferenza) e corpuscolare (impatti puntuali) a seconda dell'esperimento."},
+ {q:"Cos'è la funzione d'onda ψ?",a:"Un'ampiezza complessa che descrive lo stato del sistema; il suo modulo quadro dà le probabilità."},
+ {q:"Perché non vediamo interferenza con oggetti macroscopici?",a:"λ = h/p è incredibilmente piccola per masse grandi: le frange sarebbero impossibili da risolvere."},
+ {q:"Un elettrone alla volta può produrre interferenza?",a:"Sì: ogni elettrone interferisce con sé stesso; la figura emerge statisticamente impatto dopo impatto."},
+ {q:"Chi disse che la doppia fenditura contiene 'l'unico mistero'?",a:"Richard Feynman, nelle sue Lectures on Physics."}];
+
+const GLOSSARY=[
+ {t:"Funzione d'onda (ψ)",c:"Fondamenti",d:"Ampiezza complessa che descrive lo stato quantistico di un sistema; contiene tutta l'informazione fisica disponibile."},
+ {t:"Regola di Born",c:"Fondamenti",d:"P(x)=|ψ(x)|²: il modulo quadro della funzione d'onda è la densità di probabilità."},
+ {t:"Sovrapposizione",c:"Fondamenti",d:"Combinazione lineare di stati: il sistema non è 'in uno o nell'altro' ma in entrambi con ampiezze complesse."},
+ {t:"Interferenza",c:"Fondamenti",d:"Effetto del termine misto 2Re(ψ₁*ψ₂): le ampiezze si rafforzano o si cancellano producendo frange."},
+ {t:"Dualità onda-particella",c:"Fondamenti",d:"Comportamento sia ondulatorio sia corpuscolare degli oggetti quantistici a seconda dell'esperimento."},
+ {t:"Lunghezza d'onda di de Broglie",c:"Fondamenti",d:"λ=h/p: onda associata a ogni particella con quantità di moto p."},
+ {t:"Collasso della funzione d'onda",c:"Misura",d:"Alla misura, lo stato si riduce a un autostato dell'osservabile misurata; l'esito è probabilistico."},
+ {t:"Misura 'quale via'",c:"Misura",d:"Rilevazione del cammino in un interferometro; l'informazione ottenuta cancella l'interferenza."},
+ {t:"Decoerenza",c:"Misura",d:"Perdita di coerenza per accoppiamento con l'ambiente: le sovrapposizioni diventano di fatto miscele classiche."},
+ {t:"Principio di indeterminazione",c:"Misura",d:"ΔxΔp ≥ ħ/2: posizione e quantità di moto non possono essere entrambe definite con precisione arbitraria."},
+ {t:"Costante di Planck (h)",c:"Costanti",d:"h ≈ 6,626×10⁻³⁴ J·s: quanto d'azione, scala fondamentale dei fenomeni quantistici."},
+ {t:"ħ (h tagliato)",c:"Costanti",d:"ħ = h/2π ≈ 1,055×10⁻³⁴ J·s: forma della costante di Planck usata nelle equazioni."},
+ {t:"Equazione di Schrödinger",c:"Dinamica",d:"iħ∂ψ/∂t = Ĥψ: governa l'evoluzione temporale della funzione d'onda."},
+ {t:"Hamiltoniana (Ĥ)",c:"Dinamica",d:"Operatore dell'energia totale; genera l'evoluzione temporale dello stato."},
+ {t:"Autostato / autovalore",c:"Matematica",d:"Stato che un operatore riproduce a meno di un numero: Âψ = aψ; a è il valore misurabile."},
+ {t:"Spazio di Hilbert",c:"Matematica",d:"Spazio vettoriale complesso con prodotto interno in cui vivono gli stati quantistici."},
+ {t:"Notazione di Dirac",c:"Matematica",d:"Ket |ψ⟩ e bra ⟨ψ|: notazione compatta per stati e prodotti interni."},
+ {t:"Spin",c:"Sistemi",d:"Momento angolare intrinseco delle particelle; per l'elettrone vale ±ħ/2 lungo un asse."},
+ {t:"Qubit",c:"Sistemi",d:"Sistema quantistico a due livelli: α|0⟩+β|1⟩ con |α|²+|β|²=1."},
+ {t:"Entanglement",c:"Sistemi",d:"Correlazione quantistica non separabile tra sistemi: lo stato congiunto non è prodotto degli stati singoli."}];
+
+const FORMULAS=[
+ {n:"Regola di Born",f:"$$P(x)=|\\psi(x)|^2$$",d:"Densità di probabilità della posizione."},
+ {n:"Sovrapposizione e interferenza",f:"$$P=|\\psi_1+\\psi_2|^2=P_1+P_2+2\\,\\mathrm{Re}(\\psi_1^*\\psi_2)$$",d:"Le ampiezze si sommano, non le probabilità."},
+ {n:"Relazione di de Broglie",f:"$$\\lambda=\\frac{h}{p}$$",d:"Onda associata a una particella."},
+ {n:"Spaziatura delle frange",f:"$$\\Delta x=\\frac{\\lambda L}{d}$$",d:"Doppia fenditura: schermo a distanza L, fenditure a distanza d."},
+ {n:"Equazione di Schrödinger",f:"$$i\\hbar\\frac{\\partial\\psi}{\\partial t}=\\hat H\\psi$$",d:"Evoluzione temporale dello stato."},
+ {n:"Indeterminazione di Heisenberg",f:"$$\\Delta x\\,\\Delta p\\ge\\frac{\\hbar}{2}$$",d:"Limite fondamentale, non tecnologico."},
+ {n:"Energia del fotone",f:"$$E=h\\nu=\\hbar\\omega$$",d:"Quantizzazione della radiazione."},
+ {n:"Qubit generico",f:"$$|\\psi\\rangle=\\alpha|0\\rangle+\\beta|1\\rangle,\\;|\\alpha|^2+|\\beta|^2=1$$",d:"Stato di un sistema a due livelli."}];
+
+const CONSTANTS=[
+ {n:"Costante di Planck",f:"$$h = 6{,}626\\times10^{-34}\\ \\mathrm{J\\,s}$$"},
+ {n:"Costante di Planck ridotta",f:"$$\\hbar = 1{,}055\\times10^{-34}\\ \\mathrm{J\\,s}$$"},
+ {n:"Massa dell'elettrone",f:"$$m_e = 9{,}109\\times10^{-31}\\ \\mathrm{kg}$$"},
+ {n:"Carica elementare",f:"$$e = 1{,}602\\times10^{-19}\\ \\mathrm{C}$$"},
+ {n:"Velocità della luce",f:"$$c = 2{,}998\\times10^{8}\\ \\mathrm{m/s}$$"},
+ {n:"Costante di Boltzmann",f:"$$k_B = 1{,}381\\times10^{-23}\\ \\mathrm{J/K}$$"}];
+
+/* ================= STORAGE ================= */
+let progress={}, notes=[], quizHist=[], study={pomo:0,minutes:0,day:""};
+function loadAll(){
+  try{progress=JSON.parse(localStorage.getItem("qlab_progress")||"{}")}catch(e){progress={}}
+  try{notes=JSON.parse(localStorage.getItem("qlab_notes")||"[]")}catch(e){notes=[]}
+  try{quizHist=JSON.parse(localStorage.getItem("qlab_quizhist")||"[]")}catch(e){quizHist=[]}
+  try{study=JSON.parse(localStorage.getItem("qlab_study")||'{"pomo":0,"minutes":0,"day":""}')}catch(e){}
+  const today=new Date().toDateString();
+  if(study.day!==today){study.pomo=0;study.day=today;saveStudy()}
+}
+function saveProgress(){localStorage.setItem("qlab_progress",JSON.stringify(progress))}
+function saveNotes(){localStorage.setItem("qlab_notes",JSON.stringify(notes))}
+function saveQuizHist(){localStorage.setItem("qlab_quizhist",JSON.stringify(quizHist))}
+function saveStudy(){localStorage.setItem("qlab_study",JSON.stringify(study))}
 async function syncFromSupabase(){
-  if(!sb || !currentUser) return;
-  const { data, error } = await sb.from("qlab_progress").select("*").eq("user_id", currentUser.id);
-  if(!error && data) data.forEach(r=>{ progress[r.chapter]={completed:r.completed, score:r.quiz_score}; });
+  if(!sb||!currentUser)return;
+  const{data,error}=await sb.from("qlab_progress").select("*").eq("user_id",currentUser.id);
+  if(!error&&data)data.forEach(r=>{progress[r.chapter]={completed:r.completed,score:r.quiz_score}});
 }
-async function pushProgress(chapId){
-  if(!sb || !currentUser) return;
-  const p = progress[chapId];
-  await sb.from("qlab_progress").upsert({
-    user_id: currentUser.id, chapter: chapId,
-    completed: p.completed, quiz_score: p.score, updated_at: new Date().toISOString()
-  }, { onConflict:"user_id,chapter" });
+async function pushProgress(id){
+  if(!sb||!currentUser)return;
+  const p=progress[id];
+  await sb.from("qlab_progress").upsert({user_id:currentUser.id,chapter:id,completed:p.completed,
+    quiz_score:p.score,updated_at:new Date().toISOString()},{onConflict:"user_id,chapter"});
 }
-function toast(t){ const el=$("#toast"); el.textContent=t; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),2400); }
-function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active")); $(id).classList.add("active"); window.scrollTo(0,0); }
-function renderMathIn(el){ renderMathInElement(el,{delimiters:[{left:"$$",right:"$$",display:true},{left:"\\(",right:"\\)",display:false}]}); }
 
-/* ================= NAV ================= */
-document.querySelectorAll(".navbtn").forEach(b=>{
-  b.onclick = ()=>{
-    const t = b.dataset.nav;
-    if(t==="tutor"){ openTutor(); return; }
-    document.querySelectorAll(".navbtn").forEach(x=>x.classList.toggle("active", x===b));
-    stopSim();
-    if(t==="home"){ show("#scrHome"); renderHome(); }
-    if(t==="profile"){ show("#scrProfile"); renderProfile(); }
-  };
+/* ================= ACCESSO ================= */
+function showAccess(v){
+  ["Initial","Reg","Log","Rec"].forEach(x=>$("#av"+(x==="Initial"?"Initial":x)).style.display="none");
+  $("#av"+({init:"Initial",reg:"Reg",log:"Log",rec:"Rec"}[v])).style.display="block";
+}
+async function doRegister(){
+  const m=$("#regMsg");
+  if(!sb){m.className="amsg err";m.textContent="Connessione non disponibile: entra come ospite.";return}
+  const nome=$("#regNome").value.trim(),email=$("#regEmail").value.trim(),pass=$("#regPass").value;
+  if(!email||!pass){m.className="amsg err";m.textContent="Compila email e password.";return}
+  m.className="amsg";m.textContent="…";
+  try{
+    const res=await sb.auth.signUp({email,password:pass,options:{data:{nome}}});
+    if(res.error)throw res.error;
+    if(!res.data.session){m.className="amsg ok";m.textContent="Account creato! Controlla l'email per confermare.";return}
+    currentUser=res.data.user;enterApp();
+  }catch(e){m.className="amsg err";m.textContent=e.message||"Errore"}
+}
+async function doLogin(){
+  const m=$("#logMsg");
+  if(!sb){m.className="amsg err";m.textContent="Connessione non disponibile: entra come ospite.";return}
+  const email=$("#logEmail").value.trim(),pass=$("#logPass").value;
+  if(!email||!pass){m.className="amsg err";m.textContent="Compila email e password.";return}
+  m.className="amsg";m.textContent="…";
+  try{
+    const res=await sb.auth.signInWithPassword({email,password:pass});
+    if(res.error)throw res.error;
+    currentUser=res.data.user;await syncFromSupabase();enterApp();
+  }catch(e){m.className="amsg err";m.textContent=/invalid/i.test(e.message||"")?"Credenziali non valide.":(e.message||"Errore")}
+}
+async function doRecover(){
+  const m=$("#recMsg");
+  if(!sb){m.className="amsg err";m.textContent="Connessione non disponibile.";return}
+  const email=$("#recEmail").value.trim();
+  if(!email){m.className="amsg err";m.textContent="Inserisci la tua email.";return}
+  try{
+    await sb.auth.resetPasswordForEmail(email);
+    m.className="amsg ok";m.textContent="Se l'email esiste, riceverai un link di recupero.";
+  }catch(e){m.className="amsg err";m.textContent=e.message||"Errore"}
+}
+function guestLogin(){currentUser=null;enterApp()}
+function enterApp(){
+  $("#accessOverlay").classList.add("hidden");
+  $("#app").classList.add("on");
+  const nome=currentUser?(currentUser.user_metadata&&currentUser.user_metadata.nome)||currentUser.email.split("@")[0]:"Ospite";
+  $("#sideName").textContent=nome;
+  $("#sideEmail").textContent=currentUser?currentUser.email:"modalità locale";
+  $("#sideAv").textContent=nome[0].toUpperCase();
+  $("#homeSaluto").textContent="Ciao, "+nome+"!";
+  $("#setNome").textContent=nome;
+  $("#setEmail").textContent=currentUser?currentUser.email:"—";
+  $("#setSync").textContent=currentUser?"cloud attiva":"solo locale";
+  goSection("home");
+}
+
+/* ================= NAVIGAZIONE ================= */
+const TITLES={home:"Home",corso:"Corso",quiz:"Quiz",flashcard:"Flashcard",tutor:"Tutor IA",
+  appunti:"Appunti",timer:"Timer studio",progressi:"Progressi",glossario:"Glossario",
+  formulario:"Formulario",impostazioni:"Impostazioni"};
+function goSection(name){
+  $$(".section").forEach(s=>s.classList.remove("active"));
+  $("#sec-"+name).classList.add("active");
+  $$(".snav").forEach(b=>b.classList.toggle("active",b.dataset.nav===name));
+  $("#topTitle").textContent=TITLES[name]||name;
+  closeSide();stopSim();window.scrollTo(0,0);
+  if(name==="home")renderHome();
+  if(name==="corso")renderChapters();
+  if(name==="quiz")renderQuizSection();
+  if(name==="progressi")renderProgressi();
+  if(name==="appunti")renderNotes();
+  if(name==="glossario")renderGloss();
+  if(name==="formulario")renderFormule();
+  if(name==="tutor")initTutor();
+  if(name==="timer")renderTimerStats();
+}
+document.addEventListener("click",e=>{
+  const nav=e.target.closest("[data-nav]");
+  if(nav&&!nav.classList.contains("step")){goSection(nav.dataset.nav)}
 });
-function setNav(name){ document.querySelectorAll(".navbtn").forEach(x=>x.classList.toggle("active", x.dataset.nav===name)); }
+$("#btnHamb").onclick=()=>{$("#sidebar").classList.add("open");$("#sideScrim").classList.add("on")};
+$("#sideScrim").onclick=closeSide;
+function closeSide(){$("#sidebar").classList.remove("open");$("#sideScrim").classList.remove("on")}
 
+/* tema */
+function applyTheme(t){
+  document.documentElement.dataset.theme=t;
+  localStorage.setItem("qlab_theme",t);
+  $("#setTheme").checked=(t==="dark");
+}
+$("#btnTheme").onclick=()=>applyTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+$("#setTheme").onchange=e=>applyTheme(e.target.checked?"dark":"light");
+
+/* ================= HOME ================= */
+function doneCount(){return CHAPTERS.filter(c=>(progress[c.id]||{}).completed).length}
+function chapCard(c,compact){
+  const p=progress[c.id],isDone=p&&p.completed;
+  const i=CHAPTERS.indexOf(c);
+  const prevDone=i===0||(progress[CHAPTERS[i-1].id]||{}).completed;
+  const locked=!c.ready||!prevDone;
+  const el=document.createElement("div");
+  el.className="card chap"+(locked?" locked":"")+(isDone?" done":"");
+  const chip=isDone?"Completato · quiz "+p.score+"/5":(locked?(!c.ready?"In arrivo":"Bloccato"):"Inizia ora");
+  el.innerHTML=`<div class="badge">${isDone?"✓":c.id}</div>
+    <div class="info"><h3>${c.title}</h3><p>${c.desc}</p><span class="chip">${chip}</span></div><span class="chev">›</span>`;
+  if(!locked)el.onclick=()=>openChapter(c.id);
+  return el;
+}
 function renderHome(){
-  const list = $("#chapterList"); list.innerHTML="";
-  let done = 0;
-  CHAPTERS.forEach((c,i)=>{
-    const p = progress[c.id], isDone = p && p.completed;
-    if(isDone) done++;
-    const prevDone = i===0 || (progress[CHAPTERS[i-1].id]||{}).completed;
-    const locked = !c.ready || !prevDone;
-    const el = document.createElement("div");
-    el.className = "card chap" + (locked?" locked":"") + (isDone?" done":"");
-    const chip = isDone ? "Completato · quiz "+p.score+"/5" : (locked ? (!c.ready?"In arrivo":"Bloccato") : "Inizia ora");
-    el.innerHTML = `<div class="badge">${isDone?"✓":c.id}</div>
-      <div class="info"><h3>${c.title}</h3><p>${c.desc}</p><span class="chip">${chip}</span></div>
-      <div class="chev">›</div>`;
-    if(!locked) el.onclick = ()=>openChapter(c.id);
-    list.appendChild(el);
-  });
-  const pct = Math.round(done/CHAPTERS.length*100);
-  $("#progBar").style.width = pct+"%";
-  $("#progPct").textContent = pct+"%";
-  $("#progTxt").textContent = done+" di "+CHAPTERS.length+" capitoli";
-  $("#userLabel").textContent = currentUser ? currentUser.email : "Modalità locale — progressi su questo dispositivo";
-  $("#bottomNav").classList.add("on");
+  const done=doneCount(),pct=Math.round(done/CHAPTERS.length*100);
+  $("#progBar").style.width=pct+"%";$("#progPct").textContent=pct+"%";
+  $("#progTxt").textContent=done+" di "+CHAPTERS.length+" capitoli";
+  $("#stCap").textContent=done;
+  const scores=Object.values(progress).map(p=>p.score).filter(s=>s!=null);
+  $("#stQuiz").textContent=scores.length?Math.max(...scores)+"/5":"—";
+  $("#stPomo").textContent=study.pomo;
+  $("#stOre").textContent=Math.floor(study.minutes/60)+"h";
+  const next=CHAPTERS.find(c=>c.ready&&!(progress[c.id]||{}).completed)||CHAPTERS[0];
+  const wrap=$("#homeNext");wrap.innerHTML="";wrap.appendChild(chapCard(next));
 }
-function renderProfile(){
-  const email = currentUser ? currentUser.email : null;
-  $("#profEmail").textContent = email || "Modalità locale";
-  $("#profSub").textContent = email ? "Progressi sincronizzati con il cloud" : "I progressi sono salvati solo su questo dispositivo";
-  $("#avatarLetter").textContent = email ? email[0].toUpperCase() : "ψ";
-  const done = CHAPTERS.filter(c=>(progress[c.id]||{}).completed).length;
-  $("#profDone").textContent = done+" / "+CHAPTERS.length;
-  const scores = Object.values(progress).map(p=>p.score).filter(s=>s!=null);
-  $("#profBest").textContent = scores.length ? Math.max(...scores)+"/5" : "—";
-}
-$("#btnResetProg").onclick = async ()=>{
-  if(!confirm("Azzerare tutti i progressi?")) return;
-  progress = {}; saveLocal();
-  if(sb && currentUser) await sb.from("qlab_progress").delete().eq("user_id", currentUser.id);
-  renderProfile(); toast("Progressi azzerati");
-};
 
-/* ================= CAPITOLO (STEP FLOW) ================= */
-let currentChap = null, stepIdx = 0;
+/* ================= CORSO ================= */
+function renderChapters(){
+  $("#chapDetail").classList.remove("on");$("#chapList2").classList.remove("off");
+  const list=$("#chapterList");list.innerHTML="";
+  CHAPTERS.forEach(c=>list.appendChild(chapCard(c)));
+}
+let currentChap=null,stepIdx=0;
 function openChapter(id){
-  currentChap = CHAPTERS.find(c=>c.id===id);
-  $("#chapTag").textContent = currentChap.tag;
-  $("#chapTitle").textContent = currentChap.title;
-  $("#lessonBody").innerHTML = LESSON_1;
-  renderMathIn($("#lessonBody"));
-  buildQuiz();
-  setStep(0);
-  show("#scrChapter");
+  goSection("corso");
+  currentChap=CHAPTERS.find(c=>c.id===id);
+  $("#chapList2").classList.add("off");$("#chapDetail").classList.add("on");
+  $("#chapTag").textContent=currentChap.tag;
+  $("#chapTitle").textContent=currentChap.title;
+  $("#lessonBody").innerHTML=getLessonForChapter(id);renderMathIn($("#lessonBody"));
+  buildQuiz(id);setStep(0);
 }
-document.querySelectorAll(".step").forEach(s=>{ s.onclick = ()=>setStep(+s.dataset.step); });
+$("#btnBackChap").onclick=()=>{stopSim();renderChapters()};
+$$(".step").forEach(s=>{s.onclick=()=>setStep(+s.dataset.step)});
 function setStep(i){
-  stepIdx = i;
-  document.querySelectorAll(".step").forEach((s,si)=>{
-    s.classList.toggle("active", si===i);
-    s.classList.toggle("done", si<i);
-  });
-  [0,1,2].forEach(p=>$("#pane"+p).classList.toggle("active", p===i));
+  stepIdx=i;
+  $$(".step").forEach((s,si)=>{s.classList.toggle("active",si===i);s.classList.toggle("done",si<i)});
+  [0,1,2].forEach(p=>$("#pane"+p).classList.toggle("active",p===i));
   window.scrollTo(0,0);
-  if(i===1) setTimeout(()=>{ initSim(); }, 60); else stopSim();
+  if(i===1)setTimeout(initSim,60);else stopSim();
 }
-$("#toSim").onclick = ()=>setStep(1);
-$("#toQuiz").onclick = ()=>setStep(2);
-$("#btnBack").onclick = ()=>{ stopSim(); show("#scrHome"); renderHome(); setNav("home"); };
+$("#toSim").onclick=()=>setStep(1);
+$("#toQuiz").onclick=()=>setStep(2);
 
-/* ================= SIMULAZIONE ANIMATA ================= */
-let g, W, H, DPR = Math.min(2, window.devicePixelRatio||1);
-let hits = [], flying = [], firing = false, detector = false, showTheory = true;
-let rafId = null, lastEmit = 0, simReady = false;
-const FRK = 40;          // frequenza frange
-const SIGMA = 0.30;      // inviluppo
-const SLIT_FRAC = 0.17;  // semi-separazione fenditure (frazione di H)
-
+/* ================= SIMULAZIONE ================= */
+let g,W,H,DPR=Math.min(2,window.devicePixelRatio||1);
+let hits=[],flying=[],firing=false,detector=false,showTheory=true,rafId=null,lastEmit=0;
+const FRK=40,SIGMA=0.30,SLIT_FRAC=0.17;
 function initSim(){
-  const cv = $("#simCanvas");
-  g = cv.getContext("2d");
-  const w = cv.parentElement.clientWidth - 24;
-  const h = Math.max(240, Math.round(w*0.62));
-  cv.width = w*DPR; cv.height = h*DPR;
-  cv.style.width = w+"px"; cv.style.height = h+"px";
-  g.setTransform(DPR,0,0,DPR,0,0);
-  W = w; H = h;
-  simReady = true;
-  updateCaption();
-  if(!rafId) loop();
+  const cv=$("#simCanvas");g=cv.getContext("2d");
+  const w=cv.parentElement.clientWidth-24,h=Math.max(240,Math.round(w*0.62));
+  cv.width=w*DPR;cv.height=h*DPR;cv.style.width=w+"px";cv.style.height=h+"px";
+  g.setTransform(DPR,0,0,DPR,0,0);W=w;H=h;
+  updateCaption();if(!rafId)loop();
 }
-function stopSim(){ firing=false; if(rafId){ cancelAnimationFrame(rafId); rafId=null; } const b=$("#btnFire"); if(b) b.textContent="▶ Avvia"; }
-
-function gauss(){ let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random();
-  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
-function theoryI(u){ // u in [-1,1] rispetto al centro schermo
+function stopSim(){firing=false;if(rafId){cancelAnimationFrame(rafId);rafId=null}const b=$("#btnFire");if(b)b.textContent="▶ Avvia"}
+function gauss(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function theoryI(u){
   if(detector){
-    const s=0.11, a=SLIT_FRAC*2/ (H/H); // due gaussiane centrate sulle proiezioni delle fenditure
-    const c1=Math.exp(-Math.pow((u+SLIT_FRAC*2),2)/(2*s*s));
-    const c2=Math.exp(-Math.pow((u-SLIT_FRAC*2),2)/(2*s*s));
-    return (c1+c2)/2;
+    const s=0.11;
+    return (Math.exp(-Math.pow(u+SLIT_FRAC*2,2)/(2*s*s))+Math.exp(-Math.pow(u-SLIT_FRAC*2,2)/(2*s*s)))/2;
   }
   return Math.pow(Math.cos(FRK*u/(2*Math.PI)),2)*Math.exp(-u*u/(2*SIGMA*SIGMA));
 }
 function sampleTarget(){
-  const c = H/2;
+  const c=H/2;
   if(detector){
-    const which = Math.random()<0.5 ? -1 : 1;
-    return { y: c + which*H*SLIT_FRAC*2 + gauss()*H*0.05, slit: which };
+    const w=Math.random()<0.5?-1:1;
+    return{y:c+w*H*SLIT_FRAC*2+gauss()*H*0.05,slit:w};
   }
   for(let i=0;i<120;i++){
-    const u = Math.random()*2-1;
-    if(Math.random() < theoryI(u)) return { y: c + u*H/2*0.92, slit: Math.random()<0.5?-1:1 };
+    const u=Math.random()*2-1;
+    if(Math.random()<theoryI(u))return{y:c+u*H/2*0.92,slit:Math.random()<0.5?-1:1};
   }
-  return { y: c + gauss()*H*0.1, slit: 1 };
+  return{y:c+gauss()*H*0.1,slit:1};
 }
-function emit(){
-  const t = sampleTarget();
-  flying.push({ x: W*0.08, yStart: H/2, yTarget: t.y, slit: t.slit, prog: 0 });
-}
+function emit(){const t=sampleTarget();flying.push({yTarget:t.y,slit:t.slit,prog:0})}
 function loop(){
-  rafId = requestAnimationFrame(loop);
-  const now = performance.now();
-  if(firing){
-    const rate = +$("#rateSlider").value;           // 1..10 → emissioni/sec
-    if(now - lastEmit > 1000/rate){ emit(); lastEmit = now; }
-  }
-  // update elettroni in volo
-  const barrierX = W*0.28, screenX = W*0.90, speed = 0.014;
+  rafId=requestAnimationFrame(loop);
+  const now=performance.now();
+  if(firing){const rate=+$("#rateSlider").value;if(now-lastEmit>1000/rate){emit();lastEmit=now}}
   for(let i=flying.length-1;i>=0;i--){
-    const e = flying[i];
-    e.prog += speed;
-    if(e.prog >= 1){
-      hits.push(e.yTarget);
-      $("#statCount").textContent = hits.length;
-      flying.splice(i,1);
-    }
+    const e=flying[i];e.prog+=0.014;
+    if(e.prog>=1){hits.push(e.yTarget);$("#statCount").textContent=hits.length;flying.splice(i,1)}
   }
-  draw(barrierX, screenX);
+  draw(W*0.28,W*0.90);
 }
-function draw(barrierX, screenX){
-  if(!g) return;
+function draw(barrierX,screenX){
+  if(!g)return;
   g.clearRect(0,0,W,H);
-  const c = H/2, off = H*SLIT_FRAC, slitH = H*0.055;
-
-  // etichette
-  g.fillStyle = "rgba(152,161,200,.8)"; g.font = "11px 'IBM Plex Mono'";
-  g.textAlign = "center";
-  g.fillText("SORGENTE", W*0.08, H-10);
-  g.fillText("FENDITURE", barrierX, H-10);
-  g.fillText("SCHERMO", screenX, H-10);
-
-  // sorgente
-  const grd = g.createRadialGradient(W*0.08,c,2,W*0.08,c,16);
-  grd.addColorStop(0,"#8B7CF6"); grd.addColorStop(1,"rgba(139,124,246,0)");
-  g.fillStyle = grd; g.beginPath(); g.arc(W*0.08,c,16,0,7); g.fill();
-  g.fillStyle = "#8B7CF6"; g.beginPath(); g.arc(W*0.08,c,6,0,7); g.fill();
-
-  // barriera con 2 fenditure
-  g.fillStyle = "rgba(255,255,255,.18)";
-  g.fillRect(barrierX-4, 0, 8, c-off-slitH/2);
-  g.fillRect(barrierX-4, c-off+slitH/2, 8, (c+off-slitH/2)-(c-off+slitH/2));
-  g.fillRect(barrierX-4, c+off+slitH/2, 8, H-(c+off+slitH/2)-22);
-
-  // rilevatori
+  const c=H/2,off=H*SLIT_FRAC,slitH=H*0.055;
+  g.fillStyle="rgba(152,161,200,.8)";g.font="11px 'IBM Plex Mono'";g.textAlign="center";
+  g.fillText("SORGENTE",W*0.08,H-10);g.fillText("FENDITURE",barrierX,H-10);g.fillText("SCHERMO",screenX,H-10);
+  const grd=g.createRadialGradient(W*0.08,c,2,W*0.08,c,16);
+  grd.addColorStop(0,"#8B7CF6");grd.addColorStop(1,"rgba(139,124,246,0)");
+  g.fillStyle=grd;g.beginPath();g.arc(W*0.08,c,16,0,7);g.fill();
+  g.fillStyle="#8B7CF6";g.beginPath();g.arc(W*0.08,c,6,0,7);g.fill();
+  g.fillStyle="rgba(255,255,255,.2)";
+  g.fillRect(barrierX-4,0,8,c-off-slitH/2);
+  g.fillRect(barrierX-4,c-off+slitH/2,8,(c+off-slitH/2)-(c-off+slitH/2));
+  g.fillRect(barrierX-4,c+off+slitH/2,8,H-(c+off+slitH/2)-22);
   if(detector){
-    g.fillStyle = "#FFC44D";
-    [-1,1].forEach(s=>{
-      g.beginPath(); g.arc(barrierX+16, c+s*off, 6, 0, 7); g.fill();
-    });
-    g.strokeStyle="rgba(255,196,77,.35)"; g.lineWidth=1;
-    [-1,1].forEach(s=>{ g.beginPath(); g.arc(barrierX+16, c+s*off, 11, 0, 7); g.stroke(); });
+    g.fillStyle="#FFC44D";
+    [-1,1].forEach(s=>{g.beginPath();g.arc(barrierX+16,c+s*off,6,0,7);g.fill()});
+    g.strokeStyle="rgba(255,196,77,.35)";g.lineWidth=1;
+    [-1,1].forEach(s=>{g.beginPath();g.arc(barrierX+16,c+s*off,11,0,7);g.stroke()});
   }
-
-  // schermo
-  g.fillStyle = "rgba(255,255,255,.12)"; g.fillRect(screenX, 0, 6, H-22);
-
-  // impatti
-  g.fillStyle = "rgba(79,216,236,.8)";
-  for(const y of hits) g.fillRect(screenX-3, y-1.6, 4, 3.2);
-
-  // istogramma
-  const bins=56, hist=new Array(bins).fill(0);
-  hits.forEach(y=>{ const b=Math.floor(y/(H-22)*bins); if(b>=0&&b<bins) hist[b]++; });
-  const mx = Math.max(1,...hist);
-  g.strokeStyle="rgba(79,216,236,.9)"; g.lineWidth=2; g.beginPath();
+  g.fillStyle="rgba(255,255,255,.14)";g.fillRect(screenX,0,6,H-22);
+  g.fillStyle="rgba(79,216,236,.8)";
+  for(const y of hits)g.fillRect(screenX-3,y-1.6,4,3.2);
+  const bins=56,hist=new Array(bins).fill(0);
+  hits.forEach(y=>{const b=Math.floor(y/(H-22)*bins);if(b>=0&&b<bins)hist[b]++});
+  const mx=Math.max(1,...hist);
+  g.strokeStyle="rgba(79,216,236,.9)";g.lineWidth=2;g.beginPath();
   for(let b=0;b<bins;b++){
-    const y=(b+0.5)/bins*(H-22), w=hist[b]/mx*W*0.13;
-    b===0 ? g.moveTo(screenX-8-w,y) : g.lineTo(screenX-8-w,y);
+    const y=(b+0.5)/bins*(H-22),w=hist[b]/mx*W*0.13;
+    b===0?g.moveTo(screenX-8-w,y):g.lineTo(screenX-8-w,y);
   }
   g.stroke();
-
-  // curva teorica
   if(showTheory){
-    g.strokeStyle="rgba(242,109,124,.85)"; g.lineWidth=1.6; g.setLineDash([5,4]); g.beginPath();
-    for(let py=0; py<=H-22; py+=3){
-      const u=(py-c)/(H/2*0.92), I=theoryI(u), w=I*W*0.13;
-      py===0 ? g.moveTo(screenX-8-w,py) : g.lineTo(screenX-8-w,py);
+    g.strokeStyle="rgba(242,109,124,.85)";g.lineWidth=1.6;g.setLineDash([5,4]);g.beginPath();
+    for(let py=0;py<=H-22;py+=3){
+      const u=(py-c)/(H/2*0.92),I=theoryI(u),w=I*W*0.13;
+      py===0?g.moveTo(screenX-8-w,py):g.lineTo(screenX-8-w,py);
     }
-    g.stroke(); g.setLineDash([]);
+    g.stroke();g.setLineDash([]);
   }
-
-  // elettroni in volo
   for(const e of flying){
-    const x = W*0.08 + e.prog*(screenX-4-W*0.08);
-    let y;
-    if(x < barrierX){
-      y = c; // viaggia dritto verso le fenditure
-      g.fillStyle="#FFC44D";
-      g.beginPath(); g.arc(x,y,4,0,7); g.fill();
-      // alone d'onda
-      g.strokeStyle="rgba(255,196,77,.25)"; g.lineWidth=1;
-      g.beginPath(); g.arc(x,y,9+Math.sin(e.prog*40)*2,0,7); g.stroke();
-    } else {
+    const x=W*0.08+e.prog*(screenX-4-W*0.08);
+    if(x<barrierX){
+      g.fillStyle="#FFC44D";g.beginPath();g.arc(x,c,4,0,7);g.fill();
+      g.strokeStyle="rgba(255,196,77,.25)";g.lineWidth=1;
+      g.beginPath();g.arc(x,c,9+Math.sin(e.prog*40)*2,0,7);g.stroke();
+    }else{
       const t=(x-barrierX)/(screenX-4-barrierX);
       if(detector){
-        // passa da UNA fenditura visibile
-        const ySlit = c + e.slit*off;
-        y = ySlit + (e.yTarget-ySlit)*t;
-        g.fillStyle="#FFC44D"; g.beginPath(); g.arc(x,y,4,0,7); g.fill();
-      } else {
-        // senza rilevatore: due "fantasmi" coerenti che convergono sul punto d'impatto
+        const ySlit=c+e.slit*off,y=ySlit+(e.yTarget-ySlit)*t;
+        g.fillStyle="#FFC44D";g.beginPath();g.arc(x,y,4,0,7);g.fill();
+      }else{
         [-1,1].forEach(s=>{
-          const ySlit = c + s*off;
-          const yy = ySlit + (e.yTarget-ySlit)*t;
+          const ySlit=c+s*off,yy=ySlit+(e.yTarget-ySlit)*t;
           g.fillStyle="rgba(255,196,77,"+(0.55-0.25*t)+")";
-          g.beginPath(); g.arc(x,yy,3.4,0,7); g.fill();
+          g.beginPath();g.arc(x,yy,3.4,0,7);g.fill();
         });
       }
     }
   }
 }
-$("#btnFire").onclick = ()=>{
-  firing = !firing;
-  $("#btnFire").textContent = firing ? "⏸ Pausa" : "▶ Avvia";
-  if(firing && !rafId) loop();
-};
-$("#btnResetSim").onclick = ()=>{ hits=[]; flying=[]; $("#statCount").textContent=0; };
-$("#detectorToggle").onchange = e=>{
-  detector = e.target.checked;
-  hits=[]; flying=[]; $("#statCount").textContent=0;
-  $("#statMode").textContent = detector ? "Quale via: P₁+P₂" : "Interferenza attiva";
+$("#btnFire").onclick=()=>{firing=!firing;$("#btnFire").textContent=firing?"⏸ Pausa":"▶ Avvia";if(firing&&!rafId)loop()};
+$("#btnResetSim").onclick=()=>{hits=[];flying=[];$("#statCount").textContent=0};
+$("#detectorToggle").onchange=e=>{
+  detector=e.target.checked;hits=[];flying=[];$("#statCount").textContent=0;
+  $("#statMode").textContent=detector?"Quale via: P₁+P₂":"Interferenza attiva";
   updateCaption();
-  toast(detector ? "Rilevatore acceso: l'interferenza sparisce" : "Rilevatore spento: torna l'interferenza");
+  toast(detector?"Rilevatore acceso: l'interferenza sparisce":"Rilevatore spento: torna l'interferenza");
 };
-$("#theoryToggle").onchange = e=>{ showTheory = e.target.checked; };
-window.addEventListener("resize", ()=>{ if(simReady && stepIdx===1 && $("#scrChapter").classList.contains("active")) initSim(); });
+$("#theoryToggle").onchange=e=>{showTheory=e.target.checked};
+window.addEventListener("resize",()=>{if(rafId&&stepIdx===1)initSim()});
 function updateCaption(){
-  $("#simCaption").textContent = detector
-    ? "Con il rilevatore acceso conosci il cammino di ogni elettrone: la distribuzione collassa in due picchi (P₁+P₂), come per palline classiche. Confrontala con la curva teorica tratteggiata."
-    : "Ogni elettrone attraversa le fenditure come sovrapposizione dei due cammini (i due punti semi-trasparenti) e arriva come un singolo punto. Dopo decine di impatti l'istogramma segue |ψ₁+ψ₂|².";
+  $("#simCaption").textContent=detector
+    ?"Con il rilevatore acceso conosci il cammino di ogni elettrone: la distribuzione collassa in due picchi (P₁+P₂). Confrontala con la curva tratteggiata."
+    :"Ogni elettrone attraversa le fenditure come sovrapposizione dei due cammini (i due punti semi-trasparenti) e arriva come un punto. L'istogramma segue |ψ₁+ψ₂|².";
 }
 
 /* ================= QUIZ ================= */
-let answers = [];
-function buildQuiz(){
-  answers = new Array(QUIZ_1.length).fill(null);
-  const body = $("#quizBody"); body.innerHTML="";
-  $("#quizResult").classList.remove("show");
-  $("#qprogBar").style.width = "0%";
-  QUIZ_1.forEach((q,qi)=>{
-    const card = document.createElement("div"); card.className="card qcard";
-    card.innerHTML = `<div class="qnum">Domanda ${qi+1} · ${QUIZ_1.length}</div><div class="qtext">${q.q}</div>`;
+let answers=[];
+function getQuizForChapter(id){
+  if(id===1)return QUIZ_1;
+  const c=CHAPTERS.find(x=>x.id===id)||{title:""};
+  const t=c.title;
+  const qq=[
+   {q:"Qual è il tema principale di questo capitolo '"+t+"'?",opts:["La meccanica classica di Newton","L'argomento descritto nel capitolo","La termodinamica","La relatività generale"],right:1,why:"Il capitolo tratta l'argomento indicato nel titolo, esplorandone i fondamenti quantistici."},
+   {q:"In meccanica quantistica, uno stato è descritto da:",opts:["Un solo numero reale","Una funzione d'onda complessa ψ","Una traiettoria deterministica","Una forza classica"],right:1,why:"Lo stato quantistico è descritto da una funzione d'onda complessa che contiene tutta l'informazione fisica."},
+   {q:"Cosa afferma la regola di Born?",opts:["La probabilità è |ψ(x)|², modulo quadro della funzione d'onda","L'energia è sempre conservata","La velocità è costante","La massa è quantizzata"],right:0,why:"Regola di Born: P(x)=|ψ(x)|². Il modulo quadro della funzione d'onda dà la densità di probabilità."},
+   {q:"La costante di Planck ridotta ħ vale circa:",opts:["6,626 × 10⁻³⁴ J·s","1,055 × 10⁻³⁴ J·s","3 × 10⁸ m/s","9,109 × 10⁻³¹ kg"],right:1,why:"ħ = h/2π ≈ 1,055 × 10⁻³⁴ J·s, la costante fondamentale della meccanica quantistica."},
+   {q:"In meccanica quantistica, la sovrapposizione significa:",opts:["Sommare due forze","Uno stato è combinazione lineare di più stati simultaneamente","Un sistema ha posizione definita","Due particelle si scontrano"],right:1,why:"La sovrapposizione è la proprietà per cui un sistema quantistico può esistere in una combinazione lineare di più stati."},
+  ];
+  return qq;
+}
+
+function buildQuiz(chapId){
+  const QUIZ=getQuizForChapter(chapId);
+  answers=new Array(QUIZ.length).fill(null);
+  const body=$("#quizBody");body.innerHTML="";
+  $("#quizResult").classList.remove("show");$("#qprogBar").style.width="0%";
+  QUIZ.forEach((q,qi)=>{
+    const card=document.createElement("div");card.className="card qcard";
+    card.innerHTML=`<div class="qnum">Domanda ${qi+1} · ${QUIZ.length}</div><div class="qtext">${q.q}</div>`;
     q.opts.forEach((o,oi)=>{
-      const b = document.createElement("button"); b.className="opt"; b.textContent=o;
-      b.onclick = ()=>answer(qi,oi,card,q);
-      card.appendChild(b);
+      const b=document.createElement("button");b.className="opt";b.textContent=o;
+      b.onclick=()=>answer(qi,oi,card,q,QUIZ);card.appendChild(b);
     });
-    const ex = document.createElement("div"); ex.className="explain"; ex.textContent=q.why;
-    card.appendChild(ex);
-    body.appendChild(card);
+    const ex=document.createElement("div");ex.className="explain";ex.textContent=q.why;
+    card.appendChild(ex);body.appendChild(card);
   });
 }
-function answer(qi, oi, card, q){
-  if(answers[qi]!==null) return;
+function answer(qi,oi,card,q,QUIZ){
+  if(answers[qi]!==null)return;
   answers[qi]=oi;
   card.querySelectorAll(".opt").forEach((b,i)=>{
-    if(i===q.right) b.classList.add("right");
-    else if(i===oi) b.classList.add("wrong");
+    if(i===q.right)b.classList.add("right");else if(i===oi)b.classList.add("wrong");
     b.style.pointerEvents="none";
   });
   card.querySelector(".explain").classList.add("show");
-  const doneN = answers.filter(a=>a!==null).length;
-  $("#qprogBar").style.width = (doneN/QUIZ_1.length*100)+"%";
-  if(doneN===QUIZ_1.length) showQuizResult();
+  const dn=answers.filter(a=>a!==null).length;
+  $("#qprogBar").style.width=(dn/QUIZ.length*100)+"%";
+  if(dn===QUIZ.length)showQuizResult(QUIZ);
 }
-function showQuizResult(){
-  const score = answers.filter((a,i)=>a===QUIZ_1[i].right).length;
-  $("#quizScore").textContent = score+"/"+QUIZ_1.length;
-  $("#quizVerdict").textContent = score===QUIZ_1.length ? "Perfetto: hai colto il mistero." :
-    score>=3 ? "Ottimo! Rileggi le spiegazioni delle risposte sbagliate." :
-    "Rileggi la lezione e riprova: la doppia fenditura merita.";
-  $("#btnQuizDone").style.display = score>=3 ? "flex":"none";
+function showQuizResult(QUIZ){
+  const score=answers.filter((a,i)=>a===QUIZ[i].right).length;
+  $("#quizScore").textContent=score+"/"+QUIZ.length;
+  $("#quizVerdict").textContent=score===QUIZ.length?"Perfetto: hai colto il mistero.":
+    score>=Math.ceil(QUIZ.length*0.6)?"Ottimo! Rileggi le spiegazioni degli errori.":"Rileggi la lezione e riprova.";
+  $("#btnQuizDone").style.display=score>=Math.ceil(QUIZ.length*0.6)?"flex":"none";
   $("#quizResult").classList.add("show");
-  $("#quizResult").dataset.score = score;
+  $("#quizResult").dataset.score=score;
+  quizHist.unshift({cap:currentChap?currentChap.id:1,score,date:new Date().toLocaleDateString("it-IT")});
+  quizHist=quizHist.slice(0,20);saveQuizHist();
   $("#quizResult").scrollIntoView({behavior:"smooth"});
 }
-$("#btnQuizRetry").onclick = buildQuiz;
-$("#btnQuizDone").onclick = async ()=>{
-  const score = +$("#quizResult").dataset.score;
-  progress[currentChap.id] = { completed:true, score };
-  saveLocal();
-  await pushProgress(currentChap.id);
-  toast("Capitolo completato ✓");
-  stopSim();
-  show("#scrHome"); renderHome(); setNav("home");
+$("#btnQuizRetry").onclick=()=>{if(currentChap)buildQuiz(currentChap.id)};
+$("#btnQuizDone").onclick=async()=>{
+  const score=+$("#quizResult").dataset.score;
+  progress[currentChap.id]={completed:true,score};
+  saveProgress();await pushProgress(currentChap.id);
+  toast("Capitolo completato ✓");stopSim();renderChapters();goSection("home");
 };
-
-/* ================= AUTH ================= */
-let authMode = "login";
-function toggleAuthMode(){
-  authMode = authMode==="login" ? "signup" : "login";
-  $("#btnAuthMain").textContent = authMode==="login" ? "Accedi" : "Crea account";
-  $("#authToggle").innerHTML = authMode==="login"
-    ? 'Non hai un account? <a id="authSwitch">Registrati</a>'
-    : 'Hai già un account? <a id="authSwitch">Accedi</a>';
-  $("#authSwitch").onclick = toggleAuthMode;
+function renderQuizSection(){
+  const h=$("#quizHistory");
+  if(!quizHist.length){h.innerHTML='<p style="color:var(--dim);font-size:.88rem">Nessun quiz completato finora.</p>';return}
+  h.innerHTML="";
+  quizHist.forEach(q=>{
+    const el=document.createElement("div");el.className="card hist";
+    el.innerHTML=`<span>Capitolo ${q.cap} · ${q.date}</span><b>${q.score}/5</b>`;
+    h.appendChild(el);
+  });
 }
-$("#authSwitch").onclick = toggleAuthMode;
-$("#btnAuthMain").onclick = async ()=>{
-  const msg = $("#authMsg");
-  if(!sb){ msg.className="msg err"; msg.textContent="Connessione a Supabase non disponibile: puoi continuare senza account."; return; }
-  const email = $("#authEmail").value.trim(), pass = $("#authPass").value;
-  if(!email || !pass){ msg.className="msg err"; msg.textContent="Inserisci email e password."; return; }
-  msg.className="msg"; msg.textContent="…";
-  try{
-    let res;
-    if(authMode==="login") res = await sb.auth.signInWithPassword({email, password:pass});
-    else res = await sb.auth.signUp({email, password:pass});
-    if(res.error) throw res.error;
-    if(authMode==="signup" && !res.data.session){
-      msg.className="msg ok"; msg.textContent="Account creato: controlla l'email per confermare."; return;
-    }
-    currentUser = res.data.user;
-    loadLocal(); await syncFromSupabase();
-    show("#scrHome"); renderHome();
-  }catch(e){
-    msg.className="msg err";
-    msg.textContent = /invalid/i.test(e.message||"") ? "Credenziali non valide." : (e.message||"Errore");
+$("#quizLaunch").onclick=()=>openChapterQuiz(1);
+function openChapterQuiz(id){openChapter(id);setStep(2)}
+
+/* ================= FLASHCARD ================= */
+let fcDeck=[],fcIdx=0,fcOk=0,fcNo=0;
+$("#btnFcStart").onclick=startFc;
+$("#fcRetry").onclick=startFc;
+function startFc(){
+  fcDeck=[...FLASHCARDS].sort(()=>Math.random()-0.5);
+  fcIdx=0;fcOk=0;fcNo=0;
+  $("#fcIntro").style.display="none";$("#fcResult").classList.remove("show");
+  $("#fcGame").style.display="block";showFc();
+}
+function showFc(){
+  const c=fcDeck[fcIdx];
+  $("#fcCard").classList.remove("flip");
+  setTimeout(()=>{$("#fcQ").textContent=c.q;$("#fcA").textContent=c.a},150);
+  $("#fcCounter").textContent=(fcIdx+1)+" di "+fcDeck.length+" · ✓ "+fcOk+" · ✗ "+fcNo;
+}
+$("#fcCard").onclick=()=>$("#fcCard").classList.toggle("flip");
+$("#fcRight").onclick=()=>fcNext(true);
+$("#fcWrong").onclick=()=>fcNext(false);
+function fcNext(ok){
+  ok?fcOk++:fcNo++;
+  fcIdx++;
+  if(fcIdx>=fcDeck.length){
+    $("#fcGame").style.display="none";
+    $("#fcScore").textContent=Math.round(fcOk/fcDeck.length*100)+"%";
+    $("#fcVerdict").textContent="Sapevi "+fcOk+" carte su "+fcDeck.length+".";
+    $("#fcResult").classList.add("show");
+    $("#fcIntro").style.display="block";
+    return;
   }
-};
-$("#btnLocal").onclick = ()=>{ currentUser=null; loadLocal(); show("#scrHome"); renderHome(); };
-$("#btnLogout").onclick = async ()=>{
-  if(sb && currentUser) await sb.auth.signOut();
-  currentUser = null;
-  $("#bottomNav").classList.remove("on");
-  show("#scrAuth"); startHero();
-};
-async function boot(){
-  loadLocal();
-  if(sb){
-    try{
-      const { data } = await sb.auth.getSession();
-      if(data && data.session){ currentUser = data.session.user; await syncFromSupabase(); show("#scrHome"); renderHome(); return; }
-    }catch(e){}
-  }
-  startHero();
+  showFc();
 }
 
-/* ================= HERO WAVE ================= */
-let heroRAF=null;
-function startHero(){
-  const cv = $("#heroWave"); const gg = cv.getContext("2d");
-  cv.width = innerWidth*DPR; cv.height = 150*DPR;
-  gg.setTransform(DPR,0,0,DPR,0,0);
-  let t=0;
-  cancelAnimationFrame(heroRAF);
-  (function loop(){
-    if(!$("#scrAuth").classList.contains("active")) return;
-    gg.clearRect(0,0,innerWidth,150);
-    for(let k=0;k<3;k++){
-      gg.beginPath();
-      gg.strokeStyle = ["rgba(139,124,246,.85)","rgba(79,216,236,.6)","rgba(255,196,77,.3)"][k];
-      gg.lineWidth = 2.5;
-      for(let x=0;x<=innerWidth;x+=5){
-        const u=x/innerWidth, env=Math.exp(-Math.pow((u-0.5)*3.2,2));
-        const y = 78 + Math.sin(x*0.045*(1+k*0.22) - t*(1.5+k*0.5))*42*env;
-        x===0 ? gg.moveTo(x,y) : gg.lineTo(x,y);
+/* ================= APPUNTI ================= */
+function renderNotes(){
+  const sel=$("#notaCap");
+  if(!sel.options.length){
+    sel.innerHTML='<option value="0">Generale</option>'+CHAPTERS.map(c=>`<option value="${c.id}">Cap. ${c.id} — ${c.title}</option>`).join("");
+  }
+  const list=$("#listaNote");list.innerHTML="";
+  if(!notes.length){list.innerHTML='<p style="color:var(--dim);font-size:.88rem">Nessun appunto ancora.</p>';return}
+  notes.forEach((n,i)=>{
+    const el=document.createElement("div");el.className="card note-item";
+    const capLbl=n.cap>0?"Cap. "+n.cap:"Generale";
+    el.innerHTML=`<h4>${n.titolo}</h4><div class="meta">${capLbl} · ${n.data}</div><p>${n.testo}</p>
+      <button class="del">Elimina</button>`;
+    el.querySelector(".del").onclick=()=>{notes.splice(i,1);saveNotes();renderNotes();toast("Appunto eliminato")};
+    list.appendChild(el);
+  });
+}
+$("#btnSalvaNota").onclick=()=>{
+  const t=$("#notaTitolo").value.trim(),x=$("#notaTesto").value.trim();
+  if(!t||!x){toast("Scrivi titolo e contenuto");return}
+  notes.unshift({titolo:t,testo:x,cap:+$("#notaCap").value,data:new Date().toLocaleDateString("it-IT")});
+  saveNotes();
+  $("#notaTitolo").value="";$("#notaTesto").value="";
+  renderNotes();toast("Appunto salvato ✓");
+};
+
+/* ================= TIMER ================= */
+let tLeft=25*60,tRun=false,tInt=null,tMode="studio";
+function fmtT(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function renderTimerStats(){
+  $("#pomoOggi").textContent=study.pomo;
+  $("#studioTot").textContent=Math.floor(study.minutes/60)+"h "+(study.minutes%60)+"m";
+  if(!tRun){tLeft=(+$("#setStudy").value||25)*60;$("#timerClock").textContent=fmtT(tLeft)}
+}
+$("#timerStart").onclick=()=>{
+  if(tRun){clearInterval(tInt);tRun=false;$("#timerStart").textContent="▶ Riprendi";return}
+  tRun=true;$("#timerStart").textContent="⏸ Pausa";
+  tInt=setInterval(()=>{
+    tLeft--;
+    $("#timerClock").textContent=fmtT(tLeft);
+    if(tMode==="studio"&&tLeft%60===0&&tLeft>0){study.minutes++;saveStudy()}
+    if(tLeft<=0){
+      clearInterval(tInt);tRun=false;
+      if(tMode==="studio"){
+        study.pomo++;saveStudy();
+        tMode="pausa";tLeft=(+$("#setBreak").value||5)*60;
+        $("#timerMode").innerHTML="Modalità: <b>Pausa</b>";
+        toast("Pomodoro completato! Pausa ☕");
+      }else{
+        tMode="studio";tLeft=(+$("#setStudy").value||25)*60;
+        $("#timerMode").innerHTML="Modalità: <b>Studio</b>";
+        toast("Pausa finita: si studia!");
       }
-      gg.stroke();
+      $("#timerClock").textContent=fmtT(tLeft);
+      $("#timerStart").textContent="▶ Avvia";
+      renderTimerStats();
     }
-    t+=0.05;
-    heroRAF = requestAnimationFrame(loop);
-  })();
+  },1000);
+};
+$("#timerReset").onclick=()=>{
+  clearInterval(tInt);tRun=false;tMode="studio";
+  tLeft=(+$("#setStudy").value||25)*60;
+  $("#timerClock").textContent=fmtT(tLeft);
+  $("#timerMode").innerHTML="Modalità: <b>Studio</b>";
+  $("#timerStart").textContent="▶ Avvia";
+};
+
+/* ================= PROGRESSI ================= */
+function renderProgressi(){
+  const done=doneCount();
+  $("#prCap").textContent=done+"/120";
+  $("#prQuizN").textContent=quizHist.length;
+  const media=quizHist.length?(quizHist.reduce((a,q)=>a+q.score,0)/quizHist.length).toFixed(1):null;
+  $("#prMedia").textContent=media?media+"/5":"—";
+  $("#prOre").textContent=Math.floor(study.minutes/60)+"h";
+  const pc=$("#prChapters");pc.innerHTML="";
+  CHAPTERS.forEach(c=>{
+    const p=progress[c.id],el=document.createElement("div");el.className="card hist";
+    el.innerHTML=`<span>${c.id}. ${c.title}</span><b>${p&&p.completed?"✓ "+p.score+"/5":(c.ready?"—":"in arrivo")}</b>`;
+    pc.appendChild(el);
+  });
+  const qh=$("#prQuizHist");
+  if(!quizHist.length){qh.innerHTML='<p style="color:var(--dim);font-size:.88rem">Nessun quiz ancora.</p>'}
+  else{qh.innerHTML="";quizHist.slice(0,8).forEach(q=>{
+    const el=document.createElement("div");el.className="card hist";
+    el.innerHTML=`<span>Capitolo ${q.cap} · ${q.date}</span><b>${q.score}/5</b>`;qh.appendChild(el);
+  })}
+}
+
+/* ================= GLOSSARIO ================= */
+function renderGloss(){
+  const cats=[...new Set(GLOSSARY.map(x=>x.c))];
+  const sel=$("#glossCat");
+  if(sel.options.length<=1)cats.forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;sel.appendChild(o)});
+  filterGloss();
+}
+function filterGloss(){
+  const q=($("#glossSearch").value||"").toLowerCase(),cat=$("#glossCat").value;
+  const list=$("#glossList");list.innerHTML="";
+  const res=GLOSSARY.filter(x=>(!cat||x.c===cat)&&(!q||x.t.toLowerCase().includes(q)||x.d.toLowerCase().includes(q)));
+  $("#glossCount").textContent=res.length+" termini";
+  if(!res.length){list.innerHTML='<p style="color:var(--dim)">Nessun risultato.</p>';return}
+  res.forEach(x=>{
+    const el=document.createElement("div");el.className="card gloss-item";
+    el.innerHTML=`<span class="cat">${x.c}</span><h4>${x.t}</h4><p>${x.d}</p>`;
+    list.appendChild(el);
+  });
+}
+$("#glossSearch").oninput=filterGloss;
+$("#glossCat").onchange=filterGloss;
+
+/* ================= FORMULARIO ================= */
+let formDone=false;
+function renderFormule(){
+  if(formDone)return;formDone=true;
+  const fl=$("#formList");
+  FORMULAS.forEach(f=>{
+    const el=document.createElement("div");el.className="card form-item";
+    el.innerHTML=`<h4>${f.n}</h4><div class="formula">${f.f}</div><p>${f.d}</p>`;
+    fl.appendChild(el);
+  });
+  const cl=$("#constList");
+  CONSTANTS.forEach(f=>{
+    const el=document.createElement("div");el.className="card form-item";
+    el.innerHTML=`<h4>${f.n}</h4><div class="formula">${f.f}</div>`;
+    cl.appendChild(el);
+  });
+  renderMathIn(fl);renderMathIn(cl);
 }
 
 /* ================= TUTOR ================= */
-const tutorHistory = [];
-function openTutor(){
-  $("#tutorPanel").classList.add("open");
-  if(!tutorHistory.length) addTutorMsg("bot","Ciao! Sono il tuo tutor di fisica quantistica. Chiedimi qualsiasi cosa sulla lezione — anche i dubbi che sembrano banali (non lo sono mai). Prova i suggerimenti qui sotto 👇");
+const tutorHistory=[];let tutorInit=false;
+function initTutor(){
+  if(tutorInit)return;tutorInit=true;
+  addTutorMsg("bot","Ciao! Sono il tuo tutor di fisica quantistica. Chiedimi qualsiasi cosa — anche i dubbi che sembrano banali (non lo sono mai). Prova i suggerimenti qui sotto 👇");
 }
-$("#btnTutorClose").onclick = ()=>$("#tutorPanel").classList.remove("open");
-document.querySelectorAll(".sugg").forEach(s=>{
-  s.onclick = ()=>{ $("#tutorInput").value = s.textContent; sendTutor(); };
-});
-$("#btnTutorSend").onclick = sendTutor;
-$("#tutorInput").addEventListener("keydown", e=>{ if(e.key==="Enter") sendTutor(); });
-function addTutorMsg(role, text){
-  const el = document.createElement("div");
-  el.className = "tmsg "+(role==="user"?"user":"bot");
-  el.textContent = text;
+$$(".sugg").forEach(s=>{s.onclick=()=>{$("#tutorInput").value=s.textContent;sendTutor()}});
+$("#btnTutorSend").onclick=sendTutor;
+$("#tutorInput").addEventListener("keydown",e=>{if(e.key==="Enter")sendTutor()});
+function addTutorMsg(role,text){
+  const el=document.createElement("div");
+  el.className="tmsg "+(role==="user"?"user":"bot");
+  el.textContent=text;
   $("#tutorMsgs").appendChild(el);
-  if(role==="bot") renderMathIn(el);
-  $("#tutorMsgs").scrollTop = $("#tutorMsgs").scrollHeight;
+  if(role==="bot")renderMathIn(el);
+  $("#tutorMsgs").scrollTop=$("#tutorMsgs").scrollHeight;
 }
 async function sendTutor(){
-  const inp = $("#tutorInput"); const text = inp.value.trim();
-  if(!text) return;
-  inp.value=""; addTutorMsg("user", text);
-  tutorHistory.push({role:"user", content:text});
-  const typing = document.createElement("div"); typing.className="typing"; typing.textContent="ψ sta pensando…";
-  $("#tutorMsgs").appendChild(typing); $("#tutorMsgs").scrollTop = $("#tutorMsgs").scrollHeight;
-  const chapCtx = currentChap ? currentChap.title : "panoramica del corso";
+  const inp=$("#tutorInput"),text=inp.value.trim();
+  if(!text)return;
+  inp.value="";addTutorMsg("user",text);
+  tutorHistory.push({role:"user",content:text});
+  const typing=document.createElement("div");typing.className="typing";typing.textContent="ψ sta pensando…";
+  $("#tutorMsgs").appendChild(typing);$("#tutorMsgs").scrollTop=$("#tutorMsgs").scrollHeight;
+  const ctx=currentChap?currentChap.title:"panoramica del corso";
   try{
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
-      method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({
-        model:"claude-sonnet-4-6", max_tokens:1000,
-        system:"Sei un tutor di meccanica quantistica per un corso serio con matematica vera. Lo studente sta studiando: \""+chapCtx+"\" (dualità onda-particella, funzione d'onda, regola di Born, sovrapposizione, interferenza, de Broglie, misura). Rispondi in italiano, conciso ma rigoroso. Usa LaTeX con \\( \\) inline e $$ $$ display quando serve. Se la domanda è fuori tema, riportala gentilmente alla fisica.",
-        messages: tutorHistory.slice(-12)
-      })
+    const r=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,
+        system:"Sei un tutor di meccanica quantistica per un corso serio con matematica vera. Lo studente studia: \""+ctx+"\" (dualità onda-particella, funzione d'onda, regola di Born, sovrapposizione, interferenza, de Broglie, misura). Rispondi in italiano, conciso ma rigoroso. Usa LaTeX \\( \\) inline e $$ $$ display quando serve. Se la domanda è fuori tema, riportala alla fisica.",
+        messages:tutorHistory.slice(-12)})
     });
-    const data = await r.json();
-    typing.remove();
-    const reply = (data.content||[]).filter(c=>c.type==="text").map(c=>c.text).join("\n") || "Non ho ricevuto risposta, riprova.";
-    tutorHistory.push({role:"assistant", content:reply});
-    addTutorMsg("bot", reply);
-  }catch(e){
-    typing.remove();
-    addTutorMsg("bot","Errore di rete: riprova tra un momento.");
-  }
+    const data=await r.json();typing.remove();
+    const reply=(data.content||[]).filter(c=>c.type==="text").map(c=>c.text).join("\n")||"Non ho ricevuto risposta, riprova.";
+    tutorHistory.push({role:"assistant",content:reply});
+    addTutorMsg("bot",reply);
+  }catch(e){typing.remove();addTutorMsg("bot","Errore di rete: riprova tra un momento.")}
 }
 
+/* ================= IMPOSTAZIONI ================= */
+$("#btnAzzera").onclick=async()=>{
+  if(!confirm("Azzerare tutti i progressi, appunti e statistiche?"))return;
+  progress={};notes=[];quizHist=[];study={pomo:0,minutes:0,day:new Date().toDateString()};
+  saveProgress();saveNotes();saveQuizHist();saveStudy();
+  if(sb&&currentUser)await sb.from("qlab_progress").delete().eq("user_id",currentUser.id);
+  toast("Tutto azzerato");renderHome();
+};
+$("#btnEsci").onclick=async()=>{
+  if(sb&&currentUser)await sb.auth.signOut();
+  currentUser=null;
+  $("#app").classList.remove("on");
+  $("#accessOverlay").classList.remove("hidden");
+  showAccess("init");
+};
+
+/* ================= BOOT ================= */
+async function boot(){
+  loadAll();
+  applyTheme(localStorage.getItem("qlab_theme")||"dark");
+  if(sb){
+    try{
+      const{data}=await sb.auth.getSession();
+      if(data&&data.session){currentUser=data.session.user;await syncFromSupabase();enterApp();return}
+    }catch(e){}
+  }
+}
 boot();
 </script>
 </body>
