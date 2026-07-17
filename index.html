@@ -3,247 +3,289 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0A0D1C">
 <title>Quantum Lab</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/supabase/2.39.3/umd/supabase.min.js"></script>
 <script>
-// Fallback: se cdnjs non ha caricato Supabase, prova jsdelivr (utile su GitHub Pages)
 if (!window.supabase) {
   document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"><\/script>');
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0B0E1A;
-  --surface:#141930;
-  --surface2:#1C2240;
-  --line:#2A3155;
-  --ink:#E9EDFB;
-  --ink-dim:#9AA3C7;
-  --psi:#7C6CF0;        /* viola probabilità */
-  --wave:#54D6E8;       /* ciano interferenza */
-  --photon:#FFC44D;     /* ambra fotone */
-  --ok:#5BE39A;
-  --err:#F06C7A;
-  --radius:16px;
+  --bg:#0A0D1C;
+  --bg2:#0E1226;
+  --glass:rgba(255,255,255,.045);
+  --glass2:rgba(255,255,255,.08);
+  --line:rgba(255,255,255,.09);
+  --ink:#EDF0FC;
+  --dim:#98A1C8;
+  --psi:#8B7CF6;
+  --psi2:#6A58E8;
+  --wave:#4FD8EC;
+  --photon:#FFC44D;
+  --ok:#54E39B;
+  --err:#F26D7C;
+  --r:20px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 body{
   background:var(--bg);
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(139,124,246,.16), transparent 60%),
+    radial-gradient(700px 420px at -10% 25%, rgba(79,216,236,.10), transparent 60%);
+  background-attachment:fixed;
   color:var(--ink);
   font-family:'IBM Plex Sans',sans-serif;
-  font-size:16px;
-  line-height:1.6;
+  font-size:16px;line-height:1.6;
   overflow-x:hidden;
 }
 h1,h2,h3,.serif{font-family:'Spectral',serif}
 .mono{font-family:'IBM Plex Mono',monospace}
-
-/* ---------- layout ---------- */
-.screen{display:none;min-height:100dvh;flex-direction:column}
+.screen{display:none;min-height:100dvh;flex-direction:column;padding-bottom:96px}
 .screen.active{display:flex}
-.wrap{width:100%;max-width:680px;margin:0 auto;padding:0 20px}
+.wrap{width:100%;max-width:680px;margin:0 auto;padding:0 18px}
 
-/* ---------- header ---------- */
-header{
-  position:sticky;top:0;z-index:50;
-  background:rgba(11,14,26,.82);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
+/* ---------- glass card base ---------- */
+.card{
+  background:var(--glass);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 }
-.hbar{display:flex;align-items:center;gap:12px;padding:14px 0}
-.hbar h1{font-size:1.15rem;font-weight:600;letter-spacing:.02em}
-.hbar .psi-mark{color:var(--psi);font-weight:700}
-.hbar .spacer{flex:1}
-.iconbtn{
-  background:var(--surface);border:1px solid var(--line);color:var(--ink);
-  width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:1.05rem;transition:.2s;
-}
-.iconbtn:active{transform:scale(.94)}
-.backbtn{background:none;border:none;color:var(--wave);font-size:.95rem;cursor:pointer;padding:6px 0;font-family:inherit}
 
-/* ---------- hero wave ---------- */
-#heroWave{width:100%;height:110px;display:block}
+/* ---------- topbar ---------- */
+.topbar{padding:18px 0 6px}
+.topbar .row{display:flex;align-items:center;gap:10px}
+.topbar h1{font-size:1.35rem;font-weight:600;letter-spacing:.01em}
+.psi-mark{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:11px;font-family:'Spectral',serif;font-weight:700;
+  background:linear-gradient(135deg,var(--psi),var(--wave));color:#0A0D1C;font-size:1.15rem;
+  box-shadow:0 4px 18px rgba(139,124,246,.4);
+}
+.topbar .sub{color:var(--dim);font-size:.86rem;margin-top:2px}
+
+/* ---------- bottom nav ---------- */
+#bottomNav{
+  position:fixed;left:50%;bottom:14px;transform:translateX(-50%);
+  display:none;gap:6px;padding:8px;z-index:70;
+  background:rgba(14,18,38,.85);border:1px solid var(--line);border-radius:24px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 10px 40px rgba(0,0,0,.5);
+}
+#bottomNav.on{display:flex}
+.navbtn{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  min-width:78px;padding:8px 10px;border-radius:16px;border:none;background:none;
+  color:var(--dim);font-family:inherit;font-size:.72rem;cursor:pointer;transition:.2s;
+}
+.navbtn .ic{font-size:1.25rem;line-height:1}
+.navbtn.active{background:linear-gradient(135deg,rgba(139,124,246,.25),rgba(79,216,236,.18));color:var(--ink)}
+.navbtn:active{transform:scale(.94)}
 
 /* ---------- auth ---------- */
-.auth-card{
-  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-  padding:28px 22px;margin:12px 0 28px;
-}
-.auth-card h2{font-size:1.5rem;margin-bottom:4px}
-.auth-card p.sub{color:var(--ink-dim);font-size:.92rem;margin-bottom:20px}
+#heroWave{width:100%;height:150px;display:block}
+.auth-card{padding:26px 22px;margin:6px 0 28px}
+.auth-card h2{font-size:1.6rem;margin-bottom:4px}
+.auth-card p.s{color:var(--dim);font-size:.92rem;margin-bottom:22px}
 .field{margin-bottom:14px}
-.field label{display:block;font-size:.8rem;color:var(--ink-dim);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em}
+.field label{display:block;font-size:.76rem;color:var(--dim);margin-bottom:6px;text-transform:uppercase;letter-spacing:.1em}
 .field input{
-  width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;
-  padding:13px 14px;color:var(--ink);font-size:1rem;font-family:inherit;outline:none;transition:.2s;
+  width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;
+  padding:14px 15px;color:var(--ink);font-size:1rem;font-family:inherit;outline:none;transition:.2s;
 }
-.field input:focus{border-color:var(--psi)}
+.field input:focus{border-color:var(--psi);box-shadow:0 0 0 3px rgba(139,124,246,.18)}
 .btn{
-  display:block;width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  padding:15px;border-radius:15px;border:none;cursor:pointer;
   font-family:'IBM Plex Sans',sans-serif;font-size:1rem;font-weight:600;transition:.2s;
 }
-.btn:active{transform:scale(.98)}
-.btn.primary{background:linear-gradient(135deg,var(--psi),#5A4BD8);color:#fff}
-.btn.ghost{background:none;border:1px solid var(--line);color:var(--ink);margin-top:10px}
-.btn.wave{background:linear-gradient(135deg,var(--wave),#2FA8BC);color:#04222A}
-.auth-toggle{text-align:center;margin-top:16px;font-size:.9rem;color:var(--ink-dim)}
-.auth-toggle a{color:var(--wave);cursor:pointer;text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:linear-gradient(135deg,var(--psi),var(--psi2));color:#fff;box-shadow:0 8px 24px rgba(139,124,246,.35)}
+.btn.ghost{background:var(--glass);border:1px solid var(--line);color:var(--ink);margin-top:10px}
+.btn.wave{background:linear-gradient(135deg,var(--wave),#2CA9BE);color:#032830;box-shadow:0 8px 24px rgba(79,216,236,.3)}
+.btn.small{width:auto;padding:11px 18px;font-size:.9rem}
+.auth-toggle{text-align:center;margin-top:16px;font-size:.9rem;color:var(--dim)}
+.auth-toggle a{color:var(--wave);cursor:pointer}
 .msg{font-size:.88rem;margin-top:10px;min-height:1.2em}
-.msg.err{color:var(--err)}
-.msg.ok{color:var(--ok)}
+.msg.err{color:var(--err)} .msg.ok{color:var(--ok)}
 
-/* ---------- home / capitoli ---------- */
-.progress-band{display:flex;align-items:center;gap:16px;margin:22px 0 6px}
-.ring{position:relative;width:64px;height:64px;flex-shrink:0}
-.ring svg{transform:rotate(-90deg)}
-.ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:600}
-.progress-band .txt h2{font-size:1.3rem}
-.progress-band .txt p{color:var(--ink-dim);font-size:.88rem}
-
-.chapters{display:flex;flex-direction:column;gap:12px;margin:18px 0 40px}
+/* ---------- home ---------- */
+.hero-course{padding:20px;margin:14px 0 18px;position:relative;overflow:hidden}
+.hero-course .glow{position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,216,236,.25),transparent 70%);pointer-events:none}
+.hero-course h2{font-size:1.35rem;margin-bottom:2px}
+.hero-course p{color:var(--dim);font-size:.86rem}
+.hero-course .bar{height:8px;border-radius:8px;background:rgba(255,255,255,.08);margin-top:14px;overflow:hidden}
+.hero-course .bar i{display:block;height:100%;border-radius:8px;width:0;
+  background:linear-gradient(90deg,var(--psi),var(--wave));transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.hero-course .pct-row{display:flex;justify-content:space-between;margin-top:8px;font-size:.78rem;color:var(--dim)}
+.chapters{display:flex;flex-direction:column;gap:12px;margin:4px 0 30px}
 .chap{
-  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-  padding:16px 18px;display:flex;gap:14px;align-items:center;cursor:pointer;transition:.2s;
-  position:relative;overflow:hidden;
+  padding:16px;display:flex;gap:14px;align-items:center;cursor:pointer;transition:.2s;position:relative;
 }
 .chap:active{transform:scale(.985)}
-.chap .num{
-  font-family:'Spectral',serif;font-size:1.6rem;font-weight:300;color:var(--psi);
-  width:36px;text-align:center;flex-shrink:0;
+.chap:not(.locked):hover{background:var(--glass2)}
+.chap .badge{
+  width:46px;height:46px;border-radius:15px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Spectral',serif;font-size:1.25rem;font-weight:600;
+  background:rgba(139,124,246,.15);color:var(--psi);border:1px solid rgba(139,124,246,.3);
 }
+.chap.done .badge{background:rgba(84,227,155,.14);color:var(--ok);border-color:rgba(84,227,155,.35)}
 .chap .info{flex:1;min-width:0}
-.chap .info h3{font-size:1.02rem;font-weight:600;line-height:1.3}
-.chap .info p{font-size:.83rem;color:var(--ink-dim);margin-top:2px}
-.chap .state{font-size:1.1rem;flex-shrink:0}
-.chap.locked{opacity:.45;pointer-events:none}
-.chap.done .num{color:var(--ok)}
-.chap .fringe{
-  position:absolute;left:0;top:0;bottom:0;width:4px;
-  background:repeating-linear-gradient(180deg,var(--wave) 0 6px,transparent 6px 12px);
-  opacity:.5;
+.chap .info h3{font-size:1rem;font-weight:600;line-height:1.35}
+.chap .info p{font-size:.8rem;color:var(--dim);margin-top:2px}
+.chap .chev{color:var(--dim);font-size:1.1rem;flex-shrink:0}
+.chap .chip{
+  font-size:.68rem;padding:3px 9px;border-radius:20px;margin-top:6px;display:inline-block;
+  background:rgba(79,216,236,.13);color:var(--wave);border:1px solid rgba(79,216,236,.25);
 }
-.chap.locked .fringe{opacity:.12}
+.chap.done .chip{background:rgba(84,227,155,.13);color:var(--ok);border-color:rgba(84,227,155,.25)}
+.chap.locked{opacity:.4;pointer-events:none}
+.chap.locked .chip{background:rgba(255,255,255,.06);color:var(--dim);border-color:var(--line)}
 
-/* ---------- capitolo ---------- */
-.tabs{display:flex;gap:8px;margin:16px 0;position:sticky;top:66px;z-index:40;background:var(--bg);padding:6px 0}
-.tab{
-  flex:1;text-align:center;padding:10px 4px;border-radius:12px;border:1px solid var(--line);
-  background:var(--surface);color:var(--ink-dim);font-size:.88rem;font-weight:500;cursor:pointer;transition:.2s;
+/* ---------- chapter (step flow) ---------- */
+.chap-head{padding-top:16px}
+.chap-head .back{background:none;border:none;color:var(--wave);font-size:.92rem;cursor:pointer;font-family:inherit;padding:8px 0}
+.chap-head h2{font-size:1.45rem;margin-top:4px;line-height:1.3}
+.steps{
+  display:flex;gap:8px;margin:16px 0 18px;position:sticky;top:0;z-index:40;
+  padding:10px 0;background:linear-gradient(180deg,var(--bg) 75%,transparent);
 }
-.tab.active{background:var(--psi);border-color:var(--psi);color:#fff}
-.pane{display:none;padding-bottom:60px}
+.step{
+  flex:1;display:flex;align-items:center;gap:8px;justify-content:center;
+  padding:10px 6px;border-radius:14px;border:1px solid var(--line);
+  background:var(--glass);color:var(--dim);font-size:.8rem;font-weight:500;cursor:pointer;transition:.2s;
+}
+.step .n{
+  width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;background:rgba(255,255,255,.1);flex-shrink:0;
+}
+.step.active{background:linear-gradient(135deg,rgba(139,124,246,.3),rgba(106,88,232,.22));border-color:rgba(139,124,246,.5);color:var(--ink)}
+.step.active .n{background:var(--psi);color:#fff}
+.step.done .n{background:var(--ok);color:#04331C}
+.step.done{color:var(--ink)}
+.pane{display:none;animation:fadeUp .35s ease}
 .pane.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.next-cta{margin:26px 0 10px}
 
-.lesson h2{font-size:1.45rem;margin:26px 0 10px;font-weight:600}
-.lesson h3{font-size:1.12rem;margin:22px 0 8px;color:var(--wave);font-weight:600}
-.lesson p{margin-bottom:14px;color:#D6DCF2}
+/* ---------- lesson ---------- */
+.lesson h2{font-size:1.4rem;margin:26px 0 10px;font-weight:600}
+.lesson h3{font-size:1.1rem;margin:24px 0 8px;color:var(--wave);font-weight:600}
+.lesson p{margin-bottom:14px;color:#D8DEF4}
 .lesson .formula{
-  background:var(--surface);border:1px solid var(--line);border-radius:12px;
-  padding:16px 12px;margin:16px 0;overflow-x:auto;text-align:center;
+  background:var(--glass);border:1px solid var(--line);border-radius:14px;
+  padding:16px 12px;margin:16px 0;overflow-x:auto;text-align:center;backdrop-filter:blur(8px);
 }
 .lesson .note{
-  border-left:3px solid var(--photon);background:var(--surface);
-  padding:12px 16px;border-radius:0 12px 12px 0;margin:16px 0;font-size:.92rem;
+  border:1px solid rgba(255,196,77,.3);background:rgba(255,196,77,.07);
+  padding:14px 16px;border-radius:14px;margin:18px 0;font-size:.92rem;
 }
 .lesson .note b{color:var(--photon)}
 
 /* ---------- simulazione ---------- */
-.sim-shell{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin:14px 0}
-#simCanvas{width:100%;border-radius:10px;background:#070912;display:block;touch-action:none}
-.sim-controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
-.sim-controls .btn{width:auto;flex:1;padding:11px 10px;font-size:.9rem}
-.toggle-row{display:flex;align-items:center;gap:10px;width:100%;margin-top:4px;justify-content:space-between}
-.toggle-row span{font-size:.9rem}
-.switch{position:relative;width:52px;height:30px;flex-shrink:0}
+.sim-shell{padding:12px;margin:6px 0 14px}
+#simCanvas{width:100%;border-radius:14px;background:#05070F;display:block;touch-action:none}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin:10px 4px 2px;font-size:.74rem;color:var(--dim)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.sim-controls{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.sc-row{display:flex;gap:10px}
+.sc-row .btn{margin:0}
+.opt-row{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.25);border:1px solid var(--line);
+}
+.opt-row .lbl{font-size:.88rem}
+.opt-row .lbl small{display:block;color:var(--dim);font-size:.74rem;margin-top:1px}
+.switch{position:relative;width:50px;height:29px;flex-shrink:0}
 .switch input{opacity:0;width:0;height:0}
-.slider-t{
-  position:absolute;inset:0;background:var(--line);border-radius:30px;cursor:pointer;transition:.25s;
-}
-.slider-t:before{
-  content:"";position:absolute;width:24px;height:24px;border-radius:50%;
-  left:3px;top:3px;background:var(--ink);transition:.25s;
-}
-.switch input:checked + .slider-t{background:var(--photon)}
-.switch input:checked + .slider-t:before{transform:translateX(22px);background:#3A2A00}
-.sim-stats{display:flex;gap:14px;margin-top:10px;font-size:.8rem;color:var(--ink-dim)}
-.sim-stats b{color:var(--wave)}
-.speed-row{display:flex;align-items:center;gap:10px;width:100%}
-.speed-row input[type=range]{flex:1;accent-color:var(--psi)}
+.sl{position:absolute;inset:0;background:rgba(255,255,255,.14);border-radius:30px;cursor:pointer;transition:.25s}
+.sl:before{content:"";position:absolute;width:23px;height:23px;border-radius:50%;left:3px;top:3px;background:#fff;transition:.25s}
+.switch input:checked + .sl{background:var(--photon)}
+.switch input:checked + .sl:before{transform:translateX(21px);background:#3A2A00}
+.switch.cy input:checked + .sl{background:var(--wave)}
+.switch.cy input:checked + .sl:before{background:#03303A}
+.speed-row{display:flex;align-items:center;gap:12px;padding:0 4px}
+.speed-row span{font-size:.84rem;color:var(--dim);white-space:nowrap}
+.speed-row input[type=range]{flex:1;accent-color:var(--psi);height:26px}
+.sim-stats{display:flex;gap:16px;margin-top:2px;padding:0 4px;font-size:.8rem;color:var(--dim)}
+.sim-stats b{color:var(--wave);font-family:'IBM Plex Mono',monospace}
 
 /* ---------- quiz ---------- */
-.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:14px 0}
-.qcard .qnum{font-size:.78rem;color:var(--psi);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-.qcard .qtext{font-size:1.02rem;font-weight:500;margin-bottom:14px}
+.qprog{height:6px;border-radius:6px;background:rgba(255,255,255,.08);margin:6px 0 16px;overflow:hidden}
+.qprog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--psi),var(--wave));transition:width .4s}
+.qcard{padding:20px;margin:12px 0}
+.qcard .qnum{font-size:.72rem;color:var(--psi);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600}
+.qcard .qtext{font-size:1.02rem;font-weight:500;margin-bottom:14px;line-height:1.5}
 .opt{
-  display:block;width:100%;text-align:left;background:var(--bg);border:1px solid var(--line);
-  border-radius:12px;padding:13px 14px;margin-bottom:9px;color:var(--ink);font-size:.95rem;
+  display:block;width:100%;text-align:left;background:rgba(0,0,0,.25);border:1px solid var(--line);
+  border-radius:14px;padding:14px 15px;margin-bottom:9px;color:var(--ink);font-size:.94rem;
   cursor:pointer;font-family:inherit;transition:.15s;
 }
 .opt:active{transform:scale(.99)}
-.opt.sel{border-color:var(--psi);background:rgba(124,108,240,.12)}
-.opt.right{border-color:var(--ok);background:rgba(91,227,154,.12)}
-.opt.wrong{border-color:var(--err);background:rgba(240,108,122,.12)}
-.explain{
-  display:none;font-size:.88rem;color:var(--ink-dim);border-top:1px dashed var(--line);
-  padding-top:10px;margin-top:6px;
-}
+.opt.right{border-color:var(--ok);background:rgba(84,227,155,.12)}
+.opt.wrong{border-color:var(--err);background:rgba(242,109,124,.12)}
+.explain{display:none;font-size:.87rem;color:var(--dim);border-top:1px dashed var(--line);padding-top:10px;margin-top:6px}
 .explain.show{display:block}
-.quiz-result{
-  text-align:center;padding:28px 20px;background:var(--surface);border:1px solid var(--line);
-  border-radius:var(--radius);margin:14px 0;display:none;
-}
+.quiz-result{text-align:center;padding:30px 20px;margin:14px 0;display:none}
 .quiz-result.show{display:block}
-.quiz-result .score{font-family:'Spectral',serif;font-size:2.6rem;color:var(--wave)}
+.quiz-result .score{font-family:'Spectral',serif;font-size:3rem;
+  background:linear-gradient(135deg,var(--psi),var(--wave));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- profilo ---------- */
+.pcard{padding:22px;margin:16px 0;display:flex;align-items:center;gap:16px}
+.avatar{width:56px;height:56px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Spectral',serif;font-size:1.5rem;font-weight:700;
+  background:linear-gradient(135deg,var(--psi),var(--wave));color:#0A0D1C}
+.pcard .info{flex:1;min-width:0}
+.pcard .info h3{font-size:1.05rem;word-break:break-all}
+.pcard .info p{color:var(--dim);font-size:.82rem}
+.plist{margin:6px 0 30px;display:flex;flex-direction:column;gap:10px}
+.prow{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-size:.94rem}
+.prow b{font-family:'IBM Plex Mono',monospace;color:var(--wave)}
+.prow.danger{color:var(--err);cursor:pointer}
 
 /* ---------- tutor ---------- */
-#tutorFab{
-  position:fixed;right:18px;bottom:18px;z-index:80;
-  width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;
-  background:linear-gradient(135deg,var(--psi),var(--wave));color:#fff;font-size:1.5rem;
-  box-shadow:0 6px 24px rgba(124,108,240,.45);transition:.2s;
-}
-#tutorFab:active{transform:scale(.92)}
-#tutorPanel{
-  position:fixed;inset:0;z-index:90;background:var(--bg);display:none;flex-direction:column;
-}
+#tutorPanel{position:fixed;inset:0;z-index:90;background:var(--bg);display:none;flex-direction:column}
 #tutorPanel.open{display:flex}
 .tutor-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
 .tutor-head h3{font-size:1.1rem;flex:1}
+.iconbtn{background:var(--glass);border:1px solid var(--line);color:var(--ink);
+  width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:1rem}
 #tutorMsgs{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
-.tmsg{max-width:85%;padding:12px 14px;border-radius:16px;font-size:.94rem;line-height:1.55}
-.tmsg.user{align-self:flex-end;background:var(--psi);color:#fff;border-bottom-right-radius:4px}
-.tmsg.bot{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:4px}
-.tmsg.bot .katex{font-size:1em}
-.tutor-input{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--line)}
-.tutor-input input{
-  flex:1;background:var(--surface);border:1px solid var(--line);border-radius:22px;
-  padding:12px 16px;color:var(--ink);font-size:1rem;outline:none;font-family:inherit;
-}
-.tutor-input button{
-  width:46px;height:46px;border-radius:50%;border:none;background:var(--wave);
-  color:#04222A;font-size:1.2rem;cursor:pointer;flex-shrink:0;
-}
-.typing{align-self:flex-start;color:var(--ink-dim);font-size:.85rem;font-style:italic}
+.tmsg{max-width:86%;padding:12px 15px;border-radius:18px;font-size:.94rem;line-height:1.55}
+.tmsg.user{align-self:flex-end;background:linear-gradient(135deg,var(--psi),var(--psi2));color:#fff;border-bottom-right-radius:5px}
+.tmsg.bot{align-self:flex-start;background:var(--glass);border:1px solid var(--line);border-bottom-left-radius:5px}
+.tutor-sugg{display:flex;gap:8px;overflow-x:auto;padding:0 18px 10px;scrollbar-width:none}
+.tutor-sugg::-webkit-scrollbar{display:none}
+.sugg{flex-shrink:0;padding:9px 14px;border-radius:20px;background:var(--glass);border:1px solid var(--line);
+  color:var(--dim);font-size:.82rem;cursor:pointer;font-family:inherit}
+.tutor-input{display:flex;gap:10px;padding:12px 16px 18px;border-top:1px solid var(--line)}
+.tutor-input input{flex:1;background:var(--glass);border:1px solid var(--line);border-radius:24px;
+  padding:13px 17px;color:var(--ink);font-size:1rem;outline:none;font-family:inherit}
+.tutor-input input:focus{border-color:var(--psi)}
+.tutor-input button{width:48px;height:48px;border-radius:50%;border:none;flex-shrink:0;cursor:pointer;
+  background:linear-gradient(135deg,var(--wave),#2CA9BE);color:#032830;font-size:1.2rem}
+.typing{align-self:flex-start;color:var(--dim);font-size:.85rem;font-style:italic}
 
-/* ---------- toast ---------- */
-#toast{
-  position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);
-  background:var(--surface2);border:1px solid var(--line);color:var(--ink);
-  padding:12px 20px;border-radius:14px;font-size:.9rem;opacity:0;pointer-events:none;
-  transition:.3s;z-index:100;white-space:nowrap;
-}
+#toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);
+  background:rgba(20,25,48,.95);border:1px solid var(--line);color:var(--ink);
+  padding:12px 22px;border-radius:16px;font-size:.9rem;opacity:0;pointer-events:none;
+  transition:.3s;z-index:100;white-space:nowrap;backdrop-filter:blur(10px)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-@media (prefers-reduced-motion: reduce){
-  *{animation:none!important;transition:none!important}
-}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -252,9 +294,11 @@ header{
 <div class="screen active" id="scrAuth">
   <canvas id="heroWave"></canvas>
   <div class="wrap">
-    <div class="auth-card">
-      <h2><span class="psi-mark">ψ</span> Quantum Lab</h2>
-      <p class="sub">Impara la meccanica quantistica: lezioni, simulazioni e un tutor sempre con te.</p>
+    <div class="card auth-card">
+      <div class="row" style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <span class="psi-mark">ψ</span><h2 style="margin:0">Quantum Lab</h2>
+      </div>
+      <p class="s">Meccanica quantistica sul serio: lezioni con la matematica vera, esperimenti interattivi e un tutor sempre con te.</p>
       <div class="field"><label>Email</label><input type="email" id="authEmail" autocomplete="email"></div>
       <div class="field"><label>Password</label><input type="password" id="authPass" autocomplete="current-password"></div>
       <button class="btn primary" id="btnAuthMain">Accedi</button>
@@ -267,25 +311,16 @@ header{
 
 <!-- ============ HOME ============ -->
 <div class="screen" id="scrHome">
-  <header><div class="wrap hbar">
-    <h1><span class="psi-mark">ψ</span> Quantum Lab</h1>
-    <div class="spacer"></div>
-    <button class="iconbtn" id="btnLogout" title="Esci">⏻</button>
-  </div></header>
   <div class="wrap">
-    <div class="progress-band">
-      <div class="ring">
-        <svg width="64" height="64">
-          <circle cx="32" cy="32" r="27" fill="none" stroke="#2A3155" stroke-width="6"/>
-          <circle id="ringFg" cx="32" cy="32" r="27" fill="none" stroke="#54D6E8" stroke-width="6"
-                  stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="169.6"/>
-        </svg>
-        <div class="pct" id="ringPct">0%</div>
-      </div>
-      <div class="txt">
-        <h2 class="serif">Il tuo percorso</h2>
-        <p id="userLabel">Modalità locale</p>
-      </div>
+    <div class="topbar">
+      <div class="row"><span class="psi-mark">ψ</span><div><h1>Quantum Lab</h1></div></div>
+    </div>
+    <div class="card hero-course">
+      <div class="glow"></div>
+      <h2 class="serif">Il tuo percorso</h2>
+      <p id="userLabel">Modalità locale</p>
+      <div class="bar"><i id="progBar"></i></div>
+      <div class="pct-row"><span id="progTxt">0 di 6 capitoli</span><span id="progPct">0%</span></div>
     </div>
     <div class="chapters" id="chapterList"></div>
   </div>
@@ -293,126 +328,166 @@ header{
 
 <!-- ============ CAPITOLO ============ -->
 <div class="screen" id="scrChapter">
-  <header><div class="wrap hbar">
-    <button class="backbtn" id="btnBack">← Percorso</button>
-    <div class="spacer"></div>
-    <span class="mono" id="chapTag" style="color:var(--ink-dim);font-size:.8rem"></span>
-  </div></header>
   <div class="wrap">
-    <h2 class="serif" id="chapTitle" style="font-size:1.5rem;margin-top:16px"></h2>
-    <div class="tabs">
-      <div class="tab active" data-pane="lesson">Lezione</div>
-      <div class="tab" data-pane="sim">Simulazione</div>
-      <div class="tab" data-pane="quiz">Quiz</div>
+    <div class="chap-head">
+      <button class="back" id="btnBack">← Percorso</button>
+      <div class="mono" id="chapTag" style="color:var(--psi);font-size:.75rem;letter-spacing:.12em"></div>
+      <h2 class="serif" id="chapTitle"></h2>
     </div>
-    <div class="pane active" id="paneLesson"><div class="lesson" id="lessonBody"></div></div>
-    <div class="pane" id="paneSim">
-      <div class="sim-shell">
+    <div class="steps">
+      <div class="step" data-step="0"><span class="n">1</span> Lezione</div>
+      <div class="step" data-step="1"><span class="n">2</span> Esperimento</div>
+      <div class="step" data-step="2"><span class="n">3</span> Quiz</div>
+    </div>
+
+    <div class="pane" id="pane0"><div class="lesson" id="lessonBody"></div>
+      <button class="btn primary next-cta" id="toSim">Vai all'esperimento →</button>
+    </div>
+
+    <div class="pane" id="pane1">
+      <div class="card sim-shell">
         <canvas id="simCanvas"></canvas>
+        <div class="legend">
+          <span><i style="background:#8B7CF6"></i>Sorgente e⁻</span>
+          <span><i style="background:#FFC44D"></i>Elettrone</span>
+          <span><i style="background:#4FD8EC"></i>Impatti</span>
+          <span><i style="background:#F26D7C"></i>Curva teorica |ψ|²</span>
+        </div>
         <div class="sim-controls">
-          <button class="btn wave" id="btnFire">▶ Spara elettroni</button>
-          <button class="btn ghost" id="btnResetSim" style="margin-top:0">Azzera</button>
-          <div class="speed-row"><span style="font-size:.85rem">Frequenza</span><input type="range" id="rateSlider" min="1" max="60" value="15"></div>
-          <div class="toggle-row">
-            <span>🔍 Rilevatore sulle fenditure <em style="color:var(--ink-dim)">(quale via?)</em></span>
-            <label class="switch"><input type="checkbox" id="detectorToggle"><span class="slider-t"></span></label>
+          <div class="sc-row">
+            <button class="btn wave" id="btnFire">▶ Avvia</button>
+            <button class="btn ghost" id="btnResetSim" style="margin-top:0;max-width:110px">Azzera</button>
+          </div>
+          <div class="speed-row"><span>Lenta</span><input type="range" id="rateSlider" min="1" max="10" value="3"><span>Veloce</span></div>
+          <div class="opt-row">
+            <div class="lbl">🔍 Rilevatore "quale via"<small>Osserva da quale fenditura passa ogni elettrone</small></div>
+            <label class="switch"><input type="checkbox" id="detectorToggle"><span class="sl"></span></label>
+          </div>
+          <div class="opt-row">
+            <div class="lbl">📈 Curva teorica<small>Sovrapponi la distribuzione prevista |ψ|²</small></div>
+            <label class="switch cy"><input type="checkbox" id="theoryToggle" checked><span class="sl"></span></label>
           </div>
         </div>
-        <div class="sim-stats"><span>Elettroni: <b id="statCount">0</b></span><span id="statMode">Modalità: <b>interferenza</b></span></div>
+        <div class="sim-stats" style="margin-top:12px">
+          <span>Elettroni: <b id="statCount">0</b></span>
+          <span id="statMode">Interferenza attiva</span>
+        </div>
       </div>
-      <div class="lesson"><p id="simCaption" style="font-size:.92rem;color:var(--ink-dim)"></p></div>
+      <p id="simCaption" style="font-size:.9rem;color:var(--dim);padding:0 4px"></p>
+      <button class="btn primary next-cta" id="toQuiz">Vai al quiz →</button>
     </div>
-    <div class="pane" id="paneQuiz">
+
+    <div class="pane" id="pane2">
+      <div class="qprog"><i id="qprogBar"></i></div>
       <div id="quizBody"></div>
-      <div class="quiz-result" id="quizResult">
+      <div class="card quiz-result" id="quizResult">
         <div class="score" id="quizScore"></div>
-        <p id="quizVerdict" style="margin-top:6px"></p>
-        <button class="btn primary" id="btnQuizDone" style="margin-top:16px">Completa capitolo</button>
+        <p id="quizVerdict" style="margin-top:6px;color:var(--dim)"></p>
+        <button class="btn primary" id="btnQuizDone" style="margin-top:18px">✓ Completa capitolo</button>
         <button class="btn ghost" id="btnQuizRetry">Riprova</button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ============ PROFILO ============ -->
+<div class="screen" id="scrProfile">
+  <div class="wrap">
+    <div class="topbar"><div class="row"><span class="psi-mark">ψ</span><h1>Profilo</h1></div></div>
+    <div class="card pcard">
+      <div class="avatar" id="avatarLetter">ψ</div>
+      <div class="info"><h3 id="profEmail">Modalità locale</h3><p id="profSub">I progressi sono salvati solo su questo dispositivo</p></div>
+    </div>
+    <div class="plist">
+      <div class="card prow"><span>Capitoli completati</span><b id="profDone">0 / 6</b></div>
+      <div class="card prow"><span>Miglior quiz</span><b id="profBest">—</b></div>
+      <div class="card prow danger" id="btnResetProg">Azzera progressi</div>
+      <div class="card prow danger" id="btnLogout">Esci</div>
+    </div>
+  </div>
+</div>
+
 <!-- ============ TUTOR ============ -->
-<button id="tutorFab" style="display:none">ψ</button>
 <div id="tutorPanel">
   <div class="tutor-head">
-    <h3><span class="psi-mark">ψ</span> Tutor quantistico</h3>
+    <span class="psi-mark">ψ</span><h3>Tutor quantistico</h3>
     <button class="iconbtn" id="btnTutorClose">✕</button>
   </div>
   <div id="tutorMsgs"></div>
+  <div class="tutor-sugg" id="tutorSugg">
+    <button class="sugg">Cos'è davvero ψ?</button>
+    <button class="sugg">Perché il rilevatore rompe l'interferenza?</button>
+    <button class="sugg">Spiegami la regola di Born</button>
+    <button class="sugg">λ = h/p da dove viene?</button>
+  </div>
   <div class="tutor-input">
     <input type="text" id="tutorInput" placeholder="Chiedi qualcosa sulla lezione…">
     <button id="btnTutorSend">➤</button>
   </div>
 </div>
 
+<!-- ============ NAV ============ -->
+<nav id="bottomNav">
+  <button class="navbtn active" data-nav="home"><span class="ic">◈</span>Percorso</button>
+  <button class="navbtn" data-nav="tutor"><span class="ic">ψ</span>Tutor</button>
+  <button class="navbtn" data-nav="profile"><span class="ic">◉</span>Profilo</button>
+</nav>
+
 <div id="toast"></div>
 <script>
-/* ================================================================
-   CONFIG — inserisci qui i dati del tuo progetto Supabase.
-   Se li lasci vuoti, l'app funziona in modalità locale (localStorage).
-   ================================================================ */
+/* ================= CONFIG SUPABASE ================= */
 const SUPABASE_URL = "https://tqemwkpeexcudxkjbkal.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxZW13a3BlZXhjdWR4a2pia2FsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyODI2NjAsImV4cCI6MjA5OTg1ODY2MH0.xfZBLErqPIPWFOQLbx6sNUuBRjdL7yV7ekvMgjfCE5M";
 
-let sb = null, currentUser = null, localMode = false;
+let sb = null, currentUser = null;
 try {
-  if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY) {
+  if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY)
     sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  }
-} catch(e) { console.error("Supabase init:", e); sb = null; }
+} catch(e){ console.error("Supabase init:", e); sb = null; }
 
-/* ================= DATI CAPITOLI ================= */
+/* ================= DATI ================= */
 const CHAPTERS = [
-  { id:1, tag:"CAP. 01", title:"Onde e particelle: la doppia fenditura",
-    desc:"Dualità onda-particella, funzione d'onda, interferenza", ready:true },
-  { id:2, tag:"CAP. 02", title:"La matematica degli stati quantistici",
-    desc:"Spazi di Hilbert, notazione di Dirac, sovrapposizione", ready:false },
-  { id:3, tag:"CAP. 03", title:"L'equazione di Schrödinger",
-    desc:"Evoluzione temporale, buca di potenziale, quantizzazione", ready:false },
-  { id:4, tag:"CAP. 04", title:"Misura e principio di indeterminazione",
-    desc:"Operatori, autovalori, Heisenberg, collasso", ready:false },
-  { id:5, tag:"CAP. 05", title:"Spin e sfera di Bloch",
-    desc:"Sistemi a due livelli, matrici di Pauli, qubit", ready:false },
-  { id:6, tag:"CAP. 06", title:"Entanglement e disuguaglianze di Bell",
-    desc:"Stati entangled, EPR, non-località, teorema di Bell", ready:false },
+  { id:1, tag:"CAPITOLO 01", title:"Onde e particelle: la doppia fenditura",
+    desc:"Dualità onda-particella · funzione d'onda · interferenza", ready:true },
+  { id:2, tag:"CAPITOLO 02", title:"La matematica degli stati quantistici",
+    desc:"Spazi di Hilbert · notazione di Dirac · sovrapposizione", ready:false },
+  { id:3, tag:"CAPITOLO 03", title:"L'equazione di Schrödinger",
+    desc:"Evoluzione temporale · buca di potenziale · quantizzazione", ready:false },
+  { id:4, tag:"CAPITOLO 04", title:"Misura e indeterminazione",
+    desc:"Operatori · autovalori · Heisenberg · collasso", ready:false },
+  { id:5, tag:"CAPITOLO 05", title:"Spin e sfera di Bloch",
+    desc:"Sistemi a due livelli · matrici di Pauli · qubit", ready:false },
+  { id:6, tag:"CAPITOLO 06", title:"Entanglement e teorema di Bell",
+    desc:"Stati entangled · EPR · non-località", ready:false },
 ];
 
 const LESSON_1 = `
 <h2>Un esperimento che contiene tutto il mistero</h2>
 <p>Richard Feynman diceva che l'esperimento della doppia fenditura contiene <em>l'unico vero mistero</em> della meccanica quantistica. Tutto il resto — indeterminazione, entanglement, quantizzazione — si può ricondurre a ciò che accade qui.</p>
 <p>L'apparato è semplice: una sorgente che emette elettroni <strong>uno alla volta</strong>, una barriera con due fenditure, e uno schermo che registra dove arriva ogni elettrone.</p>
-
 <h3>Cosa ci aspetteremmo dalle particelle</h3>
-<p>Se gli elettroni fossero palline classiche, ognuno passerebbe da una fenditura o dall'altra. Sullo schermo vedremmo due strisce, una per fenditura. La distribuzione totale sarebbe la somma delle due:</p>
+<p>Se gli elettroni fossero palline classiche, ognuno passerebbe da una fenditura o dall'altra. Sullo schermo vedremmo due strisce, una per fenditura, con distribuzione totale:</p>
 <div class="formula">$$P_{12}(x) = P_1(x) + P_2(x)$$</div>
-
 <h3>Cosa succede davvero</h3>
-<p>Sullo schermo compaiono <strong>frange di interferenza</strong>: bande alternate di massimi e minimi, esattamente come farebbe un'onda. Ma attenzione: gli elettroni arrivano uno alla volta, come punti localizzati. La figura emerge <em>statisticamente</em>, punto dopo punto.</p>
-<p>Per descriverlo, a ogni elettrone associamo una <strong>funzione d'onda</strong> \\( \\psi(x) \\), un'ampiezza complessa. La probabilità di trovare l'elettrone in \\(x\\) è il modulo quadro (regola di Born):</p>
+<p>Sullo schermo compaiono <strong>frange di interferenza</strong>: bande alternate di massimi e minimi, come farebbe un'onda. Ma gli elettroni arrivano uno alla volta, come punti localizzati: la figura emerge <em>statisticamente</em>, punto dopo punto.</p>
+<p>A ogni elettrone associamo una <strong>funzione d'onda</strong> \\( \\psi(x) \\), un'ampiezza complessa. La probabilità di trovarlo in \\(x\\) è il modulo quadro (regola di Born):</p>
 <div class="formula">$$P(x) = |\\psi(x)|^2$$</div>
-<p>Con due fenditure aperte, l'elettrone non "sceglie" un cammino: la sua funzione d'onda è la <strong>sovrapposizione</strong> delle ampiezze dei due cammini:</p>
-<div class="formula">$$\\psi = \\psi_1 + \\psi_2 \\quad\\Rightarrow\\quad P = |\\psi_1 + \\psi_2|^2 = |\\psi_1|^2 + |\\psi_2|^2 + 2\\,\\mathrm{Re}(\\psi_1^*\\psi_2)$$</div>
-<p>Il termine \\( 2\\,\\mathrm{Re}(\\psi_1^*\\psi_2) \\) è il <strong>termine di interferenza</strong>: può essere positivo o negativo, e produce le frange. Le probabilità classiche non si sommano — si sommano le <em>ampiezze</em>.</p>
-
+<p>Con due fenditure aperte l'elettrone non "sceglie" un cammino: la funzione d'onda è la <strong>sovrapposizione</strong> delle ampiezze dei due cammini:</p>
+<div class="formula">$$\\psi = \\psi_1 + \\psi_2 \\;\\Rightarrow\\; P = |\\psi_1|^2 + |\\psi_2|^2 + 2\\,\\mathrm{Re}(\\psi_1^*\\psi_2)$$</div>
+<p>Il termine \\( 2\\,\\mathrm{Re}(\\psi_1^*\\psi_2) \\) è il <strong>termine di interferenza</strong>: può essere positivo o negativo e produce le frange. Nella fisica quantistica non si sommano le probabilità — si sommano le <em>ampiezze</em>.</p>
 <h3>La lunghezza d'onda di de Broglie</h3>
-<p>Che "onda" è quella dell'elettrone? De Broglie associò a ogni particella con quantità di moto \\(p\\) una lunghezza d'onda:</p>
-<div class="formula">$$\\lambda = \\frac{h}{p}$$</div>
-<p>dove \\( h \\approx 6{,}626 \\times 10^{-34}\\,\\mathrm{J\\,s} \\) è la costante di Planck. La spaziatura delle frange sullo schermo, per fenditure a distanza \\(d\\) e schermo a distanza \\(L\\), è:</p>
-<div class="formula">$$\\Delta x = \\frac{\\lambda L}{d}$$</div>
-
+<p>Che "onda" è quella dell'elettrone? De Broglie associò a ogni particella con quantità di moto \\(p\\):</p>
+<div class="formula">$$\\lambda = \\frac{h}{p}, \\qquad h \\approx 6{,}626 \\times 10^{-34}\\,\\mathrm{J\\,s}$$</div>
+<p>La spaziatura delle frange, per fenditure a distanza \\(d\\) e schermo a distanza \\(L\\), è \\( \\Delta x = \\lambda L / d \\).</p>
 <h3>Il ruolo della misura</h3>
-<p>E se mettiamo un rilevatore sulle fenditure per <em>sapere</em> da dove passa ogni elettrone? Le frange <strong>spariscono</strong>. Ottenere l'informazione "quale via" distrugge l'interferenza: la distribuzione torna a essere \\( P_1 + P_2 \\), come per palline classiche.</p>
+<p>E se mettiamo un rilevatore sulle fenditure per <em>sapere</em> da dove passa ogni elettrone? Le frange <strong>spariscono</strong>: la distribuzione torna a essere \\( P_1 + P_2 \\), come per palline classiche.</p>
 <div class="note"><b>Punto chiave.</b> Non è questione di "disturbare" meccanicamente l'elettrone: è l'esistenza stessa dell'informazione sul cammino a cancellare il termine di interferenza. Misura e sovrapposizione sono incompatibili — questo è il cuore della meccanica quantistica.</div>
-<p>Ora vai nella scheda <strong>Simulazione</strong>: spara elettroni uno alla volta, guarda emergere le frange, poi accendi il rilevatore e osserva cosa cambia.</p>
-`;
+<p>Ora passa all'<strong>esperimento</strong>: guarda gli elettroni volare uno a uno verso lo schermo, osserva le frange emergere, poi accendi il rilevatore.</p>`;
 
 const QUIZ_1 = [
   { q:"Un elettrone alla volta attraversa la doppia fenditura. Cosa si osserva sullo schermo dopo molti elettroni?",
     opts:["Due strisce, una per fenditura","Frange di interferenza","Una macchia uniforme","Nulla: un solo elettrone non lascia traccia"],
-    right:1, why:"Ogni elettrone arriva come un punto, ma la distribuzione statistica di molti elettroni forma le frange di interferenza: ciascun elettrone interferisce con sé stesso." },
+    right:1, why:"Ogni elettrone arriva come un punto, ma la distribuzione statistica di molti elettroni forma le frange: ciascun elettrone interferisce con sé stesso." },
   { q:"Qual è il significato fisico di |ψ(x)|²?",
     opts:["L'energia dell'elettrone in x","La velocità dell'elettrone","La densità di probabilità di trovare l'elettrone in x","La carica elettrica in x"],
     right:2, why:"È la regola di Born: il modulo quadro della funzione d'onda dà la densità di probabilità della posizione." },
@@ -423,20 +498,19 @@ const QUIZ_1 = [
     opts:["λ = h·p","λ = h/p","λ = p/h","λ = h/E"],
     right:1, why:"λ = h/p: più la quantità di moto è grande, più corta è la lunghezza d'onda — per questo gli oggetti macroscopici non mostrano interferenza." },
   { q:"Cosa succede se un rilevatore identifica da quale fenditura passa ogni elettrone?",
-    opts:["Le frange diventano più nitide","Non cambia nulla","Le frange spariscono: si vedono due strisce","Gli elettroni si fermano"],
+    opts:["Le frange diventano più nitide","Non cambia nulla","Le frange spariscono: restano due strisce","Gli elettroni si fermano"],
     right:2, why:"L'informazione 'quale via' distrugge la coerenza tra i due cammini: il termine di interferenza si annulla e resta P₁ + P₂." },
 ];
 
-/* ================= STATO / PROGRESSI ================= */
-let progress = {}; // {chapId: {completed:bool, score:int}}
-
-function loadLocalProgress(){ try{ progress = JSON.parse(localStorage.getItem("qlab_progress")||"{}"); }catch(e){ progress={}; } }
-function saveLocalProgress(){ localStorage.setItem("qlab_progress", JSON.stringify(progress)); }
-
+/* ================= STATO ================= */
+const $ = s=>document.querySelector(s);
+let progress = {};
+function loadLocal(){ try{ progress = JSON.parse(localStorage.getItem("qlab_progress")||"{}"); }catch(e){ progress={}; } }
+function saveLocal(){ localStorage.setItem("qlab_progress", JSON.stringify(progress)); }
 async function syncFromSupabase(){
   if(!sb || !currentUser) return;
   const { data, error } = await sb.from("qlab_progress").select("*").eq("user_id", currentUser.id);
-  if(!error && data){ data.forEach(r=>{ progress[r.chapter]={completed:r.completed, score:r.quiz_score}; }); }
+  if(!error && data) data.forEach(r=>{ progress[r.chapter]={completed:r.completed, score:r.quiz_score}; });
 }
 async function pushProgress(chapId){
   if(!sb || !currentUser) return;
@@ -444,40 +518,68 @@ async function pushProgress(chapId){
   await sb.from("qlab_progress").upsert({
     user_id: currentUser.id, chapter: chapId,
     completed: p.completed, quiz_score: p.score, updated_at: new Date().toISOString()
-  }, { onConflict: "user_id,chapter" });
+  }, { onConflict:"user_id,chapter" });
 }
-
-/* ================= NAVIGAZIONE ================= */
-const $ = s=>document.querySelector(s);
-function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active")); $(id).classList.add("active"); window.scrollTo(0,0); }
 function toast(t){ const el=$("#toast"); el.textContent=t; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),2400); }
+function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active")); $(id).classList.add("active"); window.scrollTo(0,0); }
+function renderMathIn(el){ renderMathInElement(el,{delimiters:[{left:"$$",right:"$$",display:true},{left:"\\(",right:"\\)",display:false}]}); }
+
+/* ================= NAV ================= */
+document.querySelectorAll(".navbtn").forEach(b=>{
+  b.onclick = ()=>{
+    const t = b.dataset.nav;
+    if(t==="tutor"){ openTutor(); return; }
+    document.querySelectorAll(".navbtn").forEach(x=>x.classList.toggle("active", x===b));
+    stopSim();
+    if(t==="home"){ show("#scrHome"); renderHome(); }
+    if(t==="profile"){ show("#scrProfile"); renderProfile(); }
+  };
+});
+function setNav(name){ document.querySelectorAll(".navbtn").forEach(x=>x.classList.toggle("active", x.dataset.nav===name)); }
 
 function renderHome(){
   const list = $("#chapterList"); list.innerHTML="";
   let done = 0;
   CHAPTERS.forEach((c,i)=>{
-    const p = progress[c.id];
-    const isDone = p && p.completed;
+    const p = progress[c.id], isDone = p && p.completed;
     if(isDone) done++;
     const prevDone = i===0 || (progress[CHAPTERS[i-1].id]||{}).completed;
     const locked = !c.ready || !prevDone;
     const el = document.createElement("div");
-    el.className = "chap" + (locked?" locked":"") + (isDone?" done":"");
-    el.innerHTML = `<div class="fringe"></div><div class="num serif">${c.id}</div>
-      <div class="info"><h3>${c.title}</h3><p>${c.desc}${!c.ready?" · <em>in arrivo</em>":""}</p></div>
-      <div class="state">${isDone?"✓":(locked?"🔒":"→")}</div>`;
+    el.className = "card chap" + (locked?" locked":"") + (isDone?" done":"");
+    const chip = isDone ? "Completato · quiz "+p.score+"/5" : (locked ? (!c.ready?"In arrivo":"Bloccato") : "Inizia ora");
+    el.innerHTML = `<div class="badge">${isDone?"✓":c.id}</div>
+      <div class="info"><h3>${c.title}</h3><p>${c.desc}</p><span class="chip">${chip}</span></div>
+      <div class="chev">›</div>`;
     if(!locked) el.onclick = ()=>openChapter(c.id);
     list.appendChild(el);
   });
   const pct = Math.round(done/CHAPTERS.length*100);
-  $("#ringPct").textContent = pct+"%";
-  $("#ringFg").style.strokeDashoffset = 169.6*(1-pct/100);
-  $("#userLabel").textContent = currentUser ? currentUser.email : "Modalità locale (senza account)";
-  $("#tutorFab").style.display = "block";
+  $("#progBar").style.width = pct+"%";
+  $("#progPct").textContent = pct+"%";
+  $("#progTxt").textContent = done+" di "+CHAPTERS.length+" capitoli";
+  $("#userLabel").textContent = currentUser ? currentUser.email : "Modalità locale — progressi su questo dispositivo";
+  $("#bottomNav").classList.add("on");
 }
+function renderProfile(){
+  const email = currentUser ? currentUser.email : null;
+  $("#profEmail").textContent = email || "Modalità locale";
+  $("#profSub").textContent = email ? "Progressi sincronizzati con il cloud" : "I progressi sono salvati solo su questo dispositivo";
+  $("#avatarLetter").textContent = email ? email[0].toUpperCase() : "ψ";
+  const done = CHAPTERS.filter(c=>(progress[c.id]||{}).completed).length;
+  $("#profDone").textContent = done+" / "+CHAPTERS.length;
+  const scores = Object.values(progress).map(p=>p.score).filter(s=>s!=null);
+  $("#profBest").textContent = scores.length ? Math.max(...scores)+"/5" : "—";
+}
+$("#btnResetProg").onclick = async ()=>{
+  if(!confirm("Azzerare tutti i progressi?")) return;
+  progress = {}; saveLocal();
+  if(sb && currentUser) await sb.from("qlab_progress").delete().eq("user_id", currentUser.id);
+  renderProfile(); toast("Progressi azzerati");
+};
 
-/* ================= CAPITOLO ================= */
-let currentChap = null;
+/* ================= CAPITOLO (STEP FLOW) ================= */
+let currentChap = null, stepIdx = 0;
 function openChapter(id){
   currentChap = CHAPTERS.find(c=>c.id===id);
   $("#chapTag").textContent = currentChap.tag;
@@ -485,142 +587,205 @@ function openChapter(id){
   $("#lessonBody").innerHTML = LESSON_1;
   renderMathIn($("#lessonBody"));
   buildQuiz();
-  switchPane("lesson");
+  setStep(0);
   show("#scrChapter");
-  setTimeout(initSim, 50);
 }
-function renderMathIn(el){
-  renderMathInElement(el, { delimiters:[
-    {left:"$$", right:"$$", display:true},
-    {left:"\\(", right:"\\)", display:false}
-  ]});
-}
-document.querySelectorAll(".tab").forEach(t=>{
-  t.onclick = ()=>switchPane(t.dataset.pane);
-});
-function switchPane(name){
-  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active", t.dataset.pane===name));
-  ["lesson","sim","quiz"].forEach(p=>{
-    $("#pane"+p[0].toUpperCase()+p.slice(1)).classList.toggle("active", p===name);
+document.querySelectorAll(".step").forEach(s=>{ s.onclick = ()=>setStep(+s.dataset.step); });
+function setStep(i){
+  stepIdx = i;
+  document.querySelectorAll(".step").forEach((s,si)=>{
+    s.classList.toggle("active", si===i);
+    s.classList.toggle("done", si<i);
   });
-  if(name==="sim") setTimeout(resizeSim, 30);
+  [0,1,2].forEach(p=>$("#pane"+p).classList.toggle("active", p===i));
+  window.scrollTo(0,0);
+  if(i===1) setTimeout(()=>{ initSim(); }, 60); else stopSim();
 }
-$("#btnBack").onclick = ()=>{ stopFiring(); show("#scrHome"); renderHome(); };
+$("#toSim").onclick = ()=>setStep(1);
+$("#toQuiz").onclick = ()=>setStep(2);
+$("#btnBack").onclick = ()=>{ stopSim(); show("#scrHome"); renderHome(); setNav("home"); };
 
-/* ================= SIMULAZIONE DOPPIA FENDITURA ================= */
-let simCtx, simW, simH, hits=[], firing=false, fireTimer=null, detector=false;
-const SLIT_SEP = 0.18;   // separazione fenditure (frazione altezza)
-const FRINGE_K = 46;     // frequenza frange
+/* ================= SIMULAZIONE ANIMATA ================= */
+let g, W, H, DPR = Math.min(2, window.devicePixelRatio||1);
+let hits = [], flying = [], firing = false, detector = false, showTheory = true;
+let rafId = null, lastEmit = 0, simReady = false;
+const FRK = 40;          // frequenza frange
+const SIGMA = 0.30;      // inviluppo
+const SLIT_FRAC = 0.17;  // semi-separazione fenditure (frazione di H)
+
 function initSim(){
   const cv = $("#simCanvas");
-  simCtx = cv.getContext("2d");
-  resizeSim();
-  drawSim();
-  updateSimCaption();
+  g = cv.getContext("2d");
+  const w = cv.parentElement.clientWidth - 24;
+  const h = Math.max(240, Math.round(w*0.62));
+  cv.width = w*DPR; cv.height = h*DPR;
+  cv.style.width = w+"px"; cv.style.height = h+"px";
+  g.setTransform(DPR,0,0,DPR,0,0);
+  W = w; H = h;
+  simReady = true;
+  updateCaption();
+  if(!rafId) loop();
 }
-function resizeSim(){
-  const cv = $("#simCanvas");
-  const w = cv.parentElement.clientWidth;
-  cv.width = w*2; cv.height = Math.round(w*0.55)*2;   // retina
-  cv.style.width = w+"px"; cv.style.height = Math.round(w*0.55)+"px";
-  simW = cv.width; simH = cv.height;
-  drawSim();
-}
-/* distribuzione: interferenza cos² con inviluppo gaussiano, o due gaussiane */
-function sampleY(){
-  const c = simH/2;
-  if(detector){
-    const which = Math.random()<0.5 ? -1 : 1;
-    return c + which*simH*SLIT_SEP/2 + gauss()*simH*0.055;
-  }
-  // rejection sampling su I(y) = cos²(k·u) · exp(-u²/2σ²)
-  const sigma = 0.28;
-  for(let i=0;i<80;i++){
-    const u = (Math.random()*2-1); // -1..1
-    const I = Math.pow(Math.cos(FRINGE_K*u/(2*Math.PI)),2) * Math.exp(-u*u/(2*sigma*sigma));
-    if(Math.random() < I) return c + u*simH/2;
-  }
-  return c + gauss()*simH*0.1;
-}
+function stopSim(){ firing=false; if(rafId){ cancelAnimationFrame(rafId); rafId=null; } const b=$("#btnFire"); if(b) b.textContent="▶ Avvia"; }
+
 function gauss(){ let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random();
   return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
-
-function fireOne(){
-  const y = sampleY();
-  hits.push(y);
-  $("#statCount").textContent = hits.length;
-  drawSim(y);
-}
-function drawSim(freshY){
-  const g = simCtx; if(!g) return;
-  g.clearRect(0,0,simW,simH);
-  const barrierX = simW*0.22, screenX = simW*0.9;
-  // barriera
-  g.fillStyle = "#2A3155";
-  const slitH = simH*0.05, c=simH/2, off=simH*SLIT_SEP/2;
-  g.fillRect(barrierX-6, 0, 12, c-off-slitH/2);
-  g.fillRect(barrierX-6, c-off+slitH/2, 12, (c+off-slitH/2)-(c-off+slitH/2));
-  g.fillRect(barrierX-6, c+off+slitH/2, 12, simH-(c+off+slitH/2));
-  // rilevatore
+function theoryI(u){ // u in [-1,1] rispetto al centro schermo
   if(detector){
-    g.fillStyle = "rgba(255,196,77,.85)";
-    g.beginPath(); g.arc(barrierX+26, c-off, 10, 0, 7); g.fill();
-    g.beginPath(); g.arc(barrierX+26, c+off, 10, 0, 7); g.fill();
+    const s=0.11, a=SLIT_FRAC*2/ (H/H); // due gaussiane centrate sulle proiezioni delle fenditure
+    const c1=Math.exp(-Math.pow((u+SLIT_FRAC*2),2)/(2*s*s));
+    const c2=Math.exp(-Math.pow((u-SLIT_FRAC*2),2)/(2*s*s));
+    return (c1+c2)/2;
   }
+  return Math.pow(Math.cos(FRK*u/(2*Math.PI)),2)*Math.exp(-u*u/(2*SIGMA*SIGMA));
+}
+function sampleTarget(){
+  const c = H/2;
+  if(detector){
+    const which = Math.random()<0.5 ? -1 : 1;
+    return { y: c + which*H*SLIT_FRAC*2 + gauss()*H*0.05, slit: which };
+  }
+  for(let i=0;i<120;i++){
+    const u = Math.random()*2-1;
+    if(Math.random() < theoryI(u)) return { y: c + u*H/2*0.92, slit: Math.random()<0.5?-1:1 };
+  }
+  return { y: c + gauss()*H*0.1, slit: 1 };
+}
+function emit(){
+  const t = sampleTarget();
+  flying.push({ x: W*0.08, yStart: H/2, yTarget: t.y, slit: t.slit, prog: 0 });
+}
+function loop(){
+  rafId = requestAnimationFrame(loop);
+  const now = performance.now();
+  if(firing){
+    const rate = +$("#rateSlider").value;           // 1..10 → emissioni/sec
+    if(now - lastEmit > 1000/rate){ emit(); lastEmit = now; }
+  }
+  // update elettroni in volo
+  const barrierX = W*0.28, screenX = W*0.90, speed = 0.014;
+  for(let i=flying.length-1;i>=0;i--){
+    const e = flying[i];
+    e.prog += speed;
+    if(e.prog >= 1){
+      hits.push(e.yTarget);
+      $("#statCount").textContent = hits.length;
+      flying.splice(i,1);
+    }
+  }
+  draw(barrierX, screenX);
+}
+function draw(barrierX, screenX){
+  if(!g) return;
+  g.clearRect(0,0,W,H);
+  const c = H/2, off = H*SLIT_FRAC, slitH = H*0.055;
+
+  // etichette
+  g.fillStyle = "rgba(152,161,200,.8)"; g.font = "11px 'IBM Plex Mono'";
+  g.textAlign = "center";
+  g.fillText("SORGENTE", W*0.08, H-10);
+  g.fillText("FENDITURE", barrierX, H-10);
+  g.fillText("SCHERMO", screenX, H-10);
+
   // sorgente
-  g.fillStyle = "#7C6CF0";
-  g.beginPath(); g.arc(simW*0.07, c, 12, 0, 7); g.fill();
-  g.fillStyle = "#9AA3C7"; g.font = (simH*0.045)+"px 'IBM Plex Mono'";
-  g.fillText("e⁻", simW*0.05, c - 20);
-  // schermo
-  g.fillStyle = "#1C2240"; g.fillRect(screenX, 0, 8, simH);
-  // impatti accumulati
-  g.fillStyle = "rgba(84,214,232,.75)";
-  for(const y of hits){
-    const x = screenX - 4 - Math.random()*0; 
-    g.fillRect(x-2, y-2, 4, 4);
+  const grd = g.createRadialGradient(W*0.08,c,2,W*0.08,c,16);
+  grd.addColorStop(0,"#8B7CF6"); grd.addColorStop(1,"rgba(139,124,246,0)");
+  g.fillStyle = grd; g.beginPath(); g.arc(W*0.08,c,16,0,7); g.fill();
+  g.fillStyle = "#8B7CF6"; g.beginPath(); g.arc(W*0.08,c,6,0,7); g.fill();
+
+  // barriera con 2 fenditure
+  g.fillStyle = "rgba(255,255,255,.18)";
+  g.fillRect(barrierX-4, 0, 8, c-off-slitH/2);
+  g.fillRect(barrierX-4, c-off+slitH/2, 8, (c+off-slitH/2)-(c-off+slitH/2));
+  g.fillRect(barrierX-4, c+off+slitH/2, 8, H-(c+off+slitH/2)-22);
+
+  // rilevatori
+  if(detector){
+    g.fillStyle = "#FFC44D";
+    [-1,1].forEach(s=>{
+      g.beginPath(); g.arc(barrierX+16, c+s*off, 6, 0, 7); g.fill();
+    });
+    g.strokeStyle="rgba(255,196,77,.35)"; g.lineWidth=1;
+    [-1,1].forEach(s=>{ g.beginPath(); g.arc(barrierX+16, c+s*off, 11, 0, 7); g.stroke(); });
   }
-  // istogramma laterale
-  const bins = 64, hist = new Array(bins).fill(0);
-  hits.forEach(y=>{ const b=Math.floor(y/simH*bins); if(b>=0&&b<bins) hist[b]++; });
-  const maxH = Math.max(1,...hist);
-  g.strokeStyle = "rgba(124,108,240,.9)"; g.lineWidth = 3; g.beginPath();
+
+  // schermo
+  g.fillStyle = "rgba(255,255,255,.12)"; g.fillRect(screenX, 0, 6, H-22);
+
+  // impatti
+  g.fillStyle = "rgba(79,216,236,.8)";
+  for(const y of hits) g.fillRect(screenX-3, y-1.6, 4, 3.2);
+
+  // istogramma
+  const bins=56, hist=new Array(bins).fill(0);
+  hits.forEach(y=>{ const b=Math.floor(y/(H-22)*bins); if(b>=0&&b<bins) hist[b]++; });
+  const mx = Math.max(1,...hist);
+  g.strokeStyle="rgba(79,216,236,.9)"; g.lineWidth=2; g.beginPath();
   for(let b=0;b<bins;b++){
-    const y=(b+0.5)/bins*simH, w=hist[b]/maxH*simW*0.12;
-    if(b===0) g.moveTo(screenX-10-w, y); else g.lineTo(screenX-10-w, y);
+    const y=(b+0.5)/bins*(H-22), w=hist[b]/mx*W*0.13;
+    b===0 ? g.moveTo(screenX-8-w,y) : g.lineTo(screenX-8-w,y);
   }
   g.stroke();
-  // elettrone appena arrivato
-  if(freshY!==undefined){
-    g.fillStyle="#FFC44D"; g.beginPath(); g.arc(screenX-4, freshY, 6, 0, 7); g.fill();
+
+  // curva teorica
+  if(showTheory){
+    g.strokeStyle="rgba(242,109,124,.85)"; g.lineWidth=1.6; g.setLineDash([5,4]); g.beginPath();
+    for(let py=0; py<=H-22; py+=3){
+      const u=(py-c)/(H/2*0.92), I=theoryI(u), w=I*W*0.13;
+      py===0 ? g.moveTo(screenX-8-w,py) : g.lineTo(screenX-8-w,py);
+    }
+    g.stroke(); g.setLineDash([]);
+  }
+
+  // elettroni in volo
+  for(const e of flying){
+    const x = W*0.08 + e.prog*(screenX-4-W*0.08);
+    let y;
+    if(x < barrierX){
+      y = c; // viaggia dritto verso le fenditure
+      g.fillStyle="#FFC44D";
+      g.beginPath(); g.arc(x,y,4,0,7); g.fill();
+      // alone d'onda
+      g.strokeStyle="rgba(255,196,77,.25)"; g.lineWidth=1;
+      g.beginPath(); g.arc(x,y,9+Math.sin(e.prog*40)*2,0,7); g.stroke();
+    } else {
+      const t=(x-barrierX)/(screenX-4-barrierX);
+      if(detector){
+        // passa da UNA fenditura visibile
+        const ySlit = c + e.slit*off;
+        y = ySlit + (e.yTarget-ySlit)*t;
+        g.fillStyle="#FFC44D"; g.beginPath(); g.arc(x,y,4,0,7); g.fill();
+      } else {
+        // senza rilevatore: due "fantasmi" coerenti che convergono sul punto d'impatto
+        [-1,1].forEach(s=>{
+          const ySlit = c + s*off;
+          const yy = ySlit + (e.yTarget-ySlit)*t;
+          g.fillStyle="rgba(255,196,77,"+(0.55-0.25*t)+")";
+          g.beginPath(); g.arc(x,yy,3.4,0,7); g.fill();
+        });
+      }
+    }
   }
 }
-function startFiring(){
-  if(firing) return; firing=true;
-  $("#btnFire").textContent="⏸ Pausa";
-  scheduleFire();
-}
-function scheduleFire(){
-  if(!firing) return;
-  const rate = +$("#rateSlider").value;
-  fireOne();
-  fireTimer = setTimeout(scheduleFire, 1000/rate);
-}
-function stopFiring(){ firing=false; clearTimeout(fireTimer); const b=$("#btnFire"); if(b) b.textContent="▶ Spara elettroni"; }
-$("#btnFire").onclick = ()=>{ firing ? stopFiring() : startFiring(); };
-$("#btnResetSim").onclick = ()=>{ hits=[]; $("#statCount").textContent=0; drawSim(); };
+$("#btnFire").onclick = ()=>{
+  firing = !firing;
+  $("#btnFire").textContent = firing ? "⏸ Pausa" : "▶ Avvia";
+  if(firing && !rafId) loop();
+};
+$("#btnResetSim").onclick = ()=>{ hits=[]; flying=[]; $("#statCount").textContent=0; };
 $("#detectorToggle").onchange = e=>{
   detector = e.target.checked;
-  hits=[]; $("#statCount").textContent=0;
-  $("#statMode").innerHTML = "Modalità: <b>"+(detector?"quale via (P₁+P₂)":"interferenza")+"</b>";
-  drawSim(); updateSimCaption();
+  hits=[]; flying=[]; $("#statCount").textContent=0;
+  $("#statMode").textContent = detector ? "Quale via: P₁+P₂" : "Interferenza attiva";
+  updateCaption();
   toast(detector ? "Rilevatore acceso: l'interferenza sparisce" : "Rilevatore spento: torna l'interferenza");
 };
-window.addEventListener("resize", ()=>{ if($("#scrChapter").classList.contains("active")) resizeSim(); });
-function updateSimCaption(){
+$("#theoryToggle").onchange = e=>{ showTheory = e.target.checked; };
+window.addEventListener("resize", ()=>{ if(simReady && stepIdx===1 && $("#scrChapter").classList.contains("active")) initSim(); });
+function updateCaption(){
   $("#simCaption").textContent = detector
-    ? "Con il rilevatore acceso conosci il cammino di ogni elettrone: la distribuzione diventa la somma di due picchi, P₁ + P₂. Niente frange."
-    : "Ogni elettrone arriva come un punto, ma dopo centinaia di impatti emergono le frange: |ψ₁+ψ₂|². L'elettrone interferisce con sé stesso.";
+    ? "Con il rilevatore acceso conosci il cammino di ogni elettrone: la distribuzione collassa in due picchi (P₁+P₂), come per palline classiche. Confrontala con la curva teorica tratteggiata."
+    : "Ogni elettrone attraversa le fenditure come sovrapposizione dei due cammini (i due punti semi-trasparenti) e arriva come un singolo punto. Dopo decine di impatti l'istogramma segue |ψ₁+ψ₂|².";
 }
 
 /* ================= QUIZ ================= */
@@ -629,9 +794,10 @@ function buildQuiz(){
   answers = new Array(QUIZ_1.length).fill(null);
   const body = $("#quizBody"); body.innerHTML="";
   $("#quizResult").classList.remove("show");
+  $("#qprogBar").style.width = "0%";
   QUIZ_1.forEach((q,qi)=>{
-    const card = document.createElement("div"); card.className="qcard";
-    card.innerHTML = `<div class="qnum">Domanda ${qi+1} di ${QUIZ_1.length}</div><div class="qtext">${q.q}</div>`;
+    const card = document.createElement("div"); card.className="card qcard";
+    card.innerHTML = `<div class="qnum">Domanda ${qi+1} · ${QUIZ_1.length}</div><div class="qtext">${q.q}</div>`;
     q.opts.forEach((o,oi)=>{
       const b = document.createElement("button"); b.className="opt"; b.textContent=o;
       b.onclick = ()=>answer(qi,oi,card,q);
@@ -645,35 +811,36 @@ function buildQuiz(){
 function answer(qi, oi, card, q){
   if(answers[qi]!==null) return;
   answers[qi]=oi;
-  const opts = card.querySelectorAll(".opt");
-  opts.forEach((b,i)=>{
+  card.querySelectorAll(".opt").forEach((b,i)=>{
     if(i===q.right) b.classList.add("right");
     else if(i===oi) b.classList.add("wrong");
     b.style.pointerEvents="none";
   });
   card.querySelector(".explain").classList.add("show");
-  if(answers.every(a=>a!==null)) showQuizResult();
+  const doneN = answers.filter(a=>a!==null).length;
+  $("#qprogBar").style.width = (doneN/QUIZ_1.length*100)+"%";
+  if(doneN===QUIZ_1.length) showQuizResult();
 }
 function showQuizResult(){
   const score = answers.filter((a,i)=>a===QUIZ_1[i].right).length;
   $("#quizScore").textContent = score+"/"+QUIZ_1.length;
   $("#quizVerdict").textContent = score===QUIZ_1.length ? "Perfetto: hai colto il mistero." :
-    score>=3 ? "Ottimo! Rivedi le spiegazioni delle risposte sbagliate." :
+    score>=3 ? "Ottimo! Rileggi le spiegazioni delle risposte sbagliate." :
     "Rileggi la lezione e riprova: la doppia fenditura merita.";
-  $("#btnQuizDone").style.display = score>=3 ? "block":"none";
+  $("#btnQuizDone").style.display = score>=3 ? "flex":"none";
   $("#quizResult").classList.add("show");
-  $("#quizResult").scrollIntoView({behavior:"smooth"});
   $("#quizResult").dataset.score = score;
+  $("#quizResult").scrollIntoView({behavior:"smooth"});
 }
 $("#btnQuizRetry").onclick = buildQuiz;
 $("#btnQuizDone").onclick = async ()=>{
   const score = +$("#quizResult").dataset.score;
   progress[currentChap.id] = { completed:true, score };
-  saveLocalProgress();
+  saveLocal();
   await pushProgress(currentChap.id);
   toast("Capitolo completato ✓");
-  stopFiring();
-  show("#scrHome"); renderHome();
+  stopSim();
+  show("#scrHome"); renderHome(); setNav("home");
 };
 
 /* ================= AUTH ================= */
@@ -689,7 +856,7 @@ function toggleAuthMode(){
 $("#authSwitch").onclick = toggleAuthMode;
 $("#btnAuthMain").onclick = async ()=>{
   const msg = $("#authMsg");
-  if(!sb){ msg.className="msg err"; msg.textContent="Supabase non configurato: inserisci URL e chiave nel file, oppure continua senza account."; return; }
+  if(!sb){ msg.className="msg err"; msg.textContent="Connessione a Supabase non disponibile: puoi continuare senza account."; return; }
   const email = $("#authEmail").value.trim(), pass = $("#authPass").value;
   if(!email || !pass){ msg.className="msg err"; msg.textContent="Inserisci email e password."; return; }
   msg.className="msg"; msg.textContent="…";
@@ -702,29 +869,27 @@ $("#btnAuthMain").onclick = async ()=>{
       msg.className="msg ok"; msg.textContent="Account creato: controlla l'email per confermare."; return;
     }
     currentUser = res.data.user;
-    loadLocalProgress();
-    await syncFromSupabase();
+    loadLocal(); await syncFromSupabase();
     show("#scrHome"); renderHome();
   }catch(e){
     msg.className="msg err";
-    msg.textContent = /invalid/i.test(e.message) ? "Credenziali non valide." : e.message;
+    msg.textContent = /invalid/i.test(e.message||"") ? "Credenziali non valide." : (e.message||"Errore");
   }
 };
-$("#btnLocal").onclick = ()=>{
-  localMode = true; currentUser = null;
-  loadLocalProgress();
-  show("#scrHome"); renderHome();
-};
+$("#btnLocal").onclick = ()=>{ currentUser=null; loadLocal(); show("#scrHome"); renderHome(); };
 $("#btnLogout").onclick = async ()=>{
   if(sb && currentUser) await sb.auth.signOut();
-  currentUser = null; localMode = false;
+  currentUser = null;
+  $("#bottomNav").classList.remove("on");
   show("#scrAuth"); startHero();
 };
 async function boot(){
-  loadLocalProgress();
+  loadLocal();
   if(sb){
-    const { data } = await sb.auth.getSession();
-    if(data.session){ currentUser = data.session.user; await syncFromSupabase(); show("#scrHome"); renderHome(); return; }
+    try{
+      const { data } = await sb.auth.getSession();
+      if(data && data.session){ currentUser = data.session.user; await syncFromSupabase(); show("#scrHome"); renderHome(); return; }
+    }catch(e){}
   }
   startHero();
 }
@@ -732,39 +897,42 @@ async function boot(){
 /* ================= HERO WAVE ================= */
 let heroRAF=null;
 function startHero(){
-  const cv = $("#heroWave"); const g = cv.getContext("2d");
-  function size(){ cv.width = innerWidth*2; cv.height = 220; }
-  size();
+  const cv = $("#heroWave"); const gg = cv.getContext("2d");
+  cv.width = innerWidth*DPR; cv.height = 150*DPR;
+  gg.setTransform(DPR,0,0,DPR,0,0);
   let t=0;
   cancelAnimationFrame(heroRAF);
   (function loop(){
     if(!$("#scrAuth").classList.contains("active")) return;
-    g.clearRect(0,0,cv.width,cv.height);
+    gg.clearRect(0,0,innerWidth,150);
     for(let k=0;k<3;k++){
-      g.beginPath();
-      g.strokeStyle = ["rgba(124,108,240,.8)","rgba(84,214,232,.6)","rgba(255,196,77,.35)"][k];
-      g.lineWidth = 3;
-      for(let x=0;x<=cv.width;x+=6){
-        const u = x/cv.width;
-        const env = Math.exp(-Math.pow((u-0.5)*3.2,2));
-        const y = cv.height/2 + Math.sin(x*0.02*(1+k*0.25) - t*(1.4+k*0.5))*54*env;
-        x===0 ? g.moveTo(x,y) : g.lineTo(x,y);
+      gg.beginPath();
+      gg.strokeStyle = ["rgba(139,124,246,.85)","rgba(79,216,236,.6)","rgba(255,196,77,.3)"][k];
+      gg.lineWidth = 2.5;
+      for(let x=0;x<=innerWidth;x+=5){
+        const u=x/innerWidth, env=Math.exp(-Math.pow((u-0.5)*3.2,2));
+        const y = 78 + Math.sin(x*0.045*(1+k*0.22) - t*(1.5+k*0.5))*42*env;
+        x===0 ? gg.moveTo(x,y) : gg.lineTo(x,y);
       }
-      g.stroke();
+      gg.stroke();
     }
     t+=0.05;
     heroRAF = requestAnimationFrame(loop);
   })();
 }
 
-/* ================= TUTOR IA ================= */
+/* ================= TUTOR ================= */
 const tutorHistory = [];
-$("#tutorFab").onclick = ()=>{ $("#tutorPanel").classList.add("open");
-  if(!tutorHistory.length) addTutorMsg("bot","Ciao! Sono il tuo tutor di fisica quantistica. Chiedimi qualsiasi cosa sulla lezione — anche i dubbi che sembrano banali (non lo sono mai)."); };
+function openTutor(){
+  $("#tutorPanel").classList.add("open");
+  if(!tutorHistory.length) addTutorMsg("bot","Ciao! Sono il tuo tutor di fisica quantistica. Chiedimi qualsiasi cosa sulla lezione — anche i dubbi che sembrano banali (non lo sono mai). Prova i suggerimenti qui sotto 👇");
+}
 $("#btnTutorClose").onclick = ()=>$("#tutorPanel").classList.remove("open");
+document.querySelectorAll(".sugg").forEach(s=>{
+  s.onclick = ()=>{ $("#tutorInput").value = s.textContent; sendTutor(); };
+});
 $("#btnTutorSend").onclick = sendTutor;
 $("#tutorInput").addEventListener("keydown", e=>{ if(e.key==="Enter") sendTutor(); });
-
 function addTutorMsg(role, text){
   const el = document.createElement("div");
   el.className = "tmsg "+(role==="user"?"user":"bot");
@@ -772,7 +940,6 @@ function addTutorMsg(role, text){
   $("#tutorMsgs").appendChild(el);
   if(role==="bot") renderMathIn(el);
   $("#tutorMsgs").scrollTop = $("#tutorMsgs").scrollHeight;
-  return el;
 }
 async function sendTutor(){
   const inp = $("#tutorInput"); const text = inp.value.trim();
@@ -787,7 +954,7 @@ async function sendTutor(){
       method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
         model:"claude-sonnet-4-6", max_tokens:1000,
-        system:"Sei un tutor di meccanica quantistica per un corso serio con matematica vera. Lo studente sta studiando il capitolo: \""+chapCtx+"\" (dualità onda-particella, funzione d'onda, regola di Born, sovrapposizione, interferenza, de Broglie, misura). Rispondi in italiano, conciso ma rigoroso. Usa formule in LaTeX con \\( \\) per inline e $$ $$ per display quando servono. Se la domanda è fuori tema, riportala gentilmente alla fisica.",
+        system:"Sei un tutor di meccanica quantistica per un corso serio con matematica vera. Lo studente sta studiando: \""+chapCtx+"\" (dualità onda-particella, funzione d'onda, regola di Born, sovrapposizione, interferenza, de Broglie, misura). Rispondi in italiano, conciso ma rigoroso. Usa LaTeX con \\( \\) inline e $$ $$ display quando serve. Se la domanda è fuori tema, riportala gentilmente alla fisica.",
         messages: tutorHistory.slice(-12)
       })
     });
